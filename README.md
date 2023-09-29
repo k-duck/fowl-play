@@ -19,10 +19,3 @@ git clone https://github.com/k-duck/fowl-play.git
 git status
 
 - You will now also see the folder in the files app. 
-
-
-
-
-- Elis testing 
-- Elis trying to fix user issue
-
