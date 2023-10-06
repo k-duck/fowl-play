@@ -234,8 +234,13 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.management": {
+<<<<<<< HEAD
+      "version": "4.4.0",
+      "depth": 0,
+=======
       "version": "4.3.3",
       "depth": 1,
+>>>>>>> fdb48d3b9c158f1683816cf5800d7d28cc6dd5d6
       "source": "registry",
       "dependencies": {
         "com.unity.modules.subsystems": "1.0.0",
