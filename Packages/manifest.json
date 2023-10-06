@@ -8,7 +8,10 @@
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.0",
     "com.unity.xr.interaction.toolkit": "2.4.3",
+<<<<<<< HEAD
     "com.unity.xr.management": "4.4.0",
+=======
+>>>>>>> fdb48d3b9c158f1683816cf5800d7d28cc6dd5d6
     "com.unity.xr.oculus": "4.0.0",
     "com.unity.xr.openxr": "1.8.2",
     "com.unity.modules.ai": "1.0.0",
