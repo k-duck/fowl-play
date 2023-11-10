@@ -16,19 +16,31 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CamNum == 0)
+        
+    }
+
+    public void change()
+    {
+        Debug.Log("interact");
+        if (CamNum == 0)
         {
-            cam[0].GetComponent<Camera>().targetDisplay = 1;
+            // wow
+            cam[0].GetComponent<Camera>().targetDisplay = 0;
             //cam[0].GetComponent<Camera>()
-            
-            cam[1].GetComponent<Camera>().targetDisplay = 2;
-            Display.displays[2].Activate();
+
+            cam[1].GetComponent<Camera>().targetDisplay = 1;
+            //Display.displays[0].Activate();
+            //Display.displays[3].Activate();
+            CamNum = 1;
+
         }
         else
         {
-            cam[1].GetComponent<Camera>().targetDisplay = 1;
-            cam[0].GetComponent<Camera>().targetDisplay = 2;
-            Display.displays[2].Activate();
+            cam[1].GetComponent<Camera>().targetDisplay = 0;
+            cam[0].GetComponent<Camera>().targetDisplay = 1;
+            //Display.displays[0].Activate();
+            //Display.displays[3].Activate();
+            CamNum = 0;
         }
     }
 }
