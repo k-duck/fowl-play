@@ -12,9 +12,10 @@ public class CameraControls : MonoBehaviour
     {
         
         Display.displays[0].Activate();
-        Display.displays[1].Activate();
-        Display.displays[2].Activate();
-
+        //Display.displays[1].Activate();
+        //Display.displays[2].Activate();
+        cam[0].GetComponent<Camera>().targetDisplay = 0;
+        CamNum = 1;
     }
 
     // Update is called once per frame
@@ -35,15 +36,53 @@ public class CameraControls : MonoBehaviour
             cam[1].GetComponent<Camera>().targetDisplay = 1;
             //Display.displays[0].Activate();
             //Display.displays[3].Activate();
+            cam[2].GetComponent<Camera>().targetDisplay = 2;
+
+            cam[3].GetComponent<Camera>().targetDisplay = 3;
             CamNum = 1;
 
+        }else if (CamNum == 1)
+        {
+            cam[0].GetComponent<Camera>().targetDisplay = 1;
+
+            cam[1].GetComponent<Camera>().targetDisplay = 2;
+
+            cam[2].GetComponent<Camera>().targetDisplay = 3;
+
+            cam[3].GetComponent<Camera>().targetDisplay = 0;
+            CamNum = 2;
+        }
+        else if (CamNum == 2)
+        {
+            cam[0].GetComponent<Camera>().targetDisplay = 2;
+
+            cam[1].GetComponent<Camera>().targetDisplay = 3;
+
+            cam[2].GetComponent<Camera>().targetDisplay = 0;
+
+            cam[3].GetComponent<Camera>().targetDisplay = 1;
+            CamNum = 3;
+        }
+        else if (CamNum == 3)
+        {
+            cam[0].GetComponent<Camera>().targetDisplay = 3;
+
+            cam[1].GetComponent<Camera>().targetDisplay = 0;
+
+            cam[2].GetComponent<Camera>().targetDisplay = 1;
+
+            cam[3].GetComponent<Camera>().targetDisplay = 2;
+            CamNum = 0;
         }
         else
         {
+            cam[0].GetComponent<Camera>().targetDisplay = 3;
+
             cam[1].GetComponent<Camera>().targetDisplay = 0;
-            cam[0].GetComponent<Camera>().targetDisplay = 1;
-            //Display.displays[0].Activate();
-            //Display.displays[3].Activate();
+
+            cam[2].GetComponent<Camera>().targetDisplay = 1;
+
+            cam[3].GetComponent<Camera>().targetDisplay = 2;
             CamNum = 0;
         }
     }
