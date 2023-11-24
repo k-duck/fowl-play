@@ -1,32 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-
-
 abstract public class State
 {
-    abstract public void enterState(Goose goose);
+    abstract public void EnterState(Goose goose);
 
-    abstract public void updateState(Goose goose);
+    abstract public void UpdateState(Goose goose);
 }
 
-public class wanderState : State
+public class WanderState : State
 {
-    public override void enterState(Goose goose)
+    float startTime;
+    static float duration = 60;
+    public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wander State");
-    }
+        startTime = Time.time;
 
-    public override void updateState(Goose goose)
-    {
+        goose.currentTarget = goose.GetNearestTargetPoint(goose.gooseAgent.gameObject);
+        goose.gooseAgent.destination = goose.currentTarget.transform.position;
+    }
+    public override void UpdateState(Goose goose)
+    {   
+        //If goose has arrived at target
         if (!goose.gooseAgent.pathPending)
         {
             if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
             {
-                //if (!gooseAgent.hasPath || gooseAgent.velocity.sqrMagnitude == 0f)
-                //{
                 GameObject newTarget = goose.currentTarget.GetComponent<TargetScript>().nextTargets[Random.Range(0, goose.currentTarget.GetComponent<TargetScript>().nextTargets.Length)];
                 if (newTarget != goose.lastTarget || goose.currentTarget.GetComponent<TargetScript>().nextTargets.Length == 1)
                 {
@@ -34,35 +38,188 @@ public class wanderState : State
                     goose.currentTarget = newTarget;
                 }
                 goose.gooseAgent.destination = goose.currentTarget.transform.position;
-                //gooseAgent.destination = targets[Random.Range(0, targets.Length)].transform.position;
-                //}
             }
         }
+        //If goose is close enough to player to just attack
+        if(Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        {
+            goose.switchState(new AttackState());
+        }
+        //If enough time has passed to change state
+        if (Time.time - startTime >= duration)
+        {
+            goose.switchState(new StalkState());
+
+            //Or AmubushState <-- to be implemented
+        }
+    }
+}
+
+public class StalkState : State
+{
+    float startTime;
+    static float duration = 60;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Stalk State");
+        startTime = Time.time;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        goose.currentTarget = goose.GetNearestTargetPoint(goose.player);
+        goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+        //If goose has arrived at target
+        if (!goose.gooseAgent.pathPending)
+        {
+            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
+            {
+                goose.switchState(new AttackState());
+            }
+        }
+        //If goose is close enough to player to just attack
+        if (Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        {
+            goose.switchState(new AttackState());
+        }
+        //If enough time has passed to change state
+        if (Time.time - startTime >= duration)
+        {
+            goose.switchState(new WanderState());
+            //Give up and go back to wandering
+        }
+    }
+}
+
+public class AttackState : State
+{
+    float startTime;
+    static float duration = 10;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Attack State");
+        startTime = Time.time;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        goose.currentTarget = goose.player;
+        goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+        //If goose has arrived at target
+        if (!goose.gooseAgent.pathPending)
+        {
+            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
+            {
+                //Implemnt KILL code here
+
+                
+            }
+        }
+        //If goose is close enough to stay in attacking state
+        if (Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        {
+            //Reset start time (only flees if not in range for a set peirod of time)
+            startTime = Time.time;
+        }
+        //If enough time has passed far away from player
+        if (Time.time - startTime >= duration)
+        {
+            goose.switchState(new FleeState());
+        }
+    }
+}
+
+public class FleeState : State
+{
+    float startTime;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Flee State");
+        startTime = Time.time;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        goose.currentTarget = goose.GetFarthestTargetPoint(goose.player);
+        goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+        if (!goose.gooseAgent.pathPending)
+        {
+            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
+            {
+                goose.switchState(new WanderState());
+            }
+        }
+        if (Time.time - startTime >= 60)
+        {
+            goose.switchState(new WanderState());
+        }
+        //goose.GetNearestTargetPoint(goose.targets);
     }
 }
 
 public class Goose
 {
-    public State currentState;
+    State currentState;
     public NavMeshAgent gooseAgent;
     public Transform inititalGoal;
     public float targetBuffer;
     public GameObject[] targets;
     public GameObject currentTarget, lastTarget;
-    public Goose(NavMeshAgent gAgent, GameObject[] t, GameObject cTarget, float tBuffer)
+    public float attackRange;
+    public GameObject player;
+    public Goose(NavMeshAgent gAgent, GameObject[] t, float tBuffer, float dRange)
     {
         gooseAgent = gAgent;
         targets = t;
-        currentTarget = cTarget;
-        gooseAgent.destination = currentTarget.transform.position;
+        targetBuffer = tBuffer;
+        attackRange = dRange;
 
-        currentState = new wanderState();
-        currentState.enterState(this);
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        currentState = new WanderState();
+        currentState.EnterState(this);
     }
 
     public void updateGoose()
     {
-        currentState.updateState(this);
+        currentState.UpdateState(this);
+    }
+
+    public void switchState(State state)
+    {
+        currentState = state;
+        state.EnterState(this);
+    }
+
+    public GameObject GetNearestTargetPoint(GameObject targetObject)        //Get nearest target point to a game object
+    {
+        GameObject closestTarget = null;
+        float closestDistance = 100000000;
+        foreach(GameObject target in targets){
+            float testDistance = Vector3.Distance(targetObject.transform.position, target.transform.position);
+            if (testDistance < closestDistance)
+            {
+                closestDistance = testDistance;
+                closestTarget = target;
+            };
+        }
+        return closestTarget;
+    }
+
+    public GameObject GetFarthestTargetPoint(GameObject targetObject)   //Get farthest target point to a game object
+    {
+        GameObject farthestTarget = null;
+        float farthestDistance = 0;
+        foreach (GameObject target in targets)
+        {
+            float testDistance = Vector3.Distance(targetObject.transform.position, target.transform.position);
+            if (testDistance > farthestDistance)
+            {
+                farthestDistance = testDistance;
+                farthestTarget = target;
+            };
+        }
+        return farthestTarget;
     }
 }
 
@@ -70,46 +227,28 @@ public class GooseAIScript : MonoBehaviour
 {
     public Goose gooseEnemy;
     public NavMeshAgent gooseAgent;
-    public Transform inititalGoal;
     public float targetBuffer;
     private GameObject[] targets;
     private GameObject currentTarget, lastTarget;
 
+    [SerializeField] private float attackRange;
+
     void Start()
     {
-        
-        //gooseAgent = GetComponent<NavMeshAgent>();
-        //targets = GameObject.FindGameObjectsWithTag("GooseTarget");
-        //currentTarget = inititalGoal.gameObject;
-        //gooseAgent.destination = currentTarget.transform.position;
-        gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), GameObject.FindGameObjectsWithTag("GooseTarget"), inititalGoal.gameObject, targetBuffer);
+        gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), GameObject.FindGameObjectsWithTag("GooseTarget"), targetBuffer, attackRange);
     }
 
 // Update is called once per frame
 void Update()
     {
         gooseEnemy.updateGoose();
-        /**
-        // Check if we've reached the destination
-        if (!gooseAgent.pathPending)
-        {
-            if (gooseAgent.remainingDistance <= gooseAgent.stoppingDistance + targetBuffer)
-            {
-                //if (!gooseAgent.hasPath || gooseAgent.velocity.sqrMagnitude == 0f)
-                //{
-                    GameObject newTarget = currentTarget.GetComponent<TargetScript>().nextTargets[Random.Range(0, currentTarget.GetComponent<TargetScript>().nextTargets.Length)];
-                    if(newTarget != lastTarget || currentTarget.GetComponent<TargetScript>().nextTargets.Length == 1)
-                    {
-                        lastTarget = currentTarget;
-                        currentTarget = newTarget;
-                    }    
-                    gooseAgent.destination = currentTarget.transform.position;
-                    //gooseAgent.destination = targets[Random.Range(0, targets.Length)].transform.position;
-                //}
-            }
-        }
-        **/
+    }
 
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
 
