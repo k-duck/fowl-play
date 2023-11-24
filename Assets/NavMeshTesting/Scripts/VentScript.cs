@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetScript : MonoBehaviour
+public class VentScript : MonoBehaviour
 {
-    public GameObject[] nextTargets;
+    public GameObject[] nextVents;
 }
