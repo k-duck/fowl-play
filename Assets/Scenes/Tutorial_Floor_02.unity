@@ -4862,7 +4862,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 1b8c6f5bf83423e4093735e21050e18f, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 673e070ab0eb729428741ddf7dab4034, type: 2}
+      objectReference: {fileID: 2100000, guid: 28c42fa55e165584ba65e7509edfc4f5, type: 2}
     - target: {fileID: 919132149155446097, guid: 1b8c6f5bf83423e4093735e21050e18f, type: 3}
       propertyPath: m_Name
       value: SM_Prop_TV_Wall_01
@@ -9078,15 +9078,15 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: eb0e9ec2158b7c941935917c4f5c4333, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 673e070ab0eb729428741ddf7dab4034, type: 2}
+      objectReference: {fileID: 2100000, guid: c19a79bbdaddfe84bbedfc994692e547, type: 2}
     - target: {fileID: -7511558181221131132, guid: eb0e9ec2158b7c941935917c4f5c4333, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 673e070ab0eb729428741ddf7dab4034, type: 2}
+      objectReference: {fileID: 2100000, guid: 9a3e7a7d41c9d9342a71bf29139cca96, type: 2}
     - target: {fileID: -7511558181221131132, guid: eb0e9ec2158b7c941935917c4f5c4333, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: 673e070ab0eb729428741ddf7dab4034, type: 2}
+      objectReference: {fileID: 2100000, guid: dcc65100a445a6544b50dcae5000fb2b, type: 2}
     - target: {fileID: 919132149155446097, guid: eb0e9ec2158b7c941935917c4f5c4333, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Computer_Monitor_Triple_01
@@ -17266,11 +17266,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 4ef559bd853eec84cb6d8a449cb311f7, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 673e070ab0eb729428741ddf7dab4034, type: 2}
+      objectReference: {fileID: 2100000, guid: 9a3e7a7d41c9d9342a71bf29139cca96, type: 2}
     - target: {fileID: -7511558181221131132, guid: 4ef559bd853eec84cb6d8a449cb311f7, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
-      objectReference: {fileID: 2100000, guid: 673e070ab0eb729428741ddf7dab4034, type: 2}
+      objectReference: {fileID: 2100000, guid: 9a3e7a7d41c9d9342a71bf29139cca96, type: 2}
     - target: {fileID: 919132149155446097, guid: 4ef559bd853eec84cb6d8a449cb311f7, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Computer_Monitor_Double_01
@@ -28998,6 +28998,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 997071859f63c9a4eb11d79581f06a6d, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 82f993451cfd7c4478f198b9f3650f2f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 28c42fa55e165584ba65e7509edfc4f5, type: 2}
     - target: {fileID: 919132149155446097, guid: 82f993451cfd7c4478f198b9f3650f2f, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Computer_Setup_01
@@ -29224,6 +29228,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 997071859f63c9a4eb11d79581f06a6d, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 6dc5221a46401f444b4c19b87ffcc654, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c19a79bbdaddfe84bbedfc994692e547, type: 2}
     - target: {fileID: 919132149155446097, guid: 6dc5221a46401f444b4c19b87ffcc654, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Laptop_02
