@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 abstract public class State
 {
@@ -15,7 +16,6 @@ abstract public class State
 public class WanderState : State
 {
     float startTime;
-    static float duration = 0;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wander State");
@@ -25,7 +25,7 @@ public class WanderState : State
         goose.gooseAgent.destination = goose.currentTarget.transform.position;
     }
     public override void UpdateState(Goose goose)
-    {   
+    {
         //If goose has arrived at target
         if (!goose.gooseAgent.pathPending)
         {
@@ -41,16 +41,99 @@ public class WanderState : State
             }
         }
         //If goose is close enough to player to just attack
-        if(Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        //Or in line of sight
+        if(goose.distanceFromPlayer < goose.attackRange
+            || goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        {
+            goose.switchState(new AssessState());
+            //goose.switchState(new AttackState());
+        }
+        //If enough time has passed to change state
+        if (Time.time - startTime >= goose.wanderDuration)
+        {
+            goose.switchState(new AssessState());
+            if (Random.Range(1, 5) == 1)
+            {
+                float playerDistanceFromVent = Vector3.Distance(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position, goose.player.transform.position);
+                if (playerDistanceFromVent < 15)
+                {
+                    goose.switchState(new GoToAmbushState());
+                }
+                else
+                {
+                    goose.switchState(new StalkState());
+                }
+            } else
+            {
+                startTime = startTime + 10;
+                Debug.Log("Keep Wandering");
+            }
+        }
+    }
+}
+
+public class AssessState : State
+{
+    Quaternion faceRotation;
+    float startTime;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Assess State");
+        startTime = Time.time;
+
+        goose.currentTarget = goose.player;
+        goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        //If goose is close enough to just attack
+        if (goose.distanceFromPlayer < goose.attackRange)
         {
             goose.switchState(new AttackState());
         }
-        //If enough time has passed to change state
-        if (Time.time - startTime >= duration)
+        //If left line of sight, stare at the player
+        if (goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))      
         {
-            goose.switchState(new GoToAmbushState());
+            goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
 
-            //Or AmubushState <-- to be implemented
+            //Stare at player
+            Vector3 lookPos = goose.player.transform.position - goose.gooseAgent.transform.position;
+            lookPos.y = 0;
+            faceRotation = Quaternion.LookRotation(lookPos);
+            goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, faceRotation, 2 * Time.deltaTime);
+
+            //Increase aggression, increases faster the closer the goose is to the player
+            goose.aggression += (0.1f/goose.distanceFromPlayer);
+            int attackChance = (int)(Mathf.InverseLerp(0, 100, goose.aggression) * 100);
+            Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
+
+            //Every set interval, chance to go to attack mode
+            if (Time.time - startTime >= goose.assessInterval)
+            {
+                if (Random.Range(0, 200) < attackChance)
+                {
+                    goose.switchState(new AttackState());
+                }
+                else
+                {
+                    startTime = startTime + 10;
+                    Debug.Log("Keep Being Creepy");
+                }
+            }
+        } else
+        {
+            //Player not vissible, follow untill player is in line of sight again
+            goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+            if(goose.aggression > 0) goose.aggression -= 0.01f;
+            int attackChance = (int)(Mathf.InverseLerp(0, 100, goose.aggression) * 100);
+            Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
+
+            //If out of line of sight long enough, return to wandering
+            if (Time.time - startTime >= goose.assessInterval)
+            {
+                goose.switchState(new WanderState());
+            }
         }
     }
 }
@@ -58,7 +141,6 @@ public class WanderState : State
 public class StalkState : State
 {
     float startTime;
-    static float duration = 60;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Stalk State");
@@ -78,12 +160,12 @@ public class StalkState : State
             }
         }
         //If goose is close enough to player to just attack
-        if (Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        if (goose.distanceFromPlayer < goose.attackRange)
         {
             goose.switchState(new AttackState());
         }
         //If enough time has passed to change state
-        if (Time.time - startTime >= duration)
+        if (Time.time - startTime >= goose.stalkDuration)
         {
             goose.switchState(new WanderState());
             //Give up and go back to wandering
@@ -128,7 +210,7 @@ public class GoToAmbushState : State
             }
         }
         //If goose is close enough to player to just attack
-        if (Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        if (goose.distanceFromPlayer < goose.attackRange)
         {
             goose.switchState(new AttackState());
         }
@@ -144,22 +226,24 @@ public class GoToAmbushState : State
 public class InAmbushState : State
 {
     float startTime;
-    static float duration = 60;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wait For Ambush State");
         startTime = Time.time;
+
+        Vector3 newRot = goose.GetNearestTargetPoint(goose.vents, goose.gooseAgent.gameObject).transform.rotation.eulerAngles;
+        newRot = new Vector3(newRot.x, newRot.y+180, newRot.z);
+        goose.gooseAgent.transform.rotation = Quaternion.Euler(newRot);
     }
     public override void UpdateState(Goose goose)
     {
-
         //If goose is close enough to player to just attack
-        if (Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        if (goose.distanceFromPlayer < goose.attackRange)
         {
             goose.switchState(new AttackState());
         }
         //If enough time has passed to change state
-        if (Time.time - startTime >= duration)
+        if (Time.time - startTime >= goose.ambushDuration)
         {
             goose.switchState(new WanderState());
             //Give up and go back to wandering
@@ -170,7 +254,6 @@ public class InAmbushState : State
 public class AttackState : State
 {
     float startTime;
-    static float duration = 10;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Attack State");
@@ -190,13 +273,14 @@ public class AttackState : State
             }
         }
         //If goose is close enough to stay in attacking state
-        if (Vector3.Distance(goose.player.transform.position, goose.gooseAgent.transform.position) < goose.attackRange)
+        if (goose.distanceFromPlayer < goose.attackRange
+            || goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
         {
             //Reset start time (only flees if not in range for a set peirod of time)
             startTime = Time.time;
         }
         //If enough time has passed far away from player
-        if (Time.time - startTime >= duration)
+        if (Time.time - startTime >= goose.attackDuration)
         {
             goose.switchState(new FleeState());
         }
@@ -225,7 +309,7 @@ public class FleeState : State
             }
         }
         //If enough time has passed to enter next state
-        if (Time.time - startTime >= 60)
+        if (Time.time - startTime >= goose.fleeDuration)
         {
             goose.switchState(new WanderState());
         }
@@ -237,19 +321,34 @@ public class Goose
     State currentState;
     public NavMeshAgent gooseAgent;
     public Transform inititalGoal;
+    public GameObject[] targets, vents;
+    public GameObject currentTarget, lastTarget, player;
+
     public float targetBuffer;
-    public GameObject[] targets;
-    public GameObject[] vents;
-    public GameObject currentTarget, lastTarget;
     public float attackRange;
-    public GameObject player;
-    public Goose(NavMeshAgent gAgent, GameObject[] t, float tBuffer, float dRange)
+    public float wanderDuration;
+    public float stalkDuration;
+    public float ambushDuration;
+    public float attackDuration;
+    public float fleeDuration;
+    public float assessInterval;
+    public float aggression;
+    public float distanceFromPlayer;
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval)
     {
         gooseAgent = gAgent;
-        targets = t;
         targetBuffer = tBuffer;
         attackRange = dRange;
+        wanderDuration = wDur;
+        stalkDuration = sDur;
+        ambushDuration = amDur;
+        attackDuration = atDur;
+        fleeDuration = fDur;
+        assessInterval = aInterval;
 
+        aggression = 0;
+
+        targets = GameObject.FindGameObjectsWithTag("GooseTarget");
         player = GameObject.FindGameObjectWithTag("Player");
         vents = GameObject.FindGameObjectsWithTag("Vent");
 
@@ -259,6 +358,7 @@ public class Goose
 
     public void updateGoose()
     {
+        distanceFromPlayer = Vector3.Distance(player.transform.position, gooseAgent.transform.position);
         currentState.UpdateState(this);
     }
 
@@ -298,25 +398,52 @@ public class Goose
         }
         return farthestTarget;
     }
+
+    public bool IsLineOfSight(GameObject one, GameObject two)
+    {
+        var ray = new Ray(one.transform.position, two.transform.position - one.transform.position);
+        var hits = Physics.RaycastAll(ray, ray.direction.magnitude * 100);
+        if (hits.Length > 0)
+        {
+            foreach (var hit in hits)
+            {
+                if (hit.collider.gameObject == one || hit.collider.gameObject == two) continue;
+                //Debug.DrawLine(one.transform.position, hit.collider.transform.position, Color.red, 1);
+                //Debug.DrawLine(one.transform.position, two.transform.position, Color.blue, 1);
+                //Debug.Log($"Interferred by {hit.collider.name}");
+                if(Vector3.Distance(one.transform.position, hit.transform.position) < Vector3.Distance(one.transform.position, two.transform.position))
+                {
+                    return false;
+                }   
+            }
+        }
+        //Debug.Log("IN LINE OF SIGHT");
+        return true;
+    }
 }
 
 public class GooseAIScript : MonoBehaviour
 {
     public Goose gooseEnemy;
-    public NavMeshAgent gooseAgent;
-    public float targetBuffer;
-    private GameObject[] targets;
-    private GameObject currentTarget, lastTarget;
 
+    [SerializeField] private float targetBuffer;
     [SerializeField] private float attackRange;
+    [SerializeField] private float wanderDuration;
+    [SerializeField] private float stalkDuration;
+    [SerializeField] private float ambushDuration;
+    [SerializeField] private float attackDuration;
+    [SerializeField] private float fleeDuration;
+    [SerializeField] private float assessInterval;
+
 
     void Start()
     {
-        gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), GameObject.FindGameObjectsWithTag("GooseTarget"), targetBuffer, attackRange);
+        gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
+                                , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval);
     }
 
-// Update is called once per frame
-void Update()
+    // Update is called once per frame
+    void Update()
     {
         gooseEnemy.updateGoose();
     }
@@ -327,6 +454,7 @@ void Update()
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
 }
 
 
