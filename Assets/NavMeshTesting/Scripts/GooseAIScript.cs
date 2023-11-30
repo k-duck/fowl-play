@@ -51,7 +51,6 @@ public class WanderState : State
         //If enough time has passed to change state
         if (Time.time - startTime >= goose.wanderDuration)
         {
-            goose.switchState(new AssessState());
             if (Random.Range(1, 5) == 1)
             {
                 float playerDistanceFromVent = Vector3.Distance(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position, goose.player.transform.position);
