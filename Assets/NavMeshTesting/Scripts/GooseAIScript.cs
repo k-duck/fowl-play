@@ -102,7 +102,7 @@ public class AssessState : State
             Vector3 lookPos = goose.player.transform.position - goose.gooseAgent.transform.position;
             lookPos.y = 0;
             faceRotation = Quaternion.LookRotation(lookPos);
-            //goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, faceRotation, 2 * Time.deltaTime);
+            goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, faceRotation, 2 * Time.deltaTime);
 
             //Increase aggression, increases faster the closer the goose is to the player
             goose.aggression += (0.1f/goose.distanceFromPlayer);
