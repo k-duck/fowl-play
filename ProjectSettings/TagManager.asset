@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GooseTarget
   - Vent
+  - VisibleObject
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - UIVR
   - Visible_VR
   - Visible_PC
-  - 
-  - 
+  - Floor
+  - Wall
   - 
   - 
   - 
