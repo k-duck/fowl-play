@@ -81,6 +81,7 @@ public class AssessState : State
         startTime = lostTime = Time.time;
 
         goose.currentTarget = goose.player;
+        goose.lastKnownLocation = goose.currentTarget.transform.position;
     }
     public override void UpdateState(Goose goose)
     {
@@ -122,10 +123,11 @@ public class AssessState : State
                     Debug.Log("Keep Being Creepy");
                 }
             }
+            goose.lastKnownLocation = goose.currentTarget.transform.position;
         } else
         {
-            //Player not vissible, follow untill player is in line of sight again
-            goose.gooseAgent.destination = goose.currentTarget.transform.position;
+            //Player not vissible, go to last known location untill player is in line of sight again
+            goose.gooseAgent.destination = goose.lastKnownLocation;
             lostTime = Time.time;
 
             if(goose.aggression > 0) goose.aggression -= 0.01f;
@@ -326,6 +328,7 @@ public class Goose
     public Transform inititalGoal;
     public GameObject[] targets, vents;
     public GameObject currentTarget, lastTarget, player;
+    public Vector3 lastKnownLocation;
 
     public float targetBuffer;
     public float attackRange;
@@ -354,6 +357,7 @@ public class Goose
         targets = GameObject.FindGameObjectsWithTag("GooseTarget");
         player = GameObject.FindGameObjectWithTag("Player");
         vents = GameObject.FindGameObjectsWithTag("Vent");
+        lastKnownLocation = gAgent.transform.position;
 
         currentState = new WanderState();
         currentState.EnterState(this);
@@ -423,11 +427,11 @@ public class Goose
                 }
             }
         }
-        //Debug.Log(Vector3.Cross(one.transform.right, two.transform.position - one.transform.position).y);
-        //if(Vector3.Cross(one.transform.right, two.transform.position - one.transform.position).y >  10) 
-        //{
-            //return false;
-        //}
+        //Debug.Log(Vector3.Angle(one.transform.forward, two.transform.position - one.transform.position));
+        if(Vector3.Angle(one.transform.forward, two.transform.position - one.transform.position) >  (180 - 20)) 
+        {
+            return false;
+        }
         //Debug.Log("IN LINE OF SIGHT");
         return true;
     }
