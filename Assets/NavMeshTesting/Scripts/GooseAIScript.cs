@@ -74,14 +74,14 @@ public class WanderState : State
 public class AssessState : State
 {
     Quaternion faceRotation;
-    float startTime;
+    float startTime, lostTime;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Assess State");
-        startTime = Time.time;
+        startTime = lostTime = Time.time;
 
         goose.currentTarget = goose.player;
-        goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
+        goose.lastKnownLocation = goose.currentTarget.transform.position;
     }
     public override void UpdateState(Goose goose)
     {
@@ -93,7 +93,11 @@ public class AssessState : State
         //If left line of sight, stare at the player
         if (goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))      
         {
-            goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
+
+            if(Time.time - lostTime >= 0.2f)
+            {
+                goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
+            }
 
             //Stare at player
             Vector3 lookPos = goose.player.transform.position - goose.gooseAgent.transform.position;
@@ -119,14 +123,16 @@ public class AssessState : State
                     Debug.Log("Keep Being Creepy");
                 }
             }
+            goose.lastKnownLocation = goose.currentTarget.transform.position;
         } else
         {
-            //Player not vissible, follow untill player is in line of sight again
-            goose.gooseAgent.destination = goose.currentTarget.transform.position;
+            //Player not vissible, go to last known location untill player is in line of sight again
+            goose.gooseAgent.destination = goose.lastKnownLocation;
+            lostTime = Time.time;
 
             if(goose.aggression > 0) goose.aggression -= 0.01f;
             int attackChance = (int)(Mathf.InverseLerp(0, 100, goose.aggression) * 100);
-            Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
+            //Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
 
             //If out of line of sight long enough, return to wandering
             if (Time.time - startTime >= goose.assessInterval)
@@ -322,6 +328,7 @@ public class Goose
     public Transform inititalGoal;
     public GameObject[] targets, vents;
     public GameObject currentTarget, lastTarget, player;
+    public Vector3 lastKnownLocation;
 
     public float targetBuffer;
     public float attackRange;
@@ -350,6 +357,7 @@ public class Goose
         targets = GameObject.FindGameObjectsWithTag("GooseTarget");
         player = GameObject.FindGameObjectWithTag("Player");
         vents = GameObject.FindGameObjectsWithTag("Vent");
+        lastKnownLocation = gAgent.transform.position;
 
         currentState = new WanderState();
         currentState.EnterState(this);
@@ -405,16 +413,24 @@ public class Goose
         if (hits.Length > 0)
         {
             foreach (var hit in hits)
-            {
-                if (hit.collider.gameObject == one || hit.collider.gameObject == two) continue;
-                //Debug.DrawLine(one.transform.position, hit.collider.transform.position, Color.red, 1);
-                //Debug.DrawLine(one.transform.position, two.transform.position, Color.blue, 1);
-                //Debug.Log($"Interferred by {hit.collider.name}");
-                if(Vector3.Distance(one.transform.position, hit.transform.position) < Vector3.Distance(one.transform.position, two.transform.position))
+            {   if(hit.collider.CompareTag("VisibleObject") || hit.collider.CompareTag("Player"))
                 {
-                    return false;
-                }   
+                    if (hit.collider.gameObject == one || hit.collider.gameObject == two) continue;
+                    Debug.DrawLine(one.transform.position, hit.collider.transform.position, Color.red, 1);
+                    Debug.DrawLine(one.transform.position, two.transform.position, Color.blue, 1);
+                    
+                    //Debug.Log($"Interferred by {hit.collider.name}");
+                    if (Vector3.Distance(one.transform.position, hit.transform.position) < Vector3.Distance(one.transform.position, two.transform.position))
+                    {
+                        return false;
+                    }
+                }
             }
+        }
+        //Debug.Log(Vector3.Angle(one.transform.forward, two.transform.position - one.transform.position));
+        if(Vector3.Angle(one.transform.forward, two.transform.position - one.transform.position) >  (180 - 20)) 
+        {
+            return false;
         }
         //Debug.Log("IN LINE OF SIGHT");
         return true;
