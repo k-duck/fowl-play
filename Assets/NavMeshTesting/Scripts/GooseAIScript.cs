@@ -274,7 +274,7 @@ public class AttackState : State
         {
             if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
             {
-                //Implemnt KILL code here
+                goose.attackPlayer();
             }
         }
         //If goose is close enough to stay in attacking state
@@ -434,6 +434,13 @@ public class Goose
         }
         //Debug.Log("IN LINE OF SIGHT");
         return true;
+    }
+
+    public void attackPlayer()
+    {
+        //Play attack animation
+        Debug.Log("Player Attacked!");
+        switchState(new FleeState());
     }
 }
 
