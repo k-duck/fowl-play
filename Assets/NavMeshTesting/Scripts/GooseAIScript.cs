@@ -40,10 +40,8 @@ public class WanderState : State
                 goose.gooseAgent.destination = goose.currentTarget.transform.position;
             }
         }
-        //If goose is close enough to player to just attack
-        //Or in line of sight
-        if(goose.distanceFromPlayer < goose.attackRange
-            || goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        //If goose is in line of sight
+        if(goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
         {
             goose.switchState(new AssessState());
             //goose.switchState(new AttackState());
@@ -85,16 +83,18 @@ public class AssessState : State
     }
     public override void UpdateState(Goose goose)
     {
-        //If goose is close enough to just attack
-        if (goose.distanceFromPlayer < goose.attackRange)
-        {
-            goose.switchState(new AttackState());
-        }
-        //If left line of sight, stare at the player
+        
+        //If in line of sight, stare at the player
         if (goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))      
         {
 
-            if(Time.time - lostTime >= 0.2f)
+            //If goose is close enough to just attack
+            if (goose.distanceFromPlayer < goose.attackRange)
+            {
+                goose.switchState(new AttackState());
+            }
+
+            if (Time.time - lostTime >= 0.2f)
             {
                 goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
             }
@@ -165,7 +165,7 @@ public class StalkState : State
             }
         }
         //If goose is close enough to player to just attack
-        if (goose.distanceFromPlayer < goose.attackRange)
+        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
         {
             goose.switchState(new AttackState());
         }
@@ -215,7 +215,7 @@ public class GoToAmbushState : State
             }
         }
         //If goose is close enough to player to just attack
-        if (goose.distanceFromPlayer < goose.attackRange)
+        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
         {
             goose.switchState(new AttackState());
         }
@@ -279,7 +279,7 @@ public class AttackState : State
         }
         //If goose is close enough to stay in attacking state
         if (goose.distanceFromPlayer < goose.attackRange
-            || goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+            && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
         {
             //Reset start time (only flees if not in range for a set peirod of time)
             startTime = Time.time;
