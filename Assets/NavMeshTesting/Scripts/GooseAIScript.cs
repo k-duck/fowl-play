@@ -328,6 +328,7 @@ public class Goose
     public Transform inititalGoal;
     public GameObject[] targets, vents;
     public GameObject currentTarget, lastTarget, player;
+    public AudioSource gooseAudio;
     public Vector3 lastKnownLocation;
 
     public float targetBuffer;
@@ -340,7 +341,10 @@ public class Goose
     public float assessInterval;
     public float aggression;
     public float distanceFromPlayer;
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval)
+    public AudioClip[] slapSFX;
+
+    private float footstepStartTime;
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -357,16 +361,36 @@ public class Goose
         targets = GameObject.FindGameObjectsWithTag("GooseTarget");
         player = GameObject.FindGameObjectWithTag("Player");
         vents = GameObject.FindGameObjectsWithTag("Vent");
+        gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
         currentState = new WanderState();
         currentState.EnterState(this);
+        slapSFX = slapClips;
+        footstepStartTime = Time.time;
     }
 
     public void updateGoose()
     {
         distanceFromPlayer = Vector3.Distance(player.transform.position, gooseAgent.transform.position);
         currentState.UpdateState(this);
+        playAudio();
+    }
+
+    public void playAudio()
+    {
+        Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
+        if (gooseAudio != null && gooseAgent.velocity.magnitude != 0)
+        {
+            if(!gooseAudio.isPlaying && Time.time - footstepStartTime >= 1/ gooseAgent.velocity.magnitude)
+            {
+                gooseAudio.PlayOneShot(slapSFX[Random.Range(0, slapSFX.Length)]);
+                footstepStartTime = Time.time;
+                
+                //gooseAgent.speed += 0.5f;
+            }
+                
+        }
     }
 
     public void switchState(State state)
@@ -447,6 +471,7 @@ public class Goose
 public class GooseAIScript : MonoBehaviour
 {
     public Goose gooseEnemy;
+    public AudioClip[] slapSFX;
 
     [SerializeField] private float targetBuffer;
     [SerializeField] private float attackRange;
@@ -461,7 +486,8 @@ public class GooseAIScript : MonoBehaviour
     void Start()
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
-                                , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval);
+                                , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
+                                , slapSFX);
     }
 
     // Update is called once per frame
