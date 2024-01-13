@@ -123,7 +123,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EmmisionValue: 0.1
+    - _EmmisionValue: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -148,9 +148,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Effect_colour: {r: 1, g: 1, b: 1, a: 0}
+    - _Effect_colour: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmmisionColour: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 0}
+    - _EmmisionColour: {r: 0.37804285, g: 0.4843583, b: 0.7490195, a: 1}
     - _Offeset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
