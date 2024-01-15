@@ -845,8 +845,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 382.0000915527344,
-            "y": 66.99999237060547
+            "x": 1119.0,
+            "y": 198.0
         },
         "m_Blocks": [
             {
@@ -4732,7 +4732,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_BlendMode": 15
+    "m_BlendMode": 13
 }
 
 {
@@ -5742,10 +5742,10 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0,
-        "a": 0.0
+        "r": 0.8396226167678833,
+        "g": 0.21782663464546204,
+        "b": 0.21782663464546204,
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 0

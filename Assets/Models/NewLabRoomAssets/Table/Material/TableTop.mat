@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Blue
+  m_Name: TableTop
   m_Shader: {fileID: -6465566751694194690, guid: 528ffdad55f40e543851cf712fd9efda, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseColour_Texture:
-        m_Texture: {fileID: 2800000, guid: 6f089a0e806a704469393aecf25774c1, type: 3}
+        m_Texture: {fileID: 2800000, guid: ea70f52e8047d6d4d8a0fba3f0faf115, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 0aa43d895866b8d45bfd6d1cf7c7e8be, type: 3}
+        m_Texture: {fileID: 2800000, guid: 89343d5b1ed1a8c4a918bae300d8b310, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -121,13 +121,13 @@ Material:
     - _GlossyReflections: 0
     - _MetalicValue: 1
     - _Metallic: 0
-    - _NormalValue: 7.63
+    - _NormalValue: 0.3
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RoughnessValue: 0.61
+    - _RoughnessValue: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -137,16 +137,16 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.2169323, b: 1, a: 1}
-    - _Color: {r: 0, g: 0.21693227, b: 1, a: 1}
-    - _Effect_colour: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Effect_colour: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmmisionColour: {r: 0, g: 0, b: 0, a: 0}
     - _Offeset: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Tiling: {r: 2.22, g: 5, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3854267106458769533
+--- !u!114 &5774475277463840118
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

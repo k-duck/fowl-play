@@ -69,9 +69,15 @@ public class Floor1PuzzleScript : MonoBehaviour
     {
 
     }
+    public void SwitchGenerator(int num)
+    {
 
+    }
     public void checkAnswer()
     {
 
     }
+
+    
+
 }
