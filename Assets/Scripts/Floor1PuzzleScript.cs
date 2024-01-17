@@ -64,7 +64,14 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Header("Lever")]
     public float correctLever1;
     float currentLever1;
-    //[Space(40, order = 2)]
+
+
+    [Header("Puzzle 3")]
+    [Space(40, order = 2)]
+
+    int guessNum = 0;
+    public List<int> password;
+    public List<int> passwordGuess;
 
     // Start is called before the first frame update
     void Start()
@@ -216,5 +223,32 @@ public class Floor1PuzzleScript : MonoBehaviour
         }
     }
 
-
+    ///Puzzle 3 assets
+    ///
+    public void GetKeypadInput(int num)
+    {
+        if (guessNum < 4)
+        {
+            passwordGuess[guessNum] = num;
+            guessNum++;
+        }
+    }
+    public void CheckKeypadInput()
+    {
+        // this is a terrible way of doing this. todo fix this crap
+        if(password[0] == passwordGuess[0] && password[1] == passwordGuess[1]&& password[2] == passwordGuess[2] && password[3] == passwordGuess[3])
+        {
+            //door open
+            Debug.Log("doorOpen");
+        }
+        else
+        {
+            //Reset
+            guessNum = 0;
+            passwordGuess[0] = 0;
+            passwordGuess[1] = 0;
+            passwordGuess[2] = 0;
+            passwordGuess[3] = 0;
+        }
+    }
 }
