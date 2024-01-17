@@ -13,6 +13,9 @@ public class UiPadInteraction : MonoBehaviour
 
     bool FinishedPuzzle = false;
 
+    public Animator DoorRight;
+    public Animator DoorLeft;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +40,7 @@ public class UiPadInteraction : MonoBehaviour
         
         if(other.tag == "Card" && FinishedPuzzle == false)
         {
-            Debug.Log("the fuck i am");
+            
             StartCoroutine(CheckCard(other));
         }
         //other.gameObject
@@ -48,6 +51,8 @@ public class UiPadInteraction : MonoBehaviour
         FinishedPuzzle = true;
         objectMaterials[1] = correct;
         uiStation.gameObject.GetComponent<Renderer>().materials = objectMaterials;
+        DoorRight.SetBool("OpenDoor", true);
+        DoorLeft.SetBool("OpenDoor", true);
     }
     public void wrongAnswer()
     {

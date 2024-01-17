@@ -90,7 +90,7 @@ Material:
     - _RoughnessValue: 3.81
     - _Scale: 3.45
     m_Colors:
-    - _Effect_colour: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.007843138}
+    - _Effect_colour: {r: 1, g: 1, b: 1, a: 0}
     - _EmmisionColour: {r: 0, g: 0, b: 0, a: 0}
     - _Offeset: {r: 1, g: 1, b: 0, a: 0}
     - _Roughness: {r: 0.26415092, g: 0.2629049, b: 0.2629049, a: 0}
