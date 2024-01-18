@@ -15,7 +15,7 @@ public class CameraControls : MonoBehaviour
         //Display.displays[1].Activate();
         //Display.displays[2].Activate();
         cam[0].GetComponent<Camera>().targetDisplay = 0;
-        CamNum = 1;
+        CamNum = 0;
     }
 
     // Update is called once per frame
