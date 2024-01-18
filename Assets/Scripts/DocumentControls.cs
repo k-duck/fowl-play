@@ -24,6 +24,7 @@ public class DocumentControls : MonoBehaviour
         if (documentsWindow.activeSelf)
         {
             documentsWindow.SetActive(false);
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
         } else
         {
             documentsWindow.SetActive(true);
