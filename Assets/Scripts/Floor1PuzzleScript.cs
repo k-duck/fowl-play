@@ -86,6 +86,10 @@ public class Floor1PuzzleScript : MonoBehaviour
     public bool Sceneflag2;
     public bool Sceneflag3;
 
+    [Header("Goose")]
+    [Space(40, order = 2)]
+    [SerializeField] GameObject GooseScript;
+
 
 
     // Start is called before the first frame update
@@ -235,6 +239,7 @@ public class Floor1PuzzleScript : MonoBehaviour
         foreach (GameObject lights in Lights)
         {
             lights.gameObject.SetActive(true);
+            GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
         }
     }
 
