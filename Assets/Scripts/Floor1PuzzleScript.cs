@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Content.Interaction;
+using TMPro;
 
 public class Floor1PuzzleScript : MonoBehaviour
 {
@@ -72,6 +73,20 @@ public class Floor1PuzzleScript : MonoBehaviour
     int guessNum = 0;
     public List<int> password;
     public List<int> passwordGuess;
+
+    public List<TMP_Text> codeAnswers;
+
+    public Animator ElevatorDoorR;
+    public Animator ElevatorDoorL;
+
+    [Space(40, order = 2)]
+    [Header("Puzzle 3")]
+    [Space(40, order = 2)]
+    public bool Sceneflag1;
+    public bool Sceneflag2;
+    public bool Sceneflag3;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -230,7 +245,9 @@ public class Floor1PuzzleScript : MonoBehaviour
         if (guessNum < 4)
         {
             passwordGuess[guessNum] = num;
+            codeAnswers[guessNum].SetText(num.ToString());
             guessNum++;
+           
         }
     }
     public void CheckKeypadInput()
@@ -240,15 +257,21 @@ public class Floor1PuzzleScript : MonoBehaviour
         {
             //door open
             Debug.Log("doorOpen");
+            ElevatorDoorL.SetBool("OpenDoor", true);
+            ElevatorDoorR.SetBool("OpenDoor", true);
         }
         else
         {
             //Reset
             guessNum = 0;
             passwordGuess[0] = 0;
+            codeAnswers[0].SetText("0");
             passwordGuess[1] = 0;
+            codeAnswers[1].SetText("0");
             passwordGuess[2] = 0;
+            codeAnswers[2].SetText("0");
             passwordGuess[3] = 0;
+            codeAnswers[3].SetText("0");
         }
     }
 }
