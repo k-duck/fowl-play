@@ -26,7 +26,7 @@ public class cardTexture : MonoBehaviour
         //Set the Sibling Index
         gameObject.transform.GetChild((int)KeyCard.x).SetSiblingIndex(0);
         //Output the Sibling Index to the console
-        Debug.Log("Sibling Index : " + gameObject.transform.GetChild((int)KeyCard.x).GetSiblingIndex());
+        //Debug.Log("Sibling Index : " + gameObject.transform.GetChild((int)KeyCard.x).GetSiblingIndex());
 
         //floor 1 only needs the one child
         CHILD_INDEX = 1;
@@ -50,9 +50,10 @@ public class cardTexture : MonoBehaviour
 
             Vector2 Coords = RandomCodeCoords(CodeStartX, CodeStartY);
 
-            if (i == KeyCard.x)
+            if (i == 0)
             {
                 KeyCard.y = codeVal;
+                //Debug.Log("Y = " + KeyCard.y);
             }
 
             //moving the uvs

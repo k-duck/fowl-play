@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class CardSymbols : MonoBehaviour
 {
-    public GameObject keycards;
+    GameObject keycard;
 
     public cardTexture card;
 
     // Start is called before the first frame update
     void Start()
     {
-        keycards.transform.GetChild(0);
+        keycard = gameObject.transform.GetChild(((int)card.KeyCard.y) - 1).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if  (this.gameObject.activeInHierarchy )
+        {
+            keycard.SetActive(true);
+        }
     }
 }
