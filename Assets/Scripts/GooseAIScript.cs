@@ -381,7 +381,7 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new StalkState();
+        currentState = new WanderState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         footstepStartTime = Time.time;
