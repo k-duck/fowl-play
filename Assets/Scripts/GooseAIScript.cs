@@ -16,6 +16,7 @@ abstract public class State
 public class WanderState : State
 {
     float startTime;
+    float offsetX, offsetY;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wander State");
@@ -23,6 +24,8 @@ public class WanderState : State
 
         goose.currentTarget = goose.GetNearestTargetPoint(goose.targets ,goose.gooseAgent.gameObject);
         goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+        offsetX = offsetY = 0;
     }
     public override void UpdateState(Goose goose)
     {
@@ -34,10 +37,12 @@ public class WanderState : State
                 GameObject newTarget = goose.currentTarget.GetComponent<TargetScript>().nextTargets[Random.Range(0, goose.currentTarget.GetComponent<TargetScript>().nextTargets.Length)];
                 if (newTarget != goose.lastTarget || goose.currentTarget.GetComponent<TargetScript>().nextTargets.Length == 1)
                 {
+                    offsetX = Random.Range(-2.5f, 2.5f);
+                    offsetY = Random.Range(-2.5f, 2.5f);
                     goose.lastTarget = goose.currentTarget;
                     goose.currentTarget = newTarget;
                 }
-                goose.gooseAgent.destination = goose.currentTarget.transform.position;
+                goose.gooseAgent.destination = goose.currentTarget.transform.position + new Vector3(offsetX,offsetY);
             }
         }
         //If goose is in line of sight
@@ -379,7 +384,7 @@ public class Goose
 
     public void playAudio()
     {
-        Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
+        //Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
         if (gooseAudio != null && gooseAgent.velocity.magnitude != 0)
         {
             if(!gooseAudio.isPlaying && Time.time - footstepStartTime >= 1/ gooseAgent.velocity.magnitude)
@@ -501,6 +506,20 @@ public class GooseAIScript : MonoBehaviour
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.Log("objecthit: " + contact);
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+
+            if(contact.otherCollider.tag == "Player")
+            {
+                gooseEnemy.attackPlayer();
+            }
+        }
     }
 
 }
