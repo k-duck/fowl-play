@@ -200,6 +200,7 @@ public class Floor1PuzzleScript : MonoBehaviour
 
                                 GeneratorOn();
                                 GeneratorActive = true;
+                                Sceneflag2 = true;
                             }
 
 
@@ -247,18 +248,20 @@ public class Floor1PuzzleScript : MonoBehaviour
     ///
     public void GetKeypadInput(int num)
     {
-        if (guessNum < 4)
-        {
-            passwordGuess[guessNum] = num;
-            codeAnswers[guessNum].SetText(num.ToString());
-            guessNum++;
+        if(Sceneflag2 == true) { 
+            if (guessNum < 4)
+            {
+                passwordGuess[guessNum] = num;
+                codeAnswers[guessNum].SetText(num.ToString());
+                guessNum++;
            
+            }
         }
     }
     public void CheckKeypadInput()
     {
         // this is a terrible way of doing this. todo fix this crap
-        if(password[0] == passwordGuess[0] && password[1] == passwordGuess[1]&& password[2] == passwordGuess[2] && password[3] == passwordGuess[3])
+        if(password[0] == passwordGuess[0] && password[1] == passwordGuess[1]&& password[2] == passwordGuess[2] && password[3] == passwordGuess[3] )
         {
             //door open
             Debug.Log("doorOpen");
