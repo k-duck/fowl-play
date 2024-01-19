@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UiPadInteraction : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class UiPadInteraction : MonoBehaviour
     public Animator DoorRight;
     public Animator DoorLeft;
 
+    public GameObject keycards;
 
     // Start is called before the first frame update
     void Start()
@@ -24,9 +26,6 @@ public class UiPadInteraction : MonoBehaviour
         objectMaterials = uiStation.GetComponent<Renderer>().materials;
         objectMaterials[1] = BaseMat;
         uiStation.gameObject.GetComponent<Renderer>().materials = objectMaterials;
-
-
-
     }
 
     // Update is called once per frame
@@ -36,11 +35,9 @@ public class UiPadInteraction : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        
+    {        
         if(other.tag == "Card" && FinishedPuzzle == false)
-        {
-            
+        {            
             StartCoroutine(CheckCard(other));
         }
         //other.gameObject
@@ -64,11 +61,10 @@ public class UiPadInteraction : MonoBehaviour
         objectMaterials[1] = BaseMat;
         uiStation.gameObject.GetComponent<Renderer>().materials = objectMaterials;
     }
-
-
     IEnumerator CheckCard(Collider other)
     {
-        if(other.gameObject.GetComponent<CardScript>().isCorrectCard == true)
+        //if(other.transform == keycards.transform.GetChild((int)(keycards.GetComponent<cardTexture>().KeyCard.x)))
+        if (other.transform == keycards.transform.GetChild(0))
         {
             CorrectAnswer();
         }
@@ -84,6 +80,5 @@ public class UiPadInteraction : MonoBehaviour
         }
 
     }
-
 
 }
