@@ -151,6 +151,7 @@ public class AssessState : State
 public class StalkState : State
 {
     float startTime;
+    Quaternion faceRotation;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Stalk State");
@@ -158,22 +159,33 @@ public class StalkState : State
     }
     public override void UpdateState(Goose goose)
     {
-        goose.currentTarget = goose.GetNearestTargetPoint(goose.targets, goose.player);
-        goose.gooseAgent.destination = goose.currentTarget.transform.position;
-
-        //If goose has arrived at target
-        if (!goose.gooseAgent.pathPending)
-        {
-            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
-            {
-                goose.switchState(new AttackState());
-            }
-        }
         //If goose is close enough to player to just attack
-        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight360(goose.gooseAgent.gameObject, goose.player))
         {
             goose.switchState(new AttackState());
         }
+        else if(goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        {
+            if (goose.distanceFromPlayer < 10)
+            {
+                goose.currentTarget = goose.GetFarthestTargetPoint(goose.targets, goose.player);
+                goose.gooseAgent.destination = goose.currentTarget.transform.position;
+            } else
+            {
+                goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
+                //Stare at player
+                Vector3 lookPos = goose.player.transform.position - goose.gooseAgent.transform.position;
+                lookPos.y = 0;
+                faceRotation = Quaternion.LookRotation(lookPos);
+                goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, faceRotation, 2 * Time.deltaTime);
+            }
+        } else
+        {
+            goose.currentTarget = goose.GetNearestTargetPoint(goose.targets, goose.player);
+            goose.gooseAgent.destination = goose.currentTarget.transform.position;
+        }
+        
+        
         //If enough time has passed to change state
         if (Time.time - startTime >= goose.stalkDuration)
         {
@@ -369,7 +381,7 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new WanderState();
+        currentState = new StalkState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         footstepStartTime = Time.time;
@@ -460,6 +472,31 @@ public class Goose
         if(Vector3.Angle(one.transform.forward, two.transform.position - one.transform.position) >  (180 - 20)) 
         {
             return false;
+        }
+        //Debug.Log("IN LINE OF SIGHT");
+        return true;
+    }
+    public bool IsLineOfSight360(GameObject one, GameObject two)
+    {
+        var ray = new Ray(one.transform.position, two.transform.position - one.transform.position);
+        var hits = Physics.RaycastAll(ray, ray.direction.magnitude * 100);
+        if (hits.Length > 0)
+        {
+            foreach (var hit in hits)
+            {
+                if (hit.collider.CompareTag("VisibleObject") || hit.collider.CompareTag("Player"))
+                {
+                    if (hit.collider.gameObject == one || hit.collider.gameObject == two) continue;
+                    Debug.DrawLine(one.transform.position, hit.collider.transform.position, Color.red, 1);
+                    Debug.DrawLine(one.transform.position, two.transform.position, Color.blue, 1);
+
+                    //Debug.Log($"Interferred by {hit.collider.name}");
+                    if (Vector3.Distance(one.transform.position, hit.transform.position) < Vector3.Distance(one.transform.position, two.transform.position))
+                    {
+                        return false;
+                    }
+                }
+            }
         }
         //Debug.Log("IN LINE OF SIGHT");
         return true;
