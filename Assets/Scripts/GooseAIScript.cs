@@ -16,6 +16,7 @@ abstract public class State
 public class WanderState : State
 {
     float startTime;
+    float offsetX, offsetY;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wander State");
@@ -23,6 +24,8 @@ public class WanderState : State
 
         goose.currentTarget = goose.GetNearestTargetPoint(goose.targets ,goose.gooseAgent.gameObject);
         goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+        offsetX = offsetY = 0;
     }
     public override void UpdateState(Goose goose)
     {
@@ -34,10 +37,12 @@ public class WanderState : State
                 GameObject newTarget = goose.currentTarget.GetComponent<TargetScript>().nextTargets[Random.Range(0, goose.currentTarget.GetComponent<TargetScript>().nextTargets.Length)];
                 if (newTarget != goose.lastTarget || goose.currentTarget.GetComponent<TargetScript>().nextTargets.Length == 1)
                 {
+                    offsetX = Random.Range(-2.5f, 2.5f);
+                    offsetY = Random.Range(-2.5f, 2.5f);
                     goose.lastTarget = goose.currentTarget;
                     goose.currentTarget = newTarget;
                 }
-                goose.gooseAgent.destination = goose.currentTarget.transform.position;
+                goose.gooseAgent.destination = goose.currentTarget.transform.position + new Vector3(offsetX,offsetY);
             }
         }
         //If goose is in line of sight
@@ -146,6 +151,7 @@ public class AssessState : State
 public class StalkState : State
 {
     float startTime;
+    Quaternion faceRotation;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Stalk State");
@@ -153,22 +159,33 @@ public class StalkState : State
     }
     public override void UpdateState(Goose goose)
     {
-        goose.currentTarget = goose.GetNearestTargetPoint(goose.targets, goose.player);
-        goose.gooseAgent.destination = goose.currentTarget.transform.position;
-
-        //If goose has arrived at target
-        if (!goose.gooseAgent.pathPending)
-        {
-            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
-            {
-                goose.switchState(new AttackState());
-            }
-        }
         //If goose is close enough to player to just attack
-        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight360(goose.gooseAgent.gameObject, goose.player))
         {
             goose.switchState(new AttackState());
         }
+        else if(goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        {
+            if (goose.distanceFromPlayer < 10)
+            {
+                goose.currentTarget = goose.GetFarthestTargetPoint(goose.targets, goose.player);
+                goose.gooseAgent.destination = goose.currentTarget.transform.position;
+            } else
+            {
+                goose.gooseAgent.destination = goose.gooseAgent.gameObject.transform.position;
+                //Stare at player
+                Vector3 lookPos = goose.player.transform.position - goose.gooseAgent.transform.position;
+                lookPos.y = 0;
+                faceRotation = Quaternion.LookRotation(lookPos);
+                goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, faceRotation, 2 * Time.deltaTime);
+            }
+        } else
+        {
+            goose.currentTarget = goose.GetNearestTargetPoint(goose.targets, goose.player);
+            goose.gooseAgent.destination = goose.currentTarget.transform.position;
+        }
+        
+        
         //If enough time has passed to change state
         if (Time.time - startTime >= goose.stalkDuration)
         {
@@ -379,7 +396,7 @@ public class Goose
 
     public void playAudio()
     {
-        Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
+        //Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
         if (gooseAudio != null && gooseAgent.velocity.magnitude != 0)
         {
             if(!gooseAudio.isPlaying && Time.time - footstepStartTime >= 1/ gooseAgent.velocity.magnitude)
@@ -459,6 +476,31 @@ public class Goose
         //Debug.Log("IN LINE OF SIGHT");
         return true;
     }
+    public bool IsLineOfSight360(GameObject one, GameObject two)
+    {
+        var ray = new Ray(one.transform.position, two.transform.position - one.transform.position);
+        var hits = Physics.RaycastAll(ray, ray.direction.magnitude * 100);
+        if (hits.Length > 0)
+        {
+            foreach (var hit in hits)
+            {
+                if (hit.collider.CompareTag("VisibleObject") || hit.collider.CompareTag("Player"))
+                {
+                    if (hit.collider.gameObject == one || hit.collider.gameObject == two) continue;
+                    Debug.DrawLine(one.transform.position, hit.collider.transform.position, Color.red, 1);
+                    Debug.DrawLine(one.transform.position, two.transform.position, Color.blue, 1);
+
+                    //Debug.Log($"Interferred by {hit.collider.name}");
+                    if (Vector3.Distance(one.transform.position, hit.transform.position) < Vector3.Distance(one.transform.position, two.transform.position))
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        //Debug.Log("IN LINE OF SIGHT");
+        return true;
+    }
 
     public void attackPlayer()
     {
@@ -501,6 +543,20 @@ public class GooseAIScript : MonoBehaviour
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.Log("objecthit: " + contact);
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+
+            if(contact.otherCollider.tag == "Player")
+            {
+                gooseEnemy.attackPlayer();
+            }
+        }
     }
 
 }
