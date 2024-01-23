@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Content.Interaction;
 using TMPro;
+using UnityEngine.UI;
 
 public class Floor1PuzzleScript : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class Floor1PuzzleScript : MonoBehaviour
 
     public GameObject knob1;
     public GameObject knob2;
+    public List<TMP_Text> KnobAnswerUi;
 
     [Header("Slider")]
     
@@ -45,6 +47,11 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Range(0f, 1f)] public float correctSlider2;
     [Range(0f, 1f)] public float correctSlider3;
     [Range(0f, 1f)] public float correctSlider4;
+
+    [SerializeField]private GameObject sliderUi;
+    [SerializeField] private GameObject sliderUi2;
+    [SerializeField] private GameObject sliderUi3;
+    [SerializeField] private GameObject sliderUi4;
 
 
     private float ResetSlider1;
@@ -184,16 +191,16 @@ public class Floor1PuzzleScript : MonoBehaviour
             {
                 Debug.Log(currentKnob1);
                 Debug.Log(currentKnob2);
-                if ( currentSlider1 > (correctSlider1 - 0.10f) && currentSlider1 < (correctSlider1 + 0.10f) )
+                if ( currentSlider1 > (correctSlider1 - 0.20f) && currentSlider1 < (correctSlider1 + 0.20f) )
                 {
                     Debug.Log(currentSlider1);
-                    if (currentSlider2 > (correctSlider2 - 0.10f) && currentSlider2 < (correctSlider2 + 0.10f))
+                    if (currentSlider2 > (correctSlider2 - 0.20f) && currentSlider2 < (correctSlider2 + 0.20f))
                     {
                         Debug.Log(currentSlider2);
-                        if (currentSlider3 > (correctSlider3 - 0.10f) && currentSlider3 < (correctSlider3 + 0.10f))
+                        if (currentSlider3 > (correctSlider3 - 0.20f) && currentSlider3 < (correctSlider3 + 0.20f))
                         {
                             Debug.Log(currentSlider3);
-                            if (currentSlider4 > (correctSlider4 - 0.10f) && currentSlider4 < (correctSlider4 + 0.10f))
+                            if (currentSlider4 > (correctSlider4 - 0.20f) && currentSlider4 < (correctSlider4 + 0.20f))
                             {
                                 Debug.Log(currentSlider4);
                                 Debug.Log("generator On");
@@ -230,17 +237,59 @@ public class Floor1PuzzleScript : MonoBehaviour
 
     public void GeneratorOff()
     {
-        foreach(GameObject lights in Lights)
+        // Randomize slider
+        correctSlider1 = Random.Range(0f, 1f);
+        correctSlider1 = Mathf.Round(correctSlider1 * 100) / 100;
+        correctSlider2 = Random.Range(0f, 1f);
+        correctSlider2 = Mathf.Round(correctSlider2 * 100) / 100;
+        correctSlider3 = Random.Range(0f, 1f);
+        correctSlider3 = Mathf.Round(correctSlider3 * 100) / 100;
+        correctSlider4 = Random.Range(0f, 1f);
+        correctSlider4 = Mathf.Round(correctSlider4 * 100) / 100;
+
+        // change ui to show correct value
+        sliderUi.GetComponent<Slider>().value = correctSlider1;
+        sliderUi2.GetComponent<Slider>().value = correctSlider2;
+        sliderUi3.GetComponent<Slider>().value = correctSlider3;
+        sliderUi4.GetComponent<Slider>().value = correctSlider4;
+
+        //Randomize ui value
+
+        correctKnob1 = Random.Range(0, 2);
+        if(correctKnob1 == 0)
+        {
+            KnobAnswerUi[0].SetText("3. Turn fuel valve to off");
+        }
+        else
+        {
+            KnobAnswerUi[0].SetText("3. Turn fuel valve to on");
+        }
+
+        correctKnob2 = Random.Range(0, 2);
+        if (correctKnob2 == 0)
+        {
+            KnobAnswerUi[1].SetText("4. Turn dial to run");
+        }
+        else
+        {
+            KnobAnswerUi[1].SetText("4. Turn dial to choke");
+        }
+
+
+
+        // turn off all lights
+        foreach (GameObject lights in Lights)
         {
             lights.gameObject.SetActive(false) ;
         }
     }
     public void GeneratorOn()
     {
+        GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
         foreach (GameObject lights in Lights)
         {
             lights.gameObject.SetActive(true);
-            GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
+            
         }
     }
 
