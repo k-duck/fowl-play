@@ -64,7 +64,7 @@ public class UiPadInteraction : MonoBehaviour
     IEnumerator CheckCard(Collider other)
     {
         //if(other.transform == keycards.transform.GetChild((int)(keycards.GetComponent<cardTexture>().KeyCard.x)))
-        if (other.transform == keycards.transform.GetChild(0))
+        if (other.GetComponent<CardScript>().isCorrectCard == true)
         {
             CorrectAnswer();
         }
