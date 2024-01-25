@@ -23,8 +23,11 @@ public class cardTexture : MonoBehaviour
         //identify the card that contains the correct symbol(s)
         KeyCard.x = Random.Range(0, CARD_INDEX);
 
+        //Set identified card to correct
+        gameObject.transform.GetChild((int)KeyCard.x).GetComponent<CardScript>().isCorrectCard = true;
         //Set the Sibling Index
         gameObject.transform.GetChild((int)KeyCard.x).SetSiblingIndex(0);
+
         //Output the Sibling Index to the console
         //Debug.Log("Sibling Index : " + gameObject.transform.GetChild((int)KeyCard.x).GetSiblingIndex());
 
