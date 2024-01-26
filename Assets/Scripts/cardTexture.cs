@@ -12,7 +12,7 @@ public class cardTexture : MonoBehaviour
     int TextureHeight = 1024;
 
     int codeVal;
-    int codeValPrev;
+    List<int> codeValPrev = new List<int>();
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +81,8 @@ public class cardTexture : MonoBehaviour
 
     public Vector2 RandomCodeCoords(int x, int y)
     {
+        //old code (just in case? idk)
+        /*
         while (codeVal == codeValPrev || codeVal == KeyCard.y)
         {
             //takes input coordinates and picks a random column and row relative to them
@@ -96,18 +98,24 @@ public class cardTexture : MonoBehaviour
 
         codeValPrev = codeVal;
         return new Vector2(x, y);
+        */
 
-        /*
         bool loop = true;
+
+        int xOut = x;
+        int yOut = y;
 
         while (loop == true)
         {
             //takes input coordinates and picks a random column and row relative to them
             int xRand = Random.Range(0, 8);
-            int yRand = Random.Range(0, 1);
+            int yRand = Random.Range(0, 7);
+            yRand = (yRand % 2);
 
-            x = x + (xRand * (TextureWidth / 10));
-            y = y - (yRand * (TextureHeight / 10));
+            xOut = x + (xRand * (TextureWidth / 10));
+            yOut = y - (yRand * ((TextureHeight / 10) * 2));
+
+            //Debug.Log("xRand: " + xRand + ", yRand: " + yRand + ", x: " + x + ", y: " + y);
 
             //logs the number of the random symbol
             codeVal = (xRand + 1) + (9 * yRand);
@@ -118,7 +126,18 @@ public class cardTexture : MonoBehaviour
                 loop = false;
             }
         }
+
+        //output the list to console
+        /*
+        for (int i = 0; i < codeValPrev.Count; i++)
+        {
+            if (codeValPrev[i] == codeVal)
+                Debug.Log("Current Num " + i + ": " + codeVal);
+            Debug.Log("List Num " + i + ": " + codeValPrev[i].ToString());
+        }
         */
+
+        return new Vector2(xOut, yOut);
     }
 
     public Vector2 ConvertPixelsToUVCoordinates(int x, int y, int textureWidth, int textureHeight)
