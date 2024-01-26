@@ -8,6 +8,7 @@ TagManager:
   - Vent
   - VisibleObject
   - Card
+  - Draggable
   layers:
   - Default
   - TransparentFX
