@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Trigger
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: hand_L_geo
+    m_Weight: 0
+  - m_Path: jnt_L_hand
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_index1
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_index1/jnt_L_index2
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_index1/jnt_L_index2/jnt_L_index3
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_index1/jnt_L_index2/jnt_L_index3/jnt_L_index4
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_middle1
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_middle1/jnt_L_middle2
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_middle1/jnt_L_middle2/jnt_L_middle3
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_middle1/jnt_L_middle2/jnt_L_middle3/jnt_L_middle4
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_pinky1
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_pinky1/jnt_L_pinky2
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_pinky1/jnt_L_pinky2/jnt_L_pinky3
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_pinky1/jnt_L_pinky2/jnt_L_pinky3/jnt_L_pinky4
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_ring1
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_ring1/jnt_L_ring2
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_ring1/jnt_L_ring2/jnt_L_ring3
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_ring1/jnt_L_ring2/jnt_L_ring3/jnt_L_ring4
+    m_Weight: 0
+  - m_Path: jnt_L_hand/jnt_L_thumb1
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_thumb1/jnt_L_thumb2
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_thumb1/jnt_L_thumb2/jnt_L_thumb3
+    m_Weight: 1
+  - m_Path: jnt_L_hand/jnt_L_thumb1/jnt_L_thumb2/jnt_L_thumb3/jnt_L_thumb4
+    m_Weight: 1
