@@ -13,38 +13,57 @@ public class DocumentControls : MonoBehaviour, IPointerDownHandler, IBeginDragHa
     [SerializeField] private RectTransform dragControls;
     private float maxDragX, maxDragY, minDragX, minDragY;
 
+    private bool isDraggingWindow;
+
     private void Start()
     {
         maxDragX = canvas.GetComponentInChildren<RectTransform>().rect.xMax;
         maxDragY = canvas.GetComponentInChildren<RectTransform>().rect.yMax;
         minDragX = canvas.GetComponentInChildren<RectTransform>().rect.xMin;
         minDragY = canvas.GetComponentInChildren<RectTransform>().rect.yMin;
+        isDraggingWindow = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("OnDrag");    
-        dragControls.anchoredPosition += eventData.delta / canvas.scaleFactor;
-        KeepInBounds();
+        //Debug.Log(eventData.pointerCurrentRaycast);
+        if(eventData.pointerCurrentRaycast.gameObject != null)
+        {
+            if (eventData.pointerCurrentRaycast.gameObject.CompareTag("Draggable") && isDraggingWindow)
+            {
+                dragControls.anchoredPosition += eventData.delta / canvas.scaleFactor;
+                KeepInBounds();
+            }
+            else
+            {
+                isDraggingWindow = false;
+            }
+        } 
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag");
-        KeepInBounds();
+        if (eventData.pointerCurrentRaycast.gameObject != null)
+        {
+            if (eventData.pointerCurrentRaycast.gameObject.CompareTag("Draggable"))
+            {
+                KeepInBounds();
+            }
+        }
+        isDraggingWindow = false;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("OnPointerDown");
+        isDraggingWindow = true;
     }
 
     public void KeepInBounds()
     {
-        Debug.Log("Email Pos: " + dragControls.anchoredPosition);
+        
         if (dragControls.anchoredPosition.x - dragControls.rect.xMax + 50 > maxDragX)
             dragControls.anchoredPosition = new Vector2(maxDragX + dragControls.rect.xMax - 50, dragControls.anchoredPosition.y);
         if (dragControls.anchoredPosition.y - dragControls.rect.yMax + 50 > maxDragY)
