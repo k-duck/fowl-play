@@ -46,7 +46,7 @@ public class WanderState : State
             }
         }
         //If goose is in line of sight
-        if(goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        if(goose.IsLineOfSight(goose.EyePostion, goose.player))
         {
             goose.switchState(new AssessState());
             //goose.switchState(new AttackState());
@@ -90,7 +90,7 @@ public class AssessState : State
     {
         
         //If in line of sight, stare at the player
-        if (goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))      
+        if (goose.IsLineOfSight(goose.EyePostion, goose.player))      
         {
 
             //If goose is close enough to just attack
@@ -160,11 +160,11 @@ public class StalkState : State
     public override void UpdateState(Goose goose)
     {
         //If goose is close enough to player to just attack
-        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight360(goose.gooseAgent.gameObject, goose.player))
+        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight360(goose.EyePostion, goose.player))
         {
             goose.switchState(new AttackState());
         }
-        else if(goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        else if(goose.IsLineOfSight(goose.EyePostion, goose.player))
         {
             if (goose.distanceFromPlayer < 10)
             {
@@ -232,7 +232,7 @@ public class GoToAmbushState : State
             }
         }
         //If goose is close enough to player to just attack
-        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+        if (goose.distanceFromPlayer < goose.attackRange && goose.IsLineOfSight(goose.EyePostion, goose.player))
         {
             goose.switchState(new AttackState());
         }
@@ -296,7 +296,7 @@ public class AttackState : State
         }
         //If goose is close enough to stay in attacking state
         if (goose.distanceFromPlayer < goose.attackRange
-            && goose.IsLineOfSight(goose.gooseAgent.gameObject, goose.player))
+            && goose.IsLineOfSight(goose.EyePostion, goose.player))
         {
             //Reset start time (only flees if not in range for a set peirod of time)
             startTime = Time.time;
@@ -347,6 +347,7 @@ public class Goose
     public GameObject currentTarget, lastTarget, player;
     public AudioSource gooseAudio;
     public Vector3 lastKnownLocation;
+    [SerializeField] public GameObject EyePostion;
 
     public float targetBuffer;
     public float attackRange;
@@ -361,7 +362,7 @@ public class Goose
     public AudioClip[] slapSFX;
 
     private float footstepStartTime;
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips)
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -372,6 +373,7 @@ public class Goose
         attackDuration = atDur;
         fleeDuration = fDur;
         assessInterval = aInterval;
+        EyePostion = eyePos;
 
         aggression = 0;
 
@@ -392,7 +394,10 @@ public class Goose
         distanceFromPlayer = Vector3.Distance(player.transform.position, gooseAgent.transform.position);
         currentState.UpdateState(this);
         playAudio();
+        
     }
+
+   
 
     public void playAudio()
     {
@@ -449,7 +454,8 @@ public class Goose
 
     public bool IsLineOfSight(GameObject one, GameObject two)
     {
-        var ray = new Ray(one.transform.position, two.transform.position - one.transform.position);
+        // one = goose, two= player
+        var ray = new Ray(one.transform.position , two.transform.position - one.transform.position);
         var hits = Physics.RaycastAll(ray, ray.direction.magnitude * 100);
         if (hits.Length > 0)
         {
@@ -474,6 +480,7 @@ public class Goose
             return false;
         }
         //Debug.Log("IN LINE OF SIGHT");
+        Debug.DrawLine(one.transform.position, two.transform.position, Color.green, 1);
         return true;
     }
     public bool IsLineOfSight360(GameObject one, GameObject two)
@@ -523,19 +530,24 @@ public class GooseAIScript : MonoBehaviour
     [SerializeField] private float attackDuration;
     [SerializeField] private float fleeDuration;
     [SerializeField] private float assessInterval;
+    [SerializeField] private Animator gooseAnimator;
+    [SerializeField] private GameObject GooseEyes;
 
 
     void Start()
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX);
+                                , slapSFX,GooseEyes);
+        //gooseEnemy.GetEyes(GooseEyes);
     }
 
     // Update is called once per frame
     void Update()
     {
         gooseEnemy.updateGoose();
+        gooseAnimator.SetFloat("Speed", gooseEnemy.gooseAgent.velocity.magnitude);
+       
     }
 
     void OnDrawGizmosSelected()
