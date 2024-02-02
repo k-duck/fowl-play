@@ -77,6 +77,10 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Header("Puzzle 3")]
     [Space(40, order = 2)]
 
+    public GameObject Posters;
+    List<int> PosterPool = new List<int> { 0, 1, 2, 3, 4 }; //int values are equal to grandchild num, so order isn't a problem
+    int PosterCountMAX = 5;
+
     int guessNum = 0;
     public List<int> password;
     public List<int> passwordGuess;
@@ -105,6 +109,8 @@ public class Floor1PuzzleScript : MonoBehaviour
         GeneratorOff();
         StartUpGenerator();
         GetReset();
+
+        RandomizePosters();
         
     }
 
@@ -295,6 +301,19 @@ public class Floor1PuzzleScript : MonoBehaviour
 
     ///Puzzle 3 assets
     ///
+    
+    public void RandomizePosters()
+    {
+        //pick random number within list length, activate that child of child 1, remove that number from poster pool, repeat for child 2 and so on
+        for(int i = 0; i < PosterCountMAX; i++)
+        {
+            int rand = Random.Range(0, PosterPool.Count);
+            Posters.transform.GetChild(i).GetChild(PosterPool[rand]).gameObject.SetActive(true);
+
+            PosterPool.RemoveAt(rand);
+        }
+    }
+    
     public void GetKeypadInput(int num)
     {
         if(Sceneflag2 == true) { 
