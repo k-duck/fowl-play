@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 abstract public class State
@@ -291,7 +292,7 @@ public class AttackState : State
         {
             if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
             {
-                goose.attackPlayer();
+                //goose.attackPlayer();
             }
         }
         //If goose is close enough to stay in attacking state
@@ -362,7 +363,8 @@ public class Goose
     public AudioClip[] slapSFX;
 
     private float footstepStartTime;
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos)
+    public Animator gameOverAnim;
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos, Animator UIAnimator)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -387,6 +389,8 @@ public class Goose
         currentState.EnterState(this);
         slapSFX = slapClips;
         footstepStartTime = Time.time;
+        gameOverAnim = UIAnimator;
+        gameOverAnim.gameObject.SetActive(false);
     }
 
     public void updateGoose()
@@ -513,6 +517,13 @@ public class Goose
     {
         //Play attack animation
         Debug.Log("Player Attacked!");
+
+        Time.timeScale = 0;
+
+        gameOverAnim.gameObject.SetActive(true);
+        gameOverAnim.Play("GameOverFlashing");
+        gameOverAnim.Play("GameOverJailBars");
+
         switchState(new FleeState());
     }
 }
@@ -533,13 +544,16 @@ public class GooseAIScript : MonoBehaviour
     [SerializeField] private Animator gooseAnimator;
     [SerializeField] private GameObject GooseEyes;
 
+    [SerializeField] private Animator gameOverAnim;
+
 
     void Start()
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX,GooseEyes);
+                                , slapSFX,GooseEyes, gameOverAnim);
         //gooseEnemy.GetEyes(GooseEyes);
+        
     }
 
     // Update is called once per frame
@@ -557,17 +571,13 @@ public class GooseAIScript : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider trigger)
     {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.Log("objecthit: " + contact);
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
+        Debug.Log("objecthit: " + trigger);
 
-            if(contact.otherCollider.tag == "Player")
-            {
-                gooseEnemy.attackPlayer();
-            }
+        if (trigger.tag == "Player")
+        {
+            gooseEnemy.attackPlayer();
         }
     }
 
