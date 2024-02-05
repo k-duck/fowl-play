@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
@@ -363,8 +364,8 @@ public class Goose
     public AudioClip[] slapSFX;
 
     private float footstepStartTime;
-    public Animator gameOverAnim;
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos, Animator UIAnimator)
+    UnityEvent gameOverEvent = new UnityEvent();
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -389,8 +390,7 @@ public class Goose
         currentState.EnterState(this);
         slapSFX = slapClips;
         footstepStartTime = Time.time;
-        gameOverAnim = UIAnimator;
-        gameOverAnim.gameObject.SetActive(false);
+        
     }
 
     public void updateGoose()
@@ -518,11 +518,7 @@ public class Goose
         //Play attack animation
         Debug.Log("Player Attacked!");
 
-        Time.timeScale = 0;
-
-        gameOverAnim.gameObject.SetActive(true);
-        gameOverAnim.Play("GameOverFlashing");
-        gameOverAnim.Play("GameOverJailBars");
+        GameOverScript.gameOverEvent.Invoke();
 
         switchState(new FleeState());
     }
@@ -544,14 +540,12 @@ public class GooseAIScript : MonoBehaviour
     [SerializeField] private Animator gooseAnimator;
     [SerializeField] private GameObject GooseEyes;
 
-    [SerializeField] private Animator gameOverAnim;
-
 
     void Start()
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX,GooseEyes, gameOverAnim);
+                                , slapSFX,GooseEyes);
         //gooseEnemy.GetEyes(GooseEyes);
         
     }
