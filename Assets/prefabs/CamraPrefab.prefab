@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8941515635009550262}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CamraPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +26,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1693627430277525621}
   - {fileID: 816380382032353832}
@@ -47,11 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.544
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: 0.128
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -59,15 +59,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -88,6 +88,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
       propertyPath: m_Name
       value: CameraTop
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 607022c1a7ef4b84a81ab186ab5eecf3, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -184,6 +188,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1ca9ec5d77c87ff4893d450142821198, type: 3}
       propertyPath: m_Name
       value: CameraBottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1ca9ec5d77c87ff4893d450142821198, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
