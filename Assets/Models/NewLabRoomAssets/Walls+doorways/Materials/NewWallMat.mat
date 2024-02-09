@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NewWallMat
-  m_Shader: {fileID: -6465566751694194690, guid: 528ffdad55f40e543851cf712fd9efda, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: db64970dc052ac4478adca20aa082437, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -84,7 +84,7 @@ Material:
     m_Floats:
     - _EmmisionValue: 0
     - _MetalicValue: 0
-    - _NormalValue: 14.16
+    - _NormalValue: 14.94
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RoughnessValue: 3.81
@@ -95,5 +95,5 @@ Material:
     - _Offeset: {r: 1, g: 1, b: 0, a: 0}
     - _Roughness: {r: 0.26415092, g: 0.2629049, b: 0.2629049, a: 0}
     - _RoughnessValue: {r: 0, g: 0, b: 0, a: 0}
-    - _Tiling: {r: 3, g: 3, b: 0, a: 0}
+    - _Tiling: {r: 0.2, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []
