@@ -33,21 +33,26 @@ public class CameraControls : MonoBehaviour
         {
             room.enabled = false;
         }
-        mapRooms[(CamNum + 3) % numCameras].enabled = true;
+        mapRooms[(CamNum + numCameras - 1) % numCameras].enabled = true;
 
-        roomName.text = roomNames[(CamNum + 3) % numCameras];
+        roomName.text = roomNames[(CamNum + numCameras - 1) % numCameras];
+
+
+        for (int i = 0; i < numCameras; i++)
+        {
+            Debug.Log(cam[i].name + " = " + cam[i].GetComponent<Camera>().targetDisplay);
+        }
+        
     }
 
     public void change()
     {
-        Debug.Log("interact");
-
         CamNum++;
         CamNum = (CamNum) % numCameras;
 
         for (int i = 0; i < numCameras; i++)
         {
-            cam[(i + 1) % numCameras].GetComponent<Camera>().targetDisplay = (CamNum + i) % numCameras;
+            cam[(numCameras - i - 1) % numCameras].GetComponent<Camera>().targetDisplay = (CamNum + i) % numCameras;
         }
 
         UpdateMap();
@@ -57,7 +62,7 @@ public class CameraControls : MonoBehaviour
     {
         for(int i=0; i<numCameras; i++)
         {
-            cam[(i + 1) % numCameras].GetComponent<Camera>().targetDisplay = (camID + i) % numCameras;
+            cam[(numCameras - i - 1) % numCameras].GetComponent<Camera>().targetDisplay = (camID + i) % numCameras;
         }
 
         CamNum = (camID) % numCameras;
