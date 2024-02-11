@@ -98,6 +98,9 @@ public class Floor1PuzzleScript : MonoBehaviour
     [SerializeField] GameObject GooseScript;
 
 
+    public LightmapData[] lightmap_data;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -105,7 +108,9 @@ public class Floor1PuzzleScript : MonoBehaviour
         GeneratorOff();
         StartUpGenerator();
         GetReset();
-        
+
+        lightmap_data = LightmapSettings.lightmaps;
+        LightmapSettings.lightmaps = new LightmapData[] { };
     }
 
     // Update is called once per frame
@@ -231,6 +236,7 @@ public class Floor1PuzzleScript : MonoBehaviour
         if(GeneratorActive == false) { 
         ResetGenerator();
         StartUpGenerator();
+        
         }
 
     }
@@ -282,10 +288,13 @@ public class Floor1PuzzleScript : MonoBehaviour
         {
             lights.gameObject.SetActive(false) ;
         }
+        
+
     }
     public void GeneratorOn()
     {
         GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
+        LightmapSettings.lightmaps = lightmap_data;
         foreach (GameObject lights in Lights)
         {
             lights.gameObject.SetActive(true);
