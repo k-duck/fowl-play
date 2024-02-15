@@ -19,6 +19,8 @@ public class UiPadInteraction : MonoBehaviour
 
     public GameObject keycards;
 
+    public AudioSource doorAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +52,7 @@ public class UiPadInteraction : MonoBehaviour
         uiStation.gameObject.GetComponent<Renderer>().materials = objectMaterials;
         DoorRight.SetBool("OpenDoor", true);
         DoorLeft.SetBool("OpenDoor", true);
+        doorAudio.PlayDelayed(1.5f);
     }
     public void wrongAnswer()
     {
