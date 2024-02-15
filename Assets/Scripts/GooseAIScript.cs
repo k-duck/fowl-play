@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 abstract public class State
@@ -291,7 +293,7 @@ public class AttackState : State
         {
             if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
             {
-                goose.attackPlayer();
+                //goose.attackPlayer();
             }
         }
         //If goose is close enough to stay in attacking state
@@ -362,6 +364,7 @@ public class Goose
     public AudioClip[] slapSFX;
 
     private float footstepStartTime;
+    UnityEvent gameOverEvent = new UnityEvent();
     public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos)
     {
         gooseAgent = gAgent;
@@ -387,6 +390,7 @@ public class Goose
         currentState.EnterState(this);
         slapSFX = slapClips;
         footstepStartTime = Time.time;
+        
     }
 
     public void updateGoose()
@@ -513,6 +517,9 @@ public class Goose
     {
         //Play attack animation
         Debug.Log("Player Attacked!");
+
+        GameOverScript.gameOverEvent.Invoke();
+
         switchState(new FleeState());
     }
 }
@@ -540,6 +547,7 @@ public class GooseAIScript : MonoBehaviour
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
                                 , slapSFX,GooseEyes);
         //gooseEnemy.GetEyes(GooseEyes);
+        
     }
 
     // Update is called once per frame
@@ -557,17 +565,13 @@ public class GooseAIScript : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider trigger)
     {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.Log("objecthit: " + contact);
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
+        Debug.Log("objecthit: " + trigger);
 
-            if(contact.otherCollider.tag == "Player")
-            {
-                gooseEnemy.attackPlayer();
-            }
+        if (trigger.tag == "Player")
+        {
+            gooseEnemy.attackPlayer();
         }
     }
 

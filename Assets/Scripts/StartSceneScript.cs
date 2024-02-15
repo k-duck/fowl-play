@@ -7,7 +7,7 @@ public class StartSceneScript : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Tutorial_Floor_02");
+        SceneManager.LoadScene(1);
     }
 
     public void ExitGame()
