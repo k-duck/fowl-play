@@ -362,10 +362,11 @@ public class Goose
     public float aggression;
     public float distanceFromPlayer;
     public AudioClip[] slapSFX;
+    public AudioClip[] honkSFX;
 
     private float footstepStartTime;
     UnityEvent gameOverEvent = new UnityEvent();
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, GameObject eyePos)
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -389,6 +390,7 @@ public class Goose
         currentState = new WanderState();
         currentState.EnterState(this);
         slapSFX = slapClips;
+        honkSFX = honkClips;
         footstepStartTime = Time.time;
         
     }
@@ -397,13 +399,13 @@ public class Goose
     {
         distanceFromPlayer = Vector3.Distance(player.transform.position, gooseAgent.transform.position);
         currentState.UpdateState(this);
-        playAudio();
+        playStepAudio();
         
     }
 
    
 
-    public void playAudio()
+    public void playStepAudio()
     {
         //Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
         if (gooseAudio != null && gooseAgent.velocity.magnitude != 0)
@@ -412,15 +414,23 @@ public class Goose
             {
                 gooseAudio.PlayOneShot(slapSFX[Random.Range(0, slapSFX.Length)]);
                 footstepStartTime = Time.time;
-                
+
                 //gooseAgent.speed += 0.5f;
             }
                 
         }
     }
 
+    public void playHonkAudio()
+    {
+        gooseAudio.pitch = Random.Range(0.8f, 1.2f);
+        gooseAudio.PlayOneShot(honkSFX[Random.Range(0, honkSFX.Length)]);
+        gooseAudio.pitch = 1;
+    }
+
     public void switchState(State state)
     {
+        playHonkAudio();
         currentState = state;
         state.EnterState(this);
     }
@@ -517,6 +527,7 @@ public class Goose
     {
         //Play attack animation
         Debug.Log("Player Attacked!");
+        playHonkAudio();
 
         GameOverScript.gameOverEvent.Invoke();
 
@@ -528,6 +539,7 @@ public class GooseAIScript : MonoBehaviour
 {
     public Goose gooseEnemy;
     public AudioClip[] slapSFX;
+    public AudioClip[] honkSFX;
 
     [SerializeField] private float targetBuffer;
     [SerializeField] private float attackRange;
@@ -545,7 +557,7 @@ public class GooseAIScript : MonoBehaviour
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX,GooseEyes);
+                                , slapSFX, honkSFX, GooseEyes);
         //gooseEnemy.GetEyes(GooseEyes);
         
     }
