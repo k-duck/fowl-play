@@ -21,6 +21,14 @@ public class UiPadInteraction : MonoBehaviour
 
     public AudioSource doorAudio;
 
+    //For LevelOnePuzzleScript
+
+    //public AudioSource GeneratorHighAudio;
+    //public AudioSource GeneratorLowAudio;
+
+        //GeneratorHighAudio.Play();
+        //GeneratorLowAudio.Play();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +60,7 @@ public class UiPadInteraction : MonoBehaviour
         uiStation.gameObject.GetComponent<Renderer>().materials = objectMaterials;
         DoorRight.SetBool("OpenDoor", true);
         DoorLeft.SetBool("OpenDoor", true);
-        doorAudio.PlayDelayed(1.5f);
+        doorAudio.PlayDelayed(0.25f);
     }
     public void wrongAnswer()
     {
