@@ -31,7 +31,7 @@ public class cardTexture : MonoBehaviour
         //Output the Sibling Index to the console
         //Debug.Log("Sibling Index : " + gameObject.transform.GetChild((int)KeyCard.x).GetSiblingIndex());
 
-        //floor 1 only needs the one child; update to detect scene if needed in future.
+        //floor 1 only needs the one child
         CHILD_INDEX = 1;
         //gameObject.transform.GetChild(CHILD_INDEX).GetComponent<MeshRenderer>();
 
