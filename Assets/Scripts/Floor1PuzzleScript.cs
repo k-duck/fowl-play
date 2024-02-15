@@ -5,7 +5,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Content.Interaction;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 public class Floor1PuzzleScript : MonoBehaviour
 {
@@ -41,8 +40,8 @@ public class Floor1PuzzleScript : MonoBehaviour
     public GameObject knob2;
     public List<TMP_Text> KnobAnswerUi;
 
-
-    [Header("Slider")]    
+    [Header("Slider")]
+    
 
     [Range(0f,1f)] public float correctSlider1;
     [Range(0f, 1f)] public float correctSlider2;
@@ -78,17 +77,6 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Header("Puzzle 3")]
     [Space(40, order = 2)]
 
-    public GameObject Posters;
-    List<int> PosterPool = new List<int> { 0, 1, 2, 3, 4 }; //int values are equal to grandchild num, so order isn't a problem
-    int PosterCountMAX = 4;
-
-    public List<TMP_Text> PosterAnswers;
-    List<int> RandPOrder = new List<int> { 0, 1, 2, 3 };
-    List<int> RandPOrderWrite = new List<int>(new int[4]); //for ref after the main is cleared
-    //List<int> RandPOrderWrite = new List<int>(4);
-
-    public GameObject PCPosters;
-
     int guessNum = 0;
     public List<int> password;
     public List<int> passwordGuess;
@@ -109,7 +97,10 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Space(40, order = 2)]
     [SerializeField] GameObject GooseScript;
 
+
     public LightmapData[] lightmap_data;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -117,25 +108,17 @@ public class Floor1PuzzleScript : MonoBehaviour
         GeneratorOff();
         StartUpGenerator();
         GetReset();
-        RandomizePosters();
-        
+
         lightmap_data = LightmapSettings.lightmaps;
         LightmapSettings.lightmaps = new LightmapData[] { };
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PCPosters.gameObject.activeInHierarchy)
-        {
-            //activate email posters
-            for (int i = 0; i < PosterCountMAX; i++)
-            {
-                PCPosters.transform.GetChild(i).GetChild(RandPOrderWrite[i]).gameObject.SetActive(true);
-            }
-        }
+        
     }
+
 
     // generator startup function;
     public void StartUpGenerator()
@@ -231,17 +214,29 @@ public class Floor1PuzzleScript : MonoBehaviour
                                 GeneratorActive = true;
                                 Sceneflag2 = true;
                             }
+
+
+
+
                         }
+
+
+
+
                     }
+
+
+
                 }
+
             }
         }
 
         Debug.Log("generator fail");
-        if(GeneratorActive == false)
-        { 
-            ResetGenerator();
-            StartUpGenerator();
+        if(GeneratorActive == false) { 
+        ResetGenerator();
+        StartUpGenerator();
+        
         }
 
     }
@@ -308,48 +303,10 @@ public class Floor1PuzzleScript : MonoBehaviour
     }
 
     ///Puzzle 3 assets
-    ///    
-    public void RandomizePosters()
-    {
-        int emptyPoster = Random.Range(0, PosterCountMAX);        
-        
-        for (int i = 0; i <= PosterCountMAX; i++)
-        {
-            Debug.Log("i: " + i);
-
-            //pick random order for password numbers
-            int randPass = Random.Range(0, RandPOrder.Count);            
-
-            //pick random number for poster
-            int randPost = Random.Range(0, PosterPool.Count);
-
-            Posters.transform.GetChild(i).GetChild(PosterPool[randPost]).gameObject.SetActive(true);
-
-            //creates info and passwords for non empty posters
-            if (i != emptyPoster)
-            {
-                password[RandPOrder[randPass]] = Random.Range(0, 9);
-                PosterAnswers[i].text = password[RandPOrder[randPass]].ToString();
-
-                //RandPOrderWrite.Insert(RandPOrder[randPass], PosterPool[randPost]);
-                RandPOrderWrite[RandPOrder[randPass]] = PosterPool[randPost];
-
-                RandPOrder.RemoveAt(randPass);
-            }            
-
-            PosterPool.RemoveAt(randPost);           
-        }
-
-        for(int i = 0; i < RandPOrderWrite.Count; i++)
-        {
-            Debug.Log("PosterOrder " + i + ": " + RandPOrderWrite[i]);
-        }
-    }
-
+    ///
     public void GetKeypadInput(int num)
     {
-        if(Sceneflag2 == true)
-        { 
+        if(Sceneflag2 == true) { 
             if (guessNum < 4)
             {
                 passwordGuess[guessNum] = num;
@@ -362,7 +319,7 @@ public class Floor1PuzzleScript : MonoBehaviour
     public void CheckKeypadInput()
     {
         // this is a terrible way of doing this. todo fix this crap
-        if(password[0] == passwordGuess[0] && password[1] == passwordGuess[1] && password[2] == passwordGuess[2] && password[3] == passwordGuess[3])
+        if(password[0] == passwordGuess[0] && password[1] == passwordGuess[1]&& password[2] == passwordGuess[2] && password[3] == passwordGuess[3] )
         {
             //door open
             Debug.Log("doorOpen");
