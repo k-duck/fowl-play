@@ -2728,7 +2728,7 @@ Camera:
     width: 0.8
     height: 0.8
   near clip plane: 0.3
-  far clip plane: 35.2
+  far clip plane: 75
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2811,169 +2811,169 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b28c29541c3aae4ea0f96b8eb247f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultCullDistance: 35.2
+  DefaultCullDistance: 75
   DistanceMultiplier: 1
   UseSphericalCulling: 0
   AlwaysShowGizmos: 0
   LayerCullInfoArray:
   - LayerName: Default
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: TransparentFX
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Ignore Raycast
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Water
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: UI
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: UIVR
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Visible_VR
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Visible_PC
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Floor
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Wall
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Player
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Static Object
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: postProcessing
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: NoLight
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 35.2
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &3915374526866197464
@@ -6630,7 +6630,7 @@ Camera:
     width: 0.8
     height: 0.8
   near clip plane: 0.3
-  far clip plane: 44.73
+  far clip plane: 75
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -6713,169 +6713,169 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b28c29541c3aae4ea0f96b8eb247f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultCullDistance: 44.73
+  DefaultCullDistance: 75
   DistanceMultiplier: 1
   UseSphericalCulling: 0
   AlwaysShowGizmos: 0
   LayerCullInfoArray:
   - LayerName: Default
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: TransparentFX
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Ignore Raycast
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Water
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: UI
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: UIVR
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Visible_VR
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Visible_PC
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Floor
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Wall
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Player
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Static Object
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: postProcessing
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: NoLight
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
   - LayerName: Layer Not Defined
     UseDefaultCullDistance: 1
-    CullDistance: 44.73
+    CullDistance: 75
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1001 &2166865161717915720
