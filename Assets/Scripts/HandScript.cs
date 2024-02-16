@@ -30,13 +30,13 @@ public class HandScript : MonoBehaviour
     internal void SetGrip(float v)
     {
         gripTarget = v;
-        Debug.Log("Grip!");
+        //Debug.Log("Grip!");
     }
 
     internal void SetTrigger(float v)
     {
         triggerTarget = v;
-        Debug.Log("Trigger!");
+        //Debug.Log("Trigger!");
     }
 
     void AnimateHand()

@@ -9,6 +9,8 @@ TagManager:
   - VisibleObject
   - Card
   - Draggable
+  - Left
+  - Right
   layers:
   - Default
   - TransparentFX
