@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
@@ -18,6 +20,7 @@ public class GameController : MonoBehaviour
     private ActionBasedControllerManager controllerLeft;
     private ActionBasedControllerManager controllerRight;
     private GameObject tunnelControl;
+    private GameObject rig;
 
     private bool moveType = false; // 0 = Smooth   1 = Teleport
     private bool turnType = false; // 0 = Smooth   1 = Snap
@@ -26,16 +29,29 @@ public class GameController : MonoBehaviour
     private bool tunneling = false; // 0 = Off   1 = On
     private float tunnelStrength = 0.5f;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
-        GameObject left = GameObject.FindGameObjectWithTag("Left");
-        Debug.Log("LEFT: " + left.name);
-        controllerLeft = left.GetComponent<ActionBasedControllerManager>();
-        Debug.Log("LEFT controller: " + controllerLeft.name);
-        controllerRight = GameObject.Find("Right Controller").GetComponent<ActionBasedControllerManager>();
+        rig = GameObject.Find("XR Origin (XR Rig)");
 
-        if (controllerLeft == null || controllerRight == null)
+        tunnelControl = GameObject.Find("TunnelingVignette");
+
+        Debug.Log("Rig: " + rig);
+        Debug.Log("Tunnel: " + tunnelControl);
+        //Debug.Log("Left Game Object: " + GameObject.FindGameObjectWithTag("Left"));
+
+        controllerLeft = rig.transform.GetChild(0).GetChild(3).GetComponent<ActionBasedControllerManager>();
+
+        controllerRight = rig.transform.GetChild(0).GetChild(5).GetComponent<ActionBasedControllerManager>();
+        //controllerLeft = left.GetComponent<ActionBasedControllerManager>();
+        Debug.Log("LEFT controller: " + controllerLeft.name);
+        Debug.Log("RIGHT controller: " + controllerRight.name);
+        //controllerRight = GameObject.Find("Right Controller").GetComponent<ActionBasedControllerManager>();
+
+
+        if (controllerLeft != null && controllerRight != null)
         {
             if (moveType == false && handedness == false) // Smooth move & Right handed (Smooth locomotion control on Left hand and turn on right)
             {
@@ -114,6 +130,22 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (rig == null)
+        {
+            rig = GameObject.Find("XR Origin (XR Rig)");
+
+            tunnelControl = GameObject.Find("TunnelingVignette");
+
+            Debug.Log("Rig: " + rig);
+            Debug.Log("Tunnel: " + tunnelControl);
+
+            controllerLeft = rig.transform.GetChild(0).GetChild(3).GetComponent<ActionBasedControllerManager>();
+            controllerRight = rig.transform.GetChild(0).GetChild(5).GetComponent<ActionBasedControllerManager>();
+
+            Debug.Log("LEFT controller: " + controllerLeft.name);
+            Debug.Log("RIGHT controller: " + controllerRight.name);
+        }
+
         /*
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevices(inputDevices);
@@ -156,11 +188,11 @@ public class GameController : MonoBehaviour
             Debug.Log("Found more than one right hand!");
         }
 
-
         UpdateMove();
         UpdateTurn();
-        UpdateTunneling();
+        //UpdateTunneling();
 
+        Debug.Log("Tunneling: " + tunnelControl);
     }
 
     public void SetMove(TMP_Dropdown state) // 0 = Smooth   1 = Teleport
@@ -227,7 +259,7 @@ public class GameController : MonoBehaviour
             controllerLeft.smoothMotionEnabled = !moveType;
         }
 
-        Debug.Log("Controller: " + handedness);
+        //Debug.Log("Controller: " + handedness);
     }
 
     void UpdateTurn()
@@ -246,7 +278,7 @@ public class GameController : MonoBehaviour
 
     void UpdateTunneling()
     {
-        tunnelControl = GameObject.Find("TunnelingVignette");
+        //tunnelControl = GameObject.Find("TunnelingVignette");
 
         tunnelControl.SetActive(tunneling);
 
