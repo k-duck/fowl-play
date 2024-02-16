@@ -29,7 +29,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        controllerLeft = GameObject.Find("Left Controller").GetComponent<ActionBasedControllerManager>();
+        GameObject left = GameObject.FindGameObjectWithTag("Left");
+        Debug.Log("LEFT: " + left.name);
+        controllerLeft = left.GetComponent<ActionBasedControllerManager>();
+        Debug.Log("LEFT controller: " + controllerLeft.name);
         controllerRight = GameObject.Find("Right Controller").GetComponent<ActionBasedControllerManager>();
 
         if (controllerLeft == null || controllerRight == null)

@@ -6,14 +6,19 @@ using UnityEngine.SceneManagement;
 public class StartSceneScript : MonoBehaviour
 {
     public GameObject settingsScreen;
-    private GameController controller;
+    public GameController controller;
     private bool visible = false;
     public void StartGame()
     {
         SceneManager.LoadScene(1);
 
-        controller = (GameController)FindObjectOfType(typeof(GameController));
-        if (controller)
+        var controller = new List<GameController>();
+        //controller = (GameController)FindObjectOfType(typeof(GameController));
+        if (controller.Count > 1)
+        {
+            Debug.Log("Too many GameControllers");
+        }
+        else if(controller.Count > 0)
         {
             Debug.Log("GameController exists");
         }
