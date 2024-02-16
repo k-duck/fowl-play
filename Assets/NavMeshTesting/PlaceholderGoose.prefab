@@ -183,6 +183,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 03aaa70e3c618524da0333dcbd292177, type: 3}
   - {fileID: 8300000, guid: ffa0f5a28ff3f7042be126ad62a51df7, type: 3}
   - {fileID: 8300000, guid: 8c1812b85e3eaae4396005ecd30f9953, type: 3}
+  honkSFX:
+  - {fileID: 8300000, guid: 7436c5bf6a67c534b9d14ad61a74d109, type: 3}
+  - {fileID: 8300000, guid: 1870cf6c37d1e204eaa75610f4d64357, type: 3}
   targetBuffer: 0.5
   attackRange: 3
   wanderDuration: 0
