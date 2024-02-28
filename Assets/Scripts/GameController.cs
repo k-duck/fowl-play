@@ -22,12 +22,12 @@ public class GameController : MonoBehaviour
     private GameObject tunnelControl;
     private GameObject rig;
 
-    private bool moveType = false; // 0 = Smooth   1 = Teleport
-    private bool turnType = false; // 0 = Smooth   1 = Snap
-    private float turnStrength = 0.5f; // Turn value (degrees for snap turn, speed for smooth turn)
-    private bool handedness = false; // 0 = Right   1 = Left
-    private bool tunneling = false; // 0 = Off   1 = On
-    private float tunnelStrength = 0.5f;
+    static bool moveType = false; // 0 = Smooth   1 = Teleport
+    static bool turnType = false; // 0 = Smooth   1 = Snap
+    static float turnStrength = 0.5f; // Turn value (degrees for snap turn, speed for smooth turn)
+    static bool handedness = false; // 0 = Right   1 = Left
+    static bool tunneling = false; // 0 = Off   1 = On
+    static float tunnelStrength = 0.5f;
 
 
 
