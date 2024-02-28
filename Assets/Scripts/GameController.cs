@@ -190,9 +190,9 @@ public class GameController : MonoBehaviour
 
         UpdateMove();
         UpdateTurn();
-        //UpdateTunneling();
+        UpdateTunneling();
 
-        Debug.Log("Tunneling: " + tunnelControl);
+        //Debug.Log("Tunneling: " + tunnelControl);
     }
 
     public void SetMove(TMP_Dropdown state) // 0 = Smooth   1 = Teleport
@@ -282,7 +282,12 @@ public class GameController : MonoBehaviour
 
         tunnelControl.SetActive(tunneling);
 
-        //tunnelControl.GetComponent<TunnelingVignetteController>().apperatureSize = tunnelStrength;
+        float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize;
+        if (currentTunnelSize != tunnelStrength)
+        {
+            tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize = tunnelStrength;
+            Debug.Log("New Tunnel Size: " + tunnelStrength);
+        }
     }
 
 }
