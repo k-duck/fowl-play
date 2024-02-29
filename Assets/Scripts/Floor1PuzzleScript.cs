@@ -100,6 +100,11 @@ public class Floor1PuzzleScript : MonoBehaviour
 
     public LightmapData[] lightmap_data;
 
+    public AudioSource LeverAudio;
+    public AudioSource GeneratorHighAudio;
+    public AudioSource GeneratorLowAudio;
+    public AudioClip generatorStartNoise;
+
 
 
     // Start is called before the first frame update
@@ -111,6 +116,7 @@ public class Floor1PuzzleScript : MonoBehaviour
 
         lightmap_data = LightmapSettings.lightmaps;
         LightmapSettings.lightmaps = new LightmapData[] { };
+
     }
 
     // Update is called once per frame
@@ -181,6 +187,8 @@ public class Floor1PuzzleScript : MonoBehaviour
     }
     public void CheckAnswer()
     {
+        LeverAudio.Play();
+
         Debug.Log(activeGenerator);
         Debug.Log(currentKnob1);
         Debug.Log(currentKnob2);
@@ -300,6 +308,9 @@ public class Floor1PuzzleScript : MonoBehaviour
             lights.gameObject.SetActive(true);
             
         }
+        GeneratorHighAudio.PlayOneShot(generatorStartNoise, 1);
+        GeneratorHighAudio.PlayDelayed(2.25f);
+        GeneratorLowAudio.Play();
     }
 
     ///Puzzle 3 assets

@@ -21,14 +21,6 @@ public class UiPadInteraction : MonoBehaviour
 
     public AudioSource doorAudio;
 
-    //For LevelOnePuzzleScript
-
-    //public AudioSource GeneratorHighAudio;
-    //public AudioSource GeneratorLowAudio;
-
-        //GeneratorHighAudio.Play();
-        //GeneratorLowAudio.Play();
-
     // Start is called before the first frame update
     void Start()
     {
