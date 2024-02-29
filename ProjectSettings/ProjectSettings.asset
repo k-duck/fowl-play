@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: Cobra-Duck Studios
   productName: fowl-play
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -156,7 +156,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.fowl-play
+    Standalone: com.Cobra-Duck-Studios.fowl-play
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -695,7 +695,7 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: fowl-play
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -703,7 +703,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: fowl-play
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: fowl-play
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
