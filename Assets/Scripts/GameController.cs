@@ -248,6 +248,13 @@ public class GameController : MonoBehaviour
 
     void UpdateMove()
     {
+        GameObject teleportObj = GameObject.Find("Teleport");
+
+        if (teleportObj.activeInHierarchy != moveType)
+        {
+            teleportObj.SetActive(moveType);
+        }
+
         if (handedness)
         {
             controllerLeft.smoothMotionEnabled = false;
@@ -258,6 +265,7 @@ public class GameController : MonoBehaviour
             controllerRight.smoothMotionEnabled = false;
             controllerLeft.smoothMotionEnabled = !moveType;
         }
+
 
         //Debug.Log("Controller: " + handedness);
     }
@@ -274,13 +282,17 @@ public class GameController : MonoBehaviour
             controllerRight.smoothTurnEnabled = !turnType;
             controllerLeft.smoothTurnEnabled = false;
         }
+
     }
 
     void UpdateTunneling()
     {
-        //tunnelControl = GameObject.Find("TunnelingVignette");
+        GameObject tunnelobj = GameObject.Find("TunnelingVignette");
 
-        tunnelControl.SetActive(tunneling);
+        if (tunnelobj.activeInHierarchy != tunneling)
+        {
+            tunnelControl.SetActive(tunneling);
+        }
 
         float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize;
         if (currentTunnelSize != tunnelStrength)
