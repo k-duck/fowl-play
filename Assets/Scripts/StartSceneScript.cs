@@ -8,6 +8,10 @@ public class StartSceneScript : MonoBehaviour
     public GameObject settingsScreen;
     public GameController controller;
     private bool visible = false;
+
+    public AudioSource dialogOne;
+    public AudioSource dialogTwo;
+    private bool debriefIsPlaying;
     public void StartGame()
     {
         SceneManager.LoadScene(1);
@@ -28,6 +32,29 @@ public class StartSceneScript : MonoBehaviour
             Debug.Log("GameController does not exists");
         }*/
 
+    }
+
+    public void PlayDebriefOne()
+    {
+        StartCoroutine(PlayIntroDialogOne());
+    }
+
+    public IEnumerator PlayIntroDialogOne()
+    {
+        dialogOne.Play();
+        yield return null;
+    }
+
+    public void PlayDebriefTwo()
+    {
+        StartCoroutine(PlayIntroDialogTwo());
+    }
+
+    IEnumerator PlayIntroDialogTwo()
+    {
+        dialogTwo.Play();
+        yield return new WaitForSeconds(40.0f);
+        yield return null;
     }
 
     public void ExitGame()
