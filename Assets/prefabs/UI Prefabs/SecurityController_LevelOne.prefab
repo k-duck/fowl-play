@@ -1502,6 +1502,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8e27aa636896e46b49a65d1ee4da38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsScreen: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!1 &3402429525810911133
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,6 +2015,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8e27aa636896e46b49a65d1ee4da38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsScreen: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!1 &3736876768773877221
 GameObject:
   m_ObjectHideFlags: 0
@@ -3469,6 +3473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8e27aa636896e46b49a65d1ee4da38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsScreen: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!1 &5220475889260761784
 GameObject:
   m_ObjectHideFlags: 0
@@ -6441,7 +6447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2478030420454351749, guid: 72293a05bad911f49b98df12148a4d87, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -6.3
+      value: -5.6999993
       objectReference: {fileID: 0}
     - target: {fileID: 2478030420454351749, guid: 72293a05bad911f49b98df12148a4d87, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6849,7 +6855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2478030420454351749, guid: ef4c43849100a184f8e2f33a93eb4a1e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -7.3
+      value: -5.7
       objectReference: {fileID: 0}
     - target: {fileID: 2478030420454351749, guid: ef4c43849100a184f8e2f33a93eb4a1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
