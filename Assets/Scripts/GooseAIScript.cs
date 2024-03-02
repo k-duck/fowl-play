@@ -197,9 +197,9 @@ public class StalkState : State
     }
 }
 
-public class GoToAmbushState : State
+public class GoToAmbushState : State 
 {
-    float startTime;
+    float startTime, ventTime;
     static float duration = 60;
     public override void EnterState(Goose goose)
     {
@@ -227,9 +227,22 @@ public class GoToAmbushState : State
                     goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, goose.currentTarget.transform.rotation, 2 * Time.deltaTime);
                 } else
                 {
-                    //goose.gooseAgent.Warp(goose.vents[Random.Range(0, goose.vents.Length)].transform.position);
-                    goose.gooseAgent.Warp(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position);
-                    goose.switchState(new InAmbushState());
+
+                    if (goose.gooseAnimator.GetBool("EnteringVent") == false)
+                    {
+                        Debug.Log("Entering Vent");
+                        goose.gooseAnimator.SetBool("EnteringVent", true);
+
+                        ventTime = Time.time;
+                    }
+
+                    if(Time.time - ventTime >= goose.gooseAnimator.GetCurrentAnimatorStateInfo(0).length)
+                    {
+                        //goose.gooseAgent.Warp(goose.vents[Random.Range(0, goose.vents.Length)].transform.position);
+                        goose.gooseAgent.Warp(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position);
+                        goose.gooseAnimator.SetBool("EnteringVent", false);
+                        goose.switchState(new InAmbushState());
+                    }
                 }
             }
         }
@@ -340,6 +353,20 @@ public class FleeState : State
     }
 }
 
+public class IdleState : State
+{
+    float startTime;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Idle State");
+        startTime = Time.time;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        goose.gooseAgent.destination = goose.gooseAgent.transform.position;
+    }
+}
+
 public class Goose
 {
     State currentState;
@@ -364,9 +391,11 @@ public class Goose
     public AudioClip[] slapSFX;
     public AudioClip[] honkSFX;
 
+    public Animator gooseAnimator;
+
     private float footstepStartTime;
     UnityEvent gameOverEvent = new UnityEvent();
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos)
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos, Animator gAnimator)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -392,7 +421,8 @@ public class Goose
         slapSFX = slapClips;
         honkSFX = honkClips;
         footstepStartTime = Time.time;
-        
+
+        gooseAnimator = gAnimator;
     }
 
     public void updateGoose()
@@ -533,6 +563,12 @@ public class Goose
 
         switchState(new FleeState());
     }
+
+    public void EnterVent()
+    {
+
+        
+    }
 }
 
 public class GooseAIScript : MonoBehaviour
@@ -557,7 +593,7 @@ public class GooseAIScript : MonoBehaviour
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX, honkSFX, GooseEyes);
+                                , slapSFX, honkSFX, GooseEyes, gooseAnimator);
         //gooseEnemy.GetEyes(GooseEyes);
         
     }
@@ -567,7 +603,6 @@ public class GooseAIScript : MonoBehaviour
     {
         gooseEnemy.updateGoose();
         gooseAnimator.SetFloat("Speed", gooseEnemy.gooseAgent.velocity.magnitude);
-       
     }
 
     void OnDrawGizmosSelected()
@@ -581,10 +616,21 @@ public class GooseAIScript : MonoBehaviour
     {
         Debug.Log("objecthit: " + trigger);
 
-        if (trigger.tag == "Player")
+        if (trigger.tag == "Player" && gooseAnimator.GetBool("Attacking") != true)
         {
-            gooseEnemy.attackPlayer();
+            gooseAnimator.SetBool("Attacking", true);
+            StartCoroutine(PlayAttackAnimation());
         }
+    }
+
+    IEnumerator PlayAttackAnimation()
+    {
+        gooseEnemy.switchState(new IdleState());
+        yield return new WaitForSeconds(2f);
+        gooseAnimator.SetBool("Attacking", false);
+        gooseEnemy.attackPlayer();
+
+        yield return null;
     }
 
 }
