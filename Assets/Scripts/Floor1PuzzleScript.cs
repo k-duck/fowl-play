@@ -113,6 +113,7 @@ public class Floor1PuzzleScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("puzzlescript started");
         GeneratorOff();
         StartUpGenerator();
         GetReset();
