@@ -11,10 +11,11 @@ public class SettingsScript : MonoBehaviour
     private GameController controller;
     private bool visible = false;
 
-    public void StartGame()
+    void Start()
     {
-        GameObject controller = GameObject.Find("GameController");
-
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("GameController");
+        controller = objs[0].GetComponent<GameController>();
+        Debug.Log("Controller: " + controller.name);
     }
 
     public void ExitGame()
