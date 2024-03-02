@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
     static bool turnType = false; // 0 = Smooth   1 = Snap
     static float turnStrength = 0.5f; // Turn value (degrees for snap turn, speed for smooth turn)
     static bool handedness = false; // 0 = Right   1 = Left
-    static bool tunneling = false; // 0 = Off   1 = On
+    static bool tunneling = true; // 0 = Off   1 = On
     static float tunnelStrength = 0.5f;
 
 
@@ -70,14 +70,14 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (moveType != false && handedness == false) // Teleport move & Right handed (Teleport locomotion control on Left hand and turn on right)
+            if (moveType == true && handedness == false) // Teleport move & Right handed (Teleport locomotion control on Left hand and turn on right)
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = false;
                 controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
                 controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(true);
 
-                if (turnType != false)
+                if (turnType == true)
                 {
                     controllerRight.smoothTurnEnabled = true;
                 }
@@ -87,7 +87,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (moveType == false && handedness != false) // Smooth move & Left handed (Smooth locomotion control on Right hand and turn on right)
+            if (moveType == false && handedness == true) // Smooth move & Left handed (Smooth locomotion control on Right hand and turn on right)
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = true;
@@ -104,14 +104,14 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (moveType != false && handedness != false) // Teleport move & Left handed (Teleport locomotion control on Right hand and turn on right)
+            if (moveType == true && handedness == true) // Teleport move & Left handed (Teleport locomotion control on Right hand and turn on right)
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = false;
                 controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(true);
                 controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
 
-                if (turnType != false)
+                if (turnType == true)
                 {
                     controllerLeft.smoothTurnEnabled = true;
                 }
@@ -248,11 +248,30 @@ public class GameController : MonoBehaviour
 
     void UpdateMove()
     {
-        GameObject teleportObj = GameObject.Find("Teleport");
+        GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
+
+        //Debug.Log("Object: " + teleportObj);
 
         if (teleportObj.activeInHierarchy != moveType)
         {
             teleportObj.SetActive(moveType);
+
+            if (moveType)
+            {
+                controllerLeft.smoothMotionEnabled = false;
+                controllerRight.smoothMotionEnabled = false;
+
+                if (handedness)
+                {
+                    controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                    controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(true);
+                }
+                else
+                {
+                    controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(true);
+                    controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                }
+            }
         }
 
         if (handedness)
@@ -287,7 +306,8 @@ public class GameController : MonoBehaviour
 
     void UpdateTunneling()
     {
-        GameObject tunnelobj = GameObject.Find("TunnelingVignette");
+        GameObject tunnelobj = rig.transform.GetChild(0).GetChild(0).GetChild(0).GameObject();
+        //Debug.Log("Object: " + tunnelobj);
 
         if (tunnelobj.activeInHierarchy != tunneling)
         {
