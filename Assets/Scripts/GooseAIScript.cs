@@ -197,9 +197,9 @@ public class StalkState : State
     }
 }
 
-public class GoToAmbushState : State
+public class GoToAmbushState : State 
 {
-    float startTime;
+    float startTime, ventTime;
     static float duration = 60;
     public override void EnterState(Goose goose)
     {
@@ -227,9 +227,22 @@ public class GoToAmbushState : State
                     goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, goose.currentTarget.transform.rotation, 2 * Time.deltaTime);
                 } else
                 {
-                    //goose.gooseAgent.Warp(goose.vents[Random.Range(0, goose.vents.Length)].transform.position);
-                    goose.gooseAgent.Warp(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position);
-                    goose.switchState(new InAmbushState());
+
+                    if (goose.gooseAnimator.GetBool("EnteringVent") == false)
+                    {
+                        Debug.Log("Entering Vent");
+                        goose.gooseAnimator.SetBool("EnteringVent", true);
+
+                        ventTime = Time.time;
+                    }
+
+                    if(Time.time - ventTime >= goose.gooseAnimator.GetCurrentAnimatorStateInfo(0).length)
+                    {
+                        //goose.gooseAgent.Warp(goose.vents[Random.Range(0, goose.vents.Length)].transform.position);
+                        goose.gooseAgent.Warp(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position);
+                        goose.gooseAnimator.SetBool("EnteringVent", false);
+                        goose.switchState(new InAmbushState());
+                    }
                 }
             }
         }
@@ -364,9 +377,11 @@ public class Goose
     public AudioClip[] slapSFX;
     public AudioClip[] honkSFX;
 
+    public Animator gooseAnimator;
+
     private float footstepStartTime;
     UnityEvent gameOverEvent = new UnityEvent();
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos)
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos, Animator gAnimator)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -387,12 +402,13 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new WanderState();
+        currentState = new GoToAmbushState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
         footstepStartTime = Time.time;
-        
+
+        gooseAnimator = gAnimator;
     }
 
     public void updateGoose()
@@ -533,6 +549,12 @@ public class Goose
 
         switchState(new FleeState());
     }
+
+    public void EnterVent()
+    {
+
+        
+    }
 }
 
 public class GooseAIScript : MonoBehaviour
@@ -557,7 +579,7 @@ public class GooseAIScript : MonoBehaviour
     {
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX, honkSFX, GooseEyes);
+                                , slapSFX, honkSFX, GooseEyes, gooseAnimator);
         //gooseEnemy.GetEyes(GooseEyes);
         
     }
@@ -567,7 +589,6 @@ public class GooseAIScript : MonoBehaviour
     {
         gooseEnemy.updateGoose();
         gooseAnimator.SetFloat("Speed", gooseEnemy.gooseAgent.velocity.magnitude);
-       
     }
 
     void OnDrawGizmosSelected()
