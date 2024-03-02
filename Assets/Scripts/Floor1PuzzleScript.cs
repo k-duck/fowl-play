@@ -109,6 +109,12 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Space(40, order = 2)]
     [SerializeField] GameObject GooseScript;
 
+    public LightmapData[] lightmap_data;
+
+    public AudioSource LeverAudio;
+    public AudioSource GeneratorHighAudio;
+    public AudioSource GeneratorLowAudio;
+    public AudioClip generatorStartNoise;
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +123,9 @@ public class Floor1PuzzleScript : MonoBehaviour
         GeneratorOff();
         StartUpGenerator();
         GetReset();
+
+        lightmap_data = LightmapSettings.lightmaps;
+        LightmapSettings.lightmaps = new LightmapData[] { };
 
         RandomizePosters();        
     }
@@ -195,6 +204,8 @@ public class Floor1PuzzleScript : MonoBehaviour
     }
     public void CheckAnswer()
     {
+        LeverAudio.Play();
+
         Debug.Log(activeGenerator);
         Debug.Log(currentKnob1);
         Debug.Log(currentKnob2);
@@ -294,11 +305,16 @@ public class Floor1PuzzleScript : MonoBehaviour
     public void GeneratorOn()
     {
         GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
+        LightmapSettings.lightmaps = lightmap_data;
         foreach (GameObject lights in Lights)
         {
             lights.gameObject.SetActive(true);
             
         }
+
+        GeneratorHighAudio.PlayOneShot(generatorStartNoise, 1);
+        GeneratorHighAudio.PlayDelayed(2.25f);
+        GeneratorLowAudio.Play();
     }
 
     ///Puzzle 3 assets
