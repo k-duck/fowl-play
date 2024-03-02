@@ -353,6 +353,20 @@ public class FleeState : State
     }
 }
 
+public class IdleState : State
+{
+    float startTime;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Idle State");
+        startTime = Time.time;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        goose.gooseAgent.destination = goose.gooseAgent.transform.position;
+    }
+}
+
 public class Goose
 {
     State currentState;
@@ -402,7 +416,7 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new GoToAmbushState();
+        currentState = new WanderState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
@@ -602,10 +616,21 @@ public class GooseAIScript : MonoBehaviour
     {
         Debug.Log("objecthit: " + trigger);
 
-        if (trigger.tag == "Player")
+        if (trigger.tag == "Player" && gooseAnimator.GetBool("Attacking") != true)
         {
-            gooseEnemy.attackPlayer();
+            gooseAnimator.SetBool("Attacking", true);
+            StartCoroutine(PlayAttackAnimation());
         }
+    }
+
+    IEnumerator PlayAttackAnimation()
+    {
+        gooseEnemy.switchState(new IdleState());
+        yield return new WaitForSeconds(2f);
+        gooseAnimator.SetBool("Attacking", false);
+        gooseEnemy.attackPlayer();
+
+        yield return null;
     }
 
 }
