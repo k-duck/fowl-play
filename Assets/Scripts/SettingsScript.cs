@@ -23,6 +23,12 @@ public class SettingsScript : MonoBehaviour
         Application.Quit();
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+
+    }
+
     public void ShowSettings()
     {
         if (visible)

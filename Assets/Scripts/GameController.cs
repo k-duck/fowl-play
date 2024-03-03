@@ -249,33 +249,10 @@ public class GameController : MonoBehaviour
     void UpdateMove()
     {
         GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
-
-        //Debug.Log("Object: " + teleportObj);
-
-        /*
-        if (teleportObj.activeInHierarchy != moveType)
-        {
-            teleportObj.SetActive(moveType);
-
-            if (moveType)
-            {
-                controllerLeft.smoothMotionEnabled = false;
-                controllerRight.smoothMotionEnabled = false;
-
-                if (handedness)
-                {
-                    controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                    controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(true);
-                }
-                else
-                {
-                    controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(true);
-                    controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                }
-            }
-        }*/
+        GameObject smoothObj = rig.transform.GetChild(1).GetChild(1).GameObject();
 
         teleportObj.SetActive(moveType);
+        smoothObj.SetActive(!moveType);
 
         if (moveType)
         {
@@ -284,13 +261,11 @@ public class GameController : MonoBehaviour
 
             if (handedness)
             {
-                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
-                controllerLeft.transform.GetChild(3).GameObject().SetActive(true);
+                controllerLeft.smoothMotionEnabled = true;
             }
             else
             {
-                controllerRight.transform.GetChild(3).GameObject().SetActive(true);
-                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
+                controllerRight.smoothMotionEnabled = true;
             }
         }
 
@@ -298,17 +273,21 @@ public class GameController : MonoBehaviour
         {
             controllerLeft.smoothMotionEnabled = false;
             controllerRight.smoothMotionEnabled = !moveType;
-            controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+            //controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
+            //controllerLeft.transform.GetChild(3).GameObject().Disable();
+            controllerLeft.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = false;
+            controllerRight.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = true;
         }
         else
         {
             controllerRight.smoothMotionEnabled = false;
             controllerLeft.smoothMotionEnabled = !moveType;
-            controllerLeft.transform.GetChild(3).gameObject.SetActive(false);
+            //controllerRight.transform.GetChild(3).gameObject.SetActive(false);
+            controllerRight.transform.GetChild(3).gameObject.SetActive(false);
+            controllerRight.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = false;
+            controllerLeft.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = true;
         }
 
-
-        //Debug.Log("Controller: " + handedness);
     }
 
     void UpdateTurn()
