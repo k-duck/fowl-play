@@ -22,7 +22,7 @@ public class Floor1PuzzleScript : MonoBehaviour
 
     [Space(40, order = 2)]
     [Header("Knob")]
-    private int activeGenerator = 1;
+    public int activeGenerator = 1;
 
 
     [Header("Knob")]
@@ -216,23 +216,23 @@ public class Floor1PuzzleScript : MonoBehaviour
 
         if (activeGenerator == 0)
         {
-            Debug.Log(activeGenerator);
+            //Debug.Log(activeGenerator);
             if (currentKnob1 == correctKnob1 && currentKnob2 == correctKnob2)
             {
-                Debug.Log(currentKnob1);
-                Debug.Log(currentKnob2);
+                //Debug.Log(currentKnob1);
+                //Debug.Log(currentKnob2);
                 if ( currentSlider1 > (correctSlider1 - 0.20f) && currentSlider1 < (correctSlider1 + 0.20f) )
                 {
-                    Debug.Log(currentSlider1);
+                   // Debug.Log(currentSlider1);
                     if (currentSlider2 > (correctSlider2 - 0.20f) && currentSlider2 < (correctSlider2 + 0.20f))
                     {
-                        Debug.Log(currentSlider2);
+                       // Debug.Log(currentSlider2);
                         if (currentSlider3 > (correctSlider3 - 0.20f) && currentSlider3 < (correctSlider3 + 0.20f))
                         {
-                            Debug.Log(currentSlider3);
+                            //Debug.Log(currentSlider3);
                             if (currentSlider4 > (correctSlider4 - 0.20f) && currentSlider4 < (correctSlider4 + 0.20f))
                             {
-                                Debug.Log(currentSlider4);
+                                //Debug.Log(currentSlider4);
                                 Debug.Log("generator On");
 
                                 GeneratorOn();

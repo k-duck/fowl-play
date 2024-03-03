@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8304438848338332088}
   - component: {fileID: 704806040265744085}
   - component: {fileID: 610769496498200544}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Teleportation Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 5825161280839529084}
   - component: {fileID: 23847083445106184}
   - component: {fileID: 2312813769627392755}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door_00
   m_TagString: VisibleObject
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 172750881106728967}
   - component: {fileID: 8517455545033762399}
   - component: {fileID: 8665230300048157347}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Teleportation Area (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
