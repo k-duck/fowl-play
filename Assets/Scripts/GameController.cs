@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
     static float turnStrength = 0.5f; // Turn value (degrees for snap turn, speed for smooth turn)
     static bool handedness = false; // 0 = Right   1 = Left
     static bool tunneling = true; // 0 = Off   1 = On
-    static float tunnelStrength = 0.5f;
+    static float tunnelStrength = 0.75f;
 
 
 
@@ -57,8 +57,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = true;
                 controllerRight.smoothMotionEnabled = false;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
 
                 if (turnType == false)
                 {
@@ -74,8 +74,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = false;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(true);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(true);
 
                 if (turnType == true)
                 {
@@ -91,8 +91,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = true;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
 
                 if (turnType == false)
                 {
@@ -108,8 +108,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = false;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(true);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(true);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
 
                 if (turnType == true)
                 {
@@ -252,6 +252,7 @@ public class GameController : MonoBehaviour
 
         //Debug.Log("Object: " + teleportObj);
 
+        /*
         if (teleportObj.activeInHierarchy != moveType)
         {
             teleportObj.SetActive(moveType);
@@ -272,17 +273,38 @@ public class GameController : MonoBehaviour
                     controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
                 }
             }
+        }*/
+
+        teleportObj.SetActive(moveType);
+
+        if (moveType)
+        {
+            controllerLeft.smoothMotionEnabled = false;
+            controllerRight.smoothMotionEnabled = false;
+
+            if (handedness)
+            {
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(true);
+            }
+            else
+            {
+                controllerRight.transform.GetChild(3).GameObject().SetActive(true);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
+            }
         }
 
         if (handedness)
         {
             controllerLeft.smoothMotionEnabled = false;
             controllerRight.smoothMotionEnabled = !moveType;
+            controllerRight.transform.GetChild(3).GameObject().SetActive(false);
         }
         else
         {
             controllerRight.smoothMotionEnabled = false;
             controllerLeft.smoothMotionEnabled = !moveType;
+            controllerLeft.transform.GetChild(3).gameObject.SetActive(false);
         }
 
 
@@ -314,10 +336,12 @@ public class GameController : MonoBehaviour
             tunnelControl.SetActive(tunneling);
         }
 
-        float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize;
+
+        float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().defaultParameters.apertureSize;
         if (currentTunnelSize != tunnelStrength)
         {
-            tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize = tunnelStrength;
+            //tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize = tunnelStrength;
+            tunnelControl.GetComponent<TunnelingVignetteController>().defaultParameters.apertureSize = tunnelStrength;
             Debug.Log("New Tunnel Size: " + tunnelStrength);
         }
     }
