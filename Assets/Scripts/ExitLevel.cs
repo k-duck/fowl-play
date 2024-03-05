@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ExitLevel : MonoBehaviour
 {
-    public Animator DoorR;
-    public Animator DoorL;
+    public ElevatorDoors Doors;
+    
 
 
     // Start is called before the first frame update
@@ -33,9 +33,9 @@ public class ExitLevel : MonoBehaviour
 
     public IEnumerator ExitScene()
     {
-        DoorL.SetBool("CloseDoor", true);
-        DoorR.SetBool("CloseDoor", true);
-        yield return new WaitForSeconds(7f);
+        Doors.TriggerDoors();
+        
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene(0);
     }
 
