@@ -115,6 +115,17 @@ public class Floor1PuzzleScript : MonoBehaviour
     public AudioSource GeneratorHighAudio;
     public AudioSource GeneratorLowAudio;
     public AudioClip generatorStartNoise;
+    public AudioSource StartScript;
+    public AudioClip checkinAudio;
+  
+
+
+    public ElevatorDoors ElevatorDoor1;
+    public ElevatorDoors ElevatorDoor2;
+    public GameObject UI;
+    public GameObject lightGuide;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -127,7 +138,9 @@ public class Floor1PuzzleScript : MonoBehaviour
         lightmap_data = LightmapSettings.lightmaps;
         LightmapSettings.lightmaps = new LightmapData[] { };
 
-        RandomizePosters();        
+        RandomizePosters();
+
+        StartCoroutine(StartScene());
     }
 
     // Update is called once per frame
@@ -142,6 +155,36 @@ public class Floor1PuzzleScript : MonoBehaviour
             }
         }
     }
+
+    public void TriggerAudio()
+    {
+        StartCoroutine(FullDialog());
+    }
+    IEnumerator StartScene()
+    {
+        //play audio;
+        yield return new WaitForSeconds(3f);
+        StartScript.PlayOneShot(checkinAudio, 1);
+        // change time to the length of the audio.
+        yield return new WaitForSeconds(9f);
+        //show Display
+        UI.SetActive(true);
+    }
+    //trigger door
+    //ElevatorDoor1.TriggerDoors();
+
+    IEnumerator FullDialog()
+    {
+        // hide display
+        UI.SetActive(false);
+        //play audio;
+        StartScript.Play();
+        // change time to the length of the audio.
+        yield return new WaitForSeconds(37f);
+        ElevatorDoor1.TriggerDoors();
+        
+    }
+
 
     // generator startup function;
     public void StartUpGenerator()
@@ -315,6 +358,7 @@ public class Floor1PuzzleScript : MonoBehaviour
         GeneratorHighAudio.PlayOneShot(generatorStartNoise, 1);
         GeneratorHighAudio.PlayDelayed(2.25f);
         GeneratorLowAudio.Play();
+        lightGuide.SetActive(false);
     }
 
     ///Puzzle 3 assets
@@ -376,8 +420,9 @@ public class Floor1PuzzleScript : MonoBehaviour
         {
             //door open
             Debug.Log("doorOpen");
-            ElevatorDoorL.SetBool("OpenDoor", true);
-            ElevatorDoorR.SetBool("OpenDoor", true);
+            // ElevatorDoorL.SetBool("OpenDoor", true);
+            //ElevatorDoorR.SetBool("OpenDoor", true);
+            ElevatorDoor2.TriggerDoors();
         }
         else
         {
