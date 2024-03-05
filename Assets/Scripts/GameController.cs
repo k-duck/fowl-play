@@ -325,6 +325,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void OpenElevatorDoors()
+    {
+
+    }
+    public void CloseElevatorDoors()
+    {
+
+    }
+
+
+
 }
 
 
