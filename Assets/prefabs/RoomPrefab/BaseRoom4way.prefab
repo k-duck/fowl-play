@@ -2572,7 +2572,7 @@ GameObject:
   - component: {fileID: 6161706321213653020}
   - component: {fileID: 4458938899361181071}
   - component: {fileID: 3522743425619038875}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door_00 (1)
   m_TagString: VisibleObject
   m_Icon: {fileID: 0}
@@ -2930,7 +2930,7 @@ GameObject:
   - component: {fileID: 4389192318265054833}
   - component: {fileID: 3498332954699313990}
   - component: {fileID: 9125798598677804162}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door_00
   m_TagString: VisibleObject
   m_Icon: {fileID: 0}
@@ -3714,7 +3714,7 @@ GameObject:
   - component: {fileID: 5152210143077270450}
   - component: {fileID: 4365506632233135851}
   - component: {fileID: 5442030778097808505}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door_00 (2)
   m_TagString: VisibleObject
   m_Icon: {fileID: 0}

@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 808479995874734330}
   - component: {fileID: 6966290980354329415}
   - component: {fileID: 2239467307785323550}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door_00
   m_TagString: VisibleObject
   m_Icon: {fileID: 0}
@@ -1866,7 +1866,7 @@ GameObject:
   - component: {fileID: 7931122424691163566}
   - component: {fileID: 6227214222529269245}
   - component: {fileID: 9000330556846191031}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door_00 (2)
   m_TagString: VisibleObject
   m_Icon: {fileID: 0}
