@@ -11,6 +11,9 @@ TagManager:
   - Draggable
   - Left
   - Right
+  - RobotBird
+  - RobotHand
+  - Ignore
   layers:
   - Default
   - TransparentFX
