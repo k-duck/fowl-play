@@ -14,8 +14,10 @@ public class UiPadInteraction : MonoBehaviour
 
     bool FinishedPuzzle = false;
 
-    public Animator DoorRight;
-    public Animator DoorLeft;
+
+    public ElevatorDoors doorTriggers;
+    //public Animator DoorRight;
+   // public Animator DoorLeft;
 
     public GameObject keycards;
 
@@ -50,8 +52,7 @@ public class UiPadInteraction : MonoBehaviour
         FinishedPuzzle = true;
         objectMaterials[1] = correct;
         uiStation.gameObject.GetComponent<Renderer>().materials = objectMaterials;
-        DoorRight.SetBool("OpenDoor", true);
-        DoorLeft.SetBool("OpenDoor", true);
+        doorTriggers.TriggerDoors();
         doorAudio.PlayDelayed(0.25f);
     }
     public void wrongAnswer()
