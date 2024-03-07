@@ -70,6 +70,14 @@ public class Floor2PuzzleScript : MonoBehaviour
     public ElevatorDoors ElevatorDoor1;
     public ElevatorDoors ElevatorDoor2;
 
+    [Space(20, order = 2)]
+
+    public ElevatorDoors ArchiveDoor_01;
+    public ElevatorDoors ArchiveDoor_02;
+    public ElevatorDoors ArchiveDoor_03;
+    public ElevatorDoors ArchiveDoor_04;
+    public ElevatorDoors ArchiveDoor_05;
+
 
     // Start is called before the first frame update
     void Start()
