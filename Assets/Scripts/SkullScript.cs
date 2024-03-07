@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkullScript : MonoBehaviour
 {
     public GameObject keyCards;
+    public GameObject PCSymbols;
     public GameObject skulls;
     public GameObject chests;
 
@@ -20,22 +21,33 @@ public class SkullScript : MonoBehaviour
     public List<int> RandCardOrder = new List<int> { 0, 1, 2, 3, 4, 5 }; //the cards that are assigned to a chest
 
     public List<int> cardSymbol = new List<int>(); //stores symbol values for associated cards
-    public List<Transform> correctCards = new List<Transform> { }; //stores card order
+    public List<GameObject> correctCards = new List<GameObject> { }; //stores card order
+
+    //skull stuff
+    public List<int> RandSkullOrder = new List<int> { 0, 1, 2, 3 };
+
+    public bool owl = false;
+    public bool parrot = false;
+    public bool mallard = false;
+    public bool spoonbill = false;
 
     // Start is called before the first frame update
     void Start()
-    {
+    {        
         RandomizeCards();
+        Debug.Log("CardsRandomized");
 
-        //RandomizeSkulls();
-
-
+        RandomizeSkulls();
+        Debug.Log("SkullsRandomized");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(owl == true && parrot == true && mallard == true && spoonbill == true)
+        {
+            Debug.Log("you done it");
+        }
     }
 
     public void RandomizeCards()
@@ -87,8 +99,8 @@ public class SkullScript : MonoBehaviour
 
                 //changes the card name to be identifiable by the chests
                 string cardName = "chestCard_" + i;
-                keyCards.gameObject.transform.GetChild(RandCardOrder[randLoc]).name = cardName;
-                correctCards.Add(keyCards.gameObject.transform.GetChild(RandCardOrder[randLoc]));
+                keyCards.transform.GetChild(RandCardOrder[randLoc]).name = cardName;
+                correctCards.Add(keyCards.transform.GetChild(RandCardOrder[randLoc]).gameObject);
 
                 //stores code value for card
                 cardSymbol.Add(codeVal);
@@ -103,7 +115,16 @@ public class SkullScript : MonoBehaviour
     {
         for(int i = 0; i < 4; i++)
         {
+            chests.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<ChestInteraction>().chestContents = skulls.transform.GetChild(0).GetChild(i).gameObject.name;
+        }
 
+        for(int i = 0; i < 4; i++)
+        {
+            int randSkull = Random.Range(0, RandSkullOrder.Count);
+
+            skulls.gameObject.transform.GetChild(i).GetChild(RandSkullOrder[randSkull]).gameObject.SetActive(true);
+
+            RandSkullOrder.RemoveAt(randSkull);
         }
     }
 
