@@ -38,6 +38,37 @@ public class GameController : MonoBehaviour
 
         tunnelControl = GameObject.Find("TunnelingVignette");
 
+        if (moveType)
+        {
+            GameObject.Find("mov_type_dropdown").GetComponent<Dropdown>().value = 1;
+        }
+        else
+        {
+            GameObject.Find("mov_type_dropdown").GetComponent<Dropdown>().value = 0;
+        }
+
+        if (turnType)
+        {
+            GameObject.Find("turn_type_dropdown").GetComponent<Dropdown>().value = 1;
+        }
+        else
+        {
+            GameObject.Find("turn_type_dropdown").GetComponent<Dropdown>().value = 0;
+        }
+
+        if (handedness)
+        {
+            GameObject.Find("hand_dropdown").GetComponent<Dropdown>().value = 1;
+        }
+        else
+        {
+            GameObject.Find("hand_dropdown").GetComponent<Dropdown>().value = 0;
+        }
+
+        GameObject.Find("tunnel_toggle").GetComponent<Toggle>().isOn = tunneling;
+
+        GameObject.Find("tunnel_strength_slider").GetComponent<Slider>().value = tunnelStrength;
+
         Debug.Log("Rig: " + rig);
         Debug.Log("Tunnel: " + tunnelControl);
         //Debug.Log("Left Game Object: " + GameObject.FindGameObjectWithTag("Left"));
@@ -146,22 +177,6 @@ public class GameController : MonoBehaviour
             Debug.Log("RIGHT controller: " + controllerRight.name);
         }
 
-        /*
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
-        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-
-        if (inputDevices.Count > 2)
-        {
-            Debug.Log("Found One");
-        }
-        else
-        {
-            foreach (var device in inputDevices)
-            {
-                Debug.Log("Input Device: " + device.name + "Count: " + inputDevices.Count);
-            }
-        }*/
-
         var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
 
@@ -171,7 +186,6 @@ public class GameController : MonoBehaviour
         if (leftHandDevices.Count == 1)
         {
             deviceLeft = leftHandDevices[0];
-            //Debug.Log(string.Format("Device name '{0}' with role '{1}'", deviceLeft.name, deviceLeft.role.ToString()));
         }
         else if (leftHandDevices.Count > 1)
         {
@@ -181,7 +195,6 @@ public class GameController : MonoBehaviour
         if (rightHandDevices.Count == 1)
         {
             deviceRight = rightHandDevices[0];
-            //Debug.Log(string.Format("Device name '{0}' with role '{1}'", deviceRight.name, deviceRight.role.ToString()));
         }
         else if (rightHandDevices.Count > 1)
         {
@@ -191,8 +204,6 @@ public class GameController : MonoBehaviour
         UpdateMove();
         UpdateTurn();
         UpdateTunneling();
-
-        //Debug.Log("Tunneling: " + tunnelControl);
     }
 
     public void SetMove(TMP_Dropdown state) // 0 = Smooth   1 = Teleport
@@ -235,7 +246,6 @@ public class GameController : MonoBehaviour
     }
     public void SetHandedness(TMP_Dropdown state) // 0 = Right   1 = Left
     {
-        //handedness = hand;
         if (state.value == 0)
         {
             handedness = false;
