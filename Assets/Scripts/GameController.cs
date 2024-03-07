@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
     static float turnStrength = 0.5f; // Turn value (degrees for snap turn, speed for smooth turn)
     static bool handedness = false; // 0 = Right   1 = Left
     static bool tunneling = true; // 0 = Off   1 = On
-    static float tunnelStrength = 0.5f;
+    static float tunnelStrength = 0.75f;
 
 
 
@@ -37,6 +37,37 @@ public class GameController : MonoBehaviour
         rig = GameObject.Find("XR Origin (XR Rig)");
 
         tunnelControl = GameObject.Find("TunnelingVignette");
+
+        if (moveType)
+        {
+            GameObject.Find("mov_type_dropdown").GetComponent<Dropdown>().value = 1;
+        }
+        else
+        {
+            GameObject.Find("mov_type_dropdown").GetComponent<Dropdown>().value = 0;
+        }
+
+        if (turnType)
+        {
+            GameObject.Find("turn_type_dropdown").GetComponent<Dropdown>().value = 1;
+        }
+        else
+        {
+            GameObject.Find("turn_type_dropdown").GetComponent<Dropdown>().value = 0;
+        }
+
+        if (handedness)
+        {
+            GameObject.Find("hand_dropdown").GetComponent<Dropdown>().value = 1;
+        }
+        else
+        {
+            GameObject.Find("hand_dropdown").GetComponent<Dropdown>().value = 0;
+        }
+
+        GameObject.Find("tunnel_toggle").GetComponent<Toggle>().isOn = tunneling;
+
+        GameObject.Find("tunnel_strength_slider").GetComponent<Slider>().value = tunnelStrength;
 
         Debug.Log("Rig: " + rig);
         Debug.Log("Tunnel: " + tunnelControl);
@@ -57,8 +88,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = true;
                 controllerRight.smoothMotionEnabled = false;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
 
                 if (turnType == false)
                 {
@@ -74,8 +105,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = false;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(true);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(true);
 
                 if (turnType == true)
                 {
@@ -91,8 +122,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = true;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(false);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
 
                 if (turnType == false)
                 {
@@ -108,8 +139,8 @@ public class GameController : MonoBehaviour
             {
                 controllerLeft.smoothMotionEnabled = false;
                 controllerRight.smoothMotionEnabled = false;
-                controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(true);
-                controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
+                controllerRight.transform.GetChild(3).GameObject().SetActive(true);
+                controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
 
                 if (turnType == true)
                 {
@@ -146,22 +177,6 @@ public class GameController : MonoBehaviour
             Debug.Log("RIGHT controller: " + controllerRight.name);
         }
 
-        /*
-        var inputDevices = new List<UnityEngine.XR.InputDevice>();
-        UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-
-        if (inputDevices.Count > 2)
-        {
-            Debug.Log("Found One");
-        }
-        else
-        {
-            foreach (var device in inputDevices)
-            {
-                Debug.Log("Input Device: " + device.name + "Count: " + inputDevices.Count);
-            }
-        }*/
-
         var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandDevices);
 
@@ -171,7 +186,6 @@ public class GameController : MonoBehaviour
         if (leftHandDevices.Count == 1)
         {
             deviceLeft = leftHandDevices[0];
-            //Debug.Log(string.Format("Device name '{0}' with role '{1}'", deviceLeft.name, deviceLeft.role.ToString()));
         }
         else if (leftHandDevices.Count > 1)
         {
@@ -181,7 +195,6 @@ public class GameController : MonoBehaviour
         if (rightHandDevices.Count == 1)
         {
             deviceRight = rightHandDevices[0];
-            //Debug.Log(string.Format("Device name '{0}' with role '{1}'", deviceRight.name, deviceRight.role.ToString()));
         }
         else if (rightHandDevices.Count > 1)
         {
@@ -191,8 +204,6 @@ public class GameController : MonoBehaviour
         UpdateMove();
         UpdateTurn();
         UpdateTunneling();
-
-        //Debug.Log("Tunneling: " + tunnelControl);
     }
 
     public void SetMove(TMP_Dropdown state) // 0 = Smooth   1 = Teleport
@@ -235,7 +246,6 @@ public class GameController : MonoBehaviour
     }
     public void SetHandedness(TMP_Dropdown state) // 0 = Right   1 = Left
     {
-        //handedness = hand;
         if (state.value == 0)
         {
             handedness = false;
@@ -249,28 +259,23 @@ public class GameController : MonoBehaviour
     void UpdateMove()
     {
         GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
+        GameObject smoothObj = rig.transform.GetChild(1).GetChild(1).GameObject();
 
-        //Debug.Log("Object: " + teleportObj);
+        teleportObj.SetActive(moveType);
+        smoothObj.SetActive(!moveType);
 
-        if (teleportObj.activeInHierarchy != moveType)
+        if (moveType)
         {
-            teleportObj.SetActive(moveType);
+            controllerLeft.smoothMotionEnabled = false;
+            controllerRight.smoothMotionEnabled = false;
 
-            if (moveType)
+            if (handedness)
             {
-                controllerLeft.smoothMotionEnabled = false;
-                controllerRight.smoothMotionEnabled = false;
-
-                if (handedness)
-                {
-                    controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                    controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(true);
-                }
-                else
-                {
-                    controllerRight.transform.Find("Teleport Interactor").gameObject.SetActive(true);
-                    controllerLeft.transform.Find("Teleport Interactor").gameObject.SetActive(false);
-                }
+                controllerLeft.smoothMotionEnabled = true;
+            }
+            else
+            {
+                controllerRight.smoothMotionEnabled = true;
             }
         }
 
@@ -278,15 +283,21 @@ public class GameController : MonoBehaviour
         {
             controllerLeft.smoothMotionEnabled = false;
             controllerRight.smoothMotionEnabled = !moveType;
+            //controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
+            //controllerLeft.transform.GetChild(3).GameObject().Disable();
+            controllerLeft.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = false;
+            controllerRight.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = true;
         }
         else
         {
             controllerRight.smoothMotionEnabled = false;
             controllerLeft.smoothMotionEnabled = !moveType;
+            //controllerRight.transform.GetChild(3).gameObject.SetActive(false);
+            controllerRight.transform.GetChild(3).gameObject.SetActive(false);
+            controllerRight.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = false;
+            controllerLeft.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = true;
         }
 
-
-        //Debug.Log("Controller: " + handedness);
     }
 
     void UpdateTurn()
@@ -314,13 +325,26 @@ public class GameController : MonoBehaviour
             tunnelControl.SetActive(tunneling);
         }
 
-        float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize;
+
+        float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().defaultParameters.apertureSize;
         if (currentTunnelSize != tunnelStrength)
         {
-            tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize = tunnelStrength;
+            //tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize = tunnelStrength;
+            tunnelControl.GetComponent<TunnelingVignetteController>().defaultParameters.apertureSize = tunnelStrength;
             Debug.Log("New Tunnel Size: " + tunnelStrength);
         }
     }
+
+    public void OpenElevatorDoors()
+    {
+
+    }
+    public void CloseElevatorDoors()
+    {
+
+    }
+
+
 
 }
 

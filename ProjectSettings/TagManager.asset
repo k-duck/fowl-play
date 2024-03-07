@@ -11,7 +11,9 @@ TagManager:
   - Draggable
   - Left
   - Right
-  - Skull
+  - RobotBird
+  - RobotHand
+  - Ignore
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - Static Object
   - postProcessing
   - NoLight
-  - 
+  - Goose
   - 
   - 
   - 

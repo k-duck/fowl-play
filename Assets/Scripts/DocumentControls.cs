@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DocumentControls : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public GameObject documentsWindow;
-    public List<GameObject> documents;
+    public List<GameObject> documents, readNotis;
 
     [SerializeField]  private Canvas canvas;
     [SerializeField] private RectTransform dragControls;
@@ -26,7 +26,19 @@ public class DocumentControls : MonoBehaviour, IPointerDownHandler, IBeginDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        
+        //Debug.Log(eventData.pointerCurrentRaycast);
+        if (eventData.pointerCurrentRaycast.gameObject != null)
+        {
+            if (eventData.pointerCurrentRaycast.gameObject.CompareTag("Draggable") && isDraggingWindow)
+            {
+                dragControls.anchoredPosition += eventData.delta / canvas.scaleFactor;
+                KeepInBounds();
+            }
+            else
+            {
+                isDraggingWindow = false;
+            }
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -88,8 +100,17 @@ public class DocumentControls : MonoBehaviour, IPointerDownHandler, IBeginDragHa
 
     public void openDocument(int docID)
     {
-        closeDocs();
-        documents[docID].SetActive(true);
+        if (documents[docID].activeSelf)
+        {
+            closeDocs();
+        }
+        else
+        {
+            closeDocs();
+            documents[docID].SetActive(true);
+
+            readNotis[docID].SetActive(false);
+        }
     }
 
     void closeDocs()
