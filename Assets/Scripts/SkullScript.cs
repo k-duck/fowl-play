@@ -9,18 +9,19 @@ public class SkullScript : MonoBehaviour
     public GameObject skulls;
     public GameObject chests;
 
+    //card stuff
     int CARD_INDEX = 6;
 
     int TextureWidth = 1024;
     int TextureHeight = 1024;
 
     int codeVal;
-    List<int> codeValPrev = new List<int>();
+    public List<int> codeValPrev = new List<int>();
 
     public List<int> incorrectCards = new List<int> { 0, 1, 2, 3, 4, 5 }; //the cards that don't work
     public List<int> RandCardOrder = new List<int> { 0, 1, 2, 3, 4, 5 }; //the cards that are assigned to a chest
 
-    public List<int> cardSymbol = new List<int>(); //stores symbol values for associated cards
+    public List<int> cardSymbol = new List<int> { 100, 100, 100, 100, 100, 100 }; //stores symbol values for associated cards
     public List<GameObject> correctCards = new List<GameObject> { }; //stores card order
 
     //skull stuff
@@ -31,9 +32,15 @@ public class SkullScript : MonoBehaviour
     public bool mallard = false;
     public bool spoonbill = false;
 
+    //end of level stuff
+    public Animator ElevatorDoorR;
+    public Animator ElevatorDoorL;
+
+    public bool levelDone = false;
+
     // Start is called before the first frame update
     void Start()
-    {        
+    {
         RandomizeCards();
         Debug.Log("CardsRandomized");
 
@@ -44,19 +51,28 @@ public class SkullScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(owl == true && parrot == true && mallard == true && spoonbill == true)
+        if (PCSymbols.gameObject.activeInHierarchy)
         {
-            Debug.Log("you done it");
+            //activate email symbols
+            for (int i = 0; i < 4; i++)
+            {
+                PCSymbols.transform.GetChild(i).GetChild(cardSymbol[i]-1).gameObject.SetActive(true);
+            }
+        }
+
+        if (owl == true && parrot == true && mallard == true && spoonbill == true && levelDone == false)
+        {
+            openElevator();
         }
     }
 
     public void RandomizeCards()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             incorrectCards.RemoveAt(Random.Range(0, incorrectCards.Count));
         }
-        for(int i = 0; i < incorrectCards.Count; i++)
+        for (int i = 0; i < incorrectCards.Count; i++)
         {
             RandCardOrder.Remove(incorrectCards[i]);
         }
@@ -68,7 +84,7 @@ public class SkullScript : MonoBehaviour
 
         for (int i = 0; i < CARD_INDEX; i++)
         {
-            Debug.Log("i: " + i); 
+            Debug.Log("i: " + i);
             Mesh mesh = keyCards.gameObject.transform.GetChild(i).GetChild(CHILD_INDEX).GetComponent<MeshFilter>().mesh;
 
             Vector3[] vertices = mesh.vertices;
@@ -80,7 +96,7 @@ public class SkullScript : MonoBehaviour
             int CodeWidth = (TextureWidth / 10);
             int CodeHeight = 164;
 
-            Vector2 Coords = RandomCodeCoords(CodeStartX, CodeStartY);            
+            Vector2 Coords = RandomCodeCoords(CodeStartX, CodeStartY);
 
             //moving the uvs
             uv[0] = ConvertPixelsToUVCoordinates((int)Coords.x, (int)Coords.y + CodeHeight, TextureWidth, TextureHeight);
@@ -103,22 +119,35 @@ public class SkullScript : MonoBehaviour
                 correctCards.Add(keyCards.transform.GetChild(RandCardOrder[randLoc]).gameObject);
 
                 //stores code value for card
-                cardSymbol.Add(codeVal);
+                cardSymbol[RandCardOrder[randLoc]] = codeVal;
 
                 //removes chest from location pool
                 RandCardOrder.RemoveAt(randLoc);
-            }            
+            }
         }
+
+        //clears the placeholder values
+        cardSymbol.RemoveAll(clearSymbolList);
+    }
+
+    bool clearSymbolList(int i)
+    {
+        if (i > 18)
+        {
+            return true;
+        }
+        else
+            return false;
     }
 
     public void RandomizeSkulls()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             chests.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<ChestInteraction>().chestContents = skulls.transform.GetChild(0).GetChild(i).gameObject.name;
         }
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             int randSkull = Random.Range(0, RandSkullOrder.Count);
 
@@ -129,7 +158,7 @@ public class SkullScript : MonoBehaviour
     }
 
     public Vector2 RandomCodeCoords(int x, int y)
-    {        
+    {
         bool loop = true;
 
         int xOut = x;
@@ -150,6 +179,7 @@ public class SkullScript : MonoBehaviour
 
             if (codeValPrev.Contains(codeVal) != true)
             {
+                Debug.Log("codeVal: " + codeVal);
                 codeValPrev.Add(codeVal);
                 loop = false;
             }
@@ -160,5 +190,13 @@ public class SkullScript : MonoBehaviour
     public Vector2 ConvertPixelsToUVCoordinates(int x, int y, int textureWidth, int textureHeight)
     {
         return new Vector2((float)x / textureWidth, (float)y / textureHeight);
+    }
+
+    void openElevator()
+    {
+        Debug.Log("openElevator");
+        ElevatorDoorL.SetBool("OpenDoor", true);
+        ElevatorDoorR.SetBool("OpenDoor", true);
+        levelDone = true;
     }
 }
