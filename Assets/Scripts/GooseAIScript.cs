@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
@@ -231,6 +232,7 @@ public class GoToAmbushState : State
 
                     if (goose.gooseAnimator.GetBool("EnteringVent") == false)
                     {
+                        goose.currentTarget.GetComponent<VentScript>().OpenVent();
                         goose.gooseAnimator.SetBool("InVent", false);
                         Debug.Log("Entering Vent");
                         goose.gooseAnimator.SetBool("EnteringVent", true);
@@ -241,7 +243,9 @@ public class GoToAmbushState : State
                     if(Time.time - ventTime >= goose.gooseAnimator.GetCurrentAnimatorStateInfo(0).length)
                     {
                         //goose.gooseAgent.Warp(goose.vents[Random.Range(0, goose.vents.Length)].transform.position);
-                        goose.gooseAgent.Warp(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position);
+                        GameObject nextVent = goose.GetNearestTargetPoint(goose.vents, goose.player);
+                        goose.gooseAgent.Warp(nextVent.transform.position);
+                        nextVent.GetComponent<VentScript>().GooseInVent();
                         goose.gooseAnimator.SetBool("EnteringVent", false);
                         goose.gooseAnimator.SetBool("InVent", true);
                         goose.switchState(new InAmbushState());
@@ -266,7 +270,7 @@ public class GoToAmbushState : State
 public class InAmbushState : State
 {
     float startTime;
-    float ventExitTime;
+    GameObject currentVent;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wait For Ambush State");
@@ -277,6 +281,7 @@ public class InAmbushState : State
         goose.gooseAgent.transform.rotation = Quaternion.Euler(newRot);
 
         goose.gooseAgent.GetComponent<Collider>().enabled = false;
+        currentVent = goose.GetNearestTargetPoint(goose.vents, goose.gooseAgent.gameObject);
     }
     public override void UpdateState(Goose goose)
     {
@@ -284,12 +289,14 @@ public class InAmbushState : State
         //If goose is close enough to player to just attack
         if (goose.distanceFromPlayer < goose.attackRange)
         {
+            currentVent.GetComponent<VentScript>().GooseLeaveVent();
             goose.gooseAnimator.SetBool("InVent", false);
             goose.switchState(new AttackState());
         }
         //If enough time has passed to change state
         if (Time.time - startTime >= goose.ambushDuration)
         {
+            currentVent.GetComponent<VentScript>().GooseLeaveVent();
             goose.gooseAnimator.SetBool("InVent", false);
             goose.switchState(new WanderState());
             //Give up and go back to wandering
