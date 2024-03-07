@@ -35,6 +35,9 @@ public class SettingsScript : MonoBehaviour
         tunnelVal_prev = controller.GetComponent<GameController>().GetTunnelVal();
 
         movType_curr.value = movType_prev;
+        Debug.Log("Move current: " + movType_curr.value);
+        Debug.Log("Move previous: " + movType_prev);
+
         turnType_curr.value = turnType_prev;
         handType_curr.value = handType_prev;
         tunnel_curr.isOn = tunnel_prev;
