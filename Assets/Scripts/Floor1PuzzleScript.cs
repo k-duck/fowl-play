@@ -320,21 +320,21 @@ public class Floor1PuzzleScript : MonoBehaviour
         correctKnob1 = Random.Range(0, 2);
         if(correctKnob1 == 0)
         {
-            KnobAnswerUi[0].SetText("3. Turn fuel valve to off");
+            KnobAnswerUi[0].SetText("off");
         }
         else
         {
-            KnobAnswerUi[0].SetText("3. Turn fuel valve to on");
+            KnobAnswerUi[0].SetText("on");
         }
 
         correctKnob2 = Random.Range(0, 2);
         if (correctKnob2 == 0)
         {
-            KnobAnswerUi[1].SetText("4. Turn dial to run");
+            KnobAnswerUi[1].SetText("run");
         }
         else
         {
-            KnobAnswerUi[1].SetText("4. Turn dial to choke");
+            KnobAnswerUi[1].SetText("choke");
         }
 
 
