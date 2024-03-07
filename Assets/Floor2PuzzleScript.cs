@@ -39,6 +39,10 @@ public class Floor2PuzzleScript : MonoBehaviour
     [SerializeField] private GameObject sliderUi3;
     [SerializeField] private GameObject sliderUi4;
 
+    [Space(10, order = 2)]
+
+    [SerializeField] private GameObject OverRide;
+
 
     private float ResetSlider1;
     private float ResetSlider2;
@@ -55,74 +59,25 @@ public class Floor2PuzzleScript : MonoBehaviour
     public GameObject Slider3;
     public GameObject Slider4;
 
-    [Header("Lever")]
-    public float correctLever1;
-    float currentLever1;
 
-
-    [Header("Puzzle 3")]
-    [Space(40, order = 2)]
-
-    public GameObject Posters;
-    List<int> PosterPool = new List<int> { 0, 1, 2, 3, 4 }; //int values are equal to grandchild num, so order isn't a problem
-    int PosterCountMAX = 4;
-
-    public List<TMP_Text> PosterAnswers;
-    List<int> RandPOrder = new List<int> { 0, 1, 2, 3 };
-    List<int> RandPOrderWrite = new List<int>(new int[4]); //for ref after the main is cleared
-    //List<int> RandPOrderWrite = new List<int>(4);
-
-    public GameObject PCPosters;
-
-    int guessNum = 0;
-    public List<int> password;
-    public List<int> passwordGuess;
-
-    public List<TMP_Text> codeAnswers;
-
-    public Animator ElevatorDoorR;
-    public Animator ElevatorDoorL;
-
-    [Space(40, order = 2)]
-    [Header("Puzzle 3")]
-    [Space(40, order = 2)]
-    public bool Sceneflag1;
-    public bool Sceneflag2;
-    public bool Sceneflag3;
-
-    [Header("Goose")]
-    [Space(40, order = 2)]
-    [SerializeField] GameObject GooseScript;
-
-    public LightmapData[] lightmap_data;
+    [Space(20, order = 2)]
 
     public AudioSource LeverAudio;
-    public AudioSource GeneratorHighAudio;
-    public AudioSource GeneratorLowAudio;
-    public AudioClip generatorStartNoise;
-    public AudioSource StartScript;
-    public AudioClip checkinAudio;
-
-
+    public AudioSource AirlockHighAudio;
+    public AudioSource AirlockLowAudio;
+    public AudioClip airlockStartNoise;
 
     public ElevatorDoors ElevatorDoor1;
     public ElevatorDoors ElevatorDoor2;
-    public GameObject UI;
-
 
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("puzzlescript started");
-        GeneratorOff();
-        StartUpGenerator();
+        AirlockOff();
+        StartUpAirlock();
         GetReset();
-
-        lightmap_data = LightmapSettings.lightmaps;
-        LightmapSettings.lightmaps = new LightmapData[] { };
-
-        RandomizePosters();
 
         StartCoroutine(StartScene());
     }
@@ -130,48 +85,21 @@ public class Floor2PuzzleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PCPosters.gameObject.activeInHierarchy)
-        {
-            //activate email posters
-            for (int i = 0; i < PosterCountMAX; i++)
-            {
-                PCPosters.transform.GetChild(i).GetChild(RandPOrderWrite[i]).gameObject.SetActive(true);
-            }
-        }
+        
+
     }
 
-    public void TriggerAudio()
-    {
-        StartCoroutine(FullDialog());
-    }
     IEnumerator StartScene()
     {
-        //play audio;
-        yield return new WaitForSeconds(3f);
-        StartScript.PlayOneShot(checkinAudio, 1);
-        // change time to the length of the audio.
-        yield return new WaitForSeconds(9f);
-        //show Display
-        UI.SetActive(true);
+        yield return new WaitForSeconds(30f);
+        ElevatorDoor1.TriggerDoors();
     }
     //trigger door
     //ElevatorDoor1.TriggerDoors();
 
-    IEnumerator FullDialog()
-    {
-        // hide display
-        UI.SetActive(false);
-        //play audio;
-        StartScript.Play();
-        // change time to the length of the audio.
-        yield return new WaitForSeconds(37f);
-        ElevatorDoor1.TriggerDoors();
-
-    }
-
 
     // generator startup function;
-    public void StartUpGenerator()
+    public void StartUpAirlock()
     {
         currentSlider1 = Slider1.GetComponent<XRSlider>().value;
 
@@ -188,7 +116,7 @@ public class Floor2PuzzleScript : MonoBehaviour
     }
 
     // reset values of generator
-    public void ResetGenerator()
+    public void ResetAirlock()
     {
         Slider1.GetComponent<XRSlider>().value = ResetSlider1;
         Slider2.GetComponent<XRSlider>().value = ResetSlider2;
@@ -259,27 +187,27 @@ public class Floor2PuzzleScript : MonoBehaviour
                         if (currentSlider4 > (correctSlider4 - 0.20f) && currentSlider4 < (correctSlider4 + 0.20f))
                         {
                             //Debug.Log(currentSlider4);
-                            Debug.Log("generator On");
+                            Debug.Log("Airlock On");
 
-                            GeneratorOn();
+                            AirlockOn();
                             AirlockActive = true;
-                            Sceneflag2 = true;
                         }
                     }
                 }
             }
         }
 
-        Debug.Log("generator fail");
+
         if (AirlockActive == false)
         {
-            ResetGenerator();
-            StartUpGenerator();
+            Debug.Log("Airlock fail");
+            ResetAirlock();
+            StartUpAirlock();
         }
 
     }
 
-    public void GeneratorOff()
+    public void AirlockOff()
     {
         // Randomize slider
         correctSlider1 = Random.Range(0f, 1f);
@@ -302,37 +230,40 @@ public class Floor2PuzzleScript : MonoBehaviour
         correctKnob1 = Random.Range(0, 2);
         if (correctKnob1 == 0)
         {
-            KnobAnswerUi[0].SetText("3. Turn fuel valve to off");
+            KnobAnswerUi[0].SetText("Low");
         }
         else
         {
-            KnobAnswerUi[0].SetText("3. Turn fuel valve to on");
+            KnobAnswerUi[0].SetText("High");
         }
 
         correctKnob2 = Random.Range(0, 2);
         if (correctKnob2 == 0)
         {
-            KnobAnswerUi[1].SetText("4. Turn dial to run");
+            KnobAnswerUi[1].SetText("Open");
         }
         else
         {
-            KnobAnswerUi[1].SetText("4. Turn dial to choke");
+            KnobAnswerUi[1].SetText("Close");
         }
 
     }
-    public void GeneratorOn()
+    public void AirlockOn()
     {
-        GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
-        
+        AirlockHighAudio.PlayOneShot(airlockStartNoise, 1);
+        AirlockHighAudio.PlayDelayed(2.25f);
+        AirlockLowAudio.Play();
+    }
 
-        GeneratorHighAudio.PlayOneShot(generatorStartNoise, 1);
-        GeneratorHighAudio.PlayDelayed(2.25f);
-        GeneratorLowAudio.Play();
-        lightGuide.SetActive(false);
+    public void SendManual()
+    {
+        OverRide.SetActive(true);
     }
 
     ///Puzzle 3 assets
     ///    
+    
+    /*
     public void RandomizePosters()
     {
         int emptyPoster = Random.Range(0, PosterCountMAX);
@@ -368,8 +299,9 @@ public class Floor2PuzzleScript : MonoBehaviour
         {
             Debug.Log("PosterOrder " + i + ": " + RandPOrderWrite[i]);
         }
-    }
+    }*/
 
+    /*
     public void GetKeypadInput(int num)
     {
         if (Sceneflag2 == true)
@@ -382,7 +314,9 @@ public class Floor2PuzzleScript : MonoBehaviour
 
             }
         }
-    }
+    }*/
+
+    /*
     public void CheckKeypadInput()
     {
         // this is a terrible way of doing this. todo fix this crap
@@ -407,5 +341,5 @@ public class Floor2PuzzleScript : MonoBehaviour
             passwordGuess[3] = 0;
             codeAnswers[3].SetText("0");
         }
-    }
+    }*/
 }
