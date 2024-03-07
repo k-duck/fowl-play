@@ -226,8 +226,8 @@ public class Floor1PuzzleScript : MonoBehaviour
 
     public void GetSlider()
     {
-       currentSlider1 =  Slider1.GetComponent<XRSlider>().value;
-       currentSlider2 = Slider2.GetComponent<XRSlider>().value;
+        currentSlider1 =  Slider1.GetComponent<XRSlider>().value;
+        currentSlider2 = Slider2.GetComponent<XRSlider>().value;
         currentSlider3 = Slider3.GetComponent<XRSlider>().value;
         currentSlider4 = Slider4.GetComponent<XRSlider>().value;
         Debug.Log(currentSlider1);
@@ -288,10 +288,11 @@ public class Floor1PuzzleScript : MonoBehaviour
             }
         }
 
-        Debug.Log("generator fail");
+        
         if(GeneratorActive == false)
-        { 
-            ResetGenerator();
+        {
+            Debug.Log("generator fail");
+            //ResetGenerator();
             StartUpGenerator();
         }
 

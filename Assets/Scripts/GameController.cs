@@ -38,13 +38,17 @@ public class GameController : MonoBehaviour
 
         tunnelControl = GameObject.Find("TunnelingVignette");
 
+        /*
+
+        GameObject movDrop = GameObject.Find("mov_type_dropdown");
+
         if (moveType)
         {
-            GameObject.Find("mov_type_dropdown").GetComponent<Dropdown>().value = 1;
+            movDrop.GetComponent<Dropdown>().value = 1;
         }
         else
         {
-            GameObject.Find("mov_type_dropdown").GetComponent<Dropdown>().value = 0;
+            movDrop.GetComponent<Dropdown>().value = 0;
         }
 
         if (turnType)
@@ -68,6 +72,8 @@ public class GameController : MonoBehaviour
         GameObject.Find("tunnel_toggle").GetComponent<Toggle>().isOn = tunneling;
 
         GameObject.Find("tunnel_strength_slider").GetComponent<Slider>().value = tunnelStrength;
+        */
+
 
         Debug.Log("Rig: " + rig);
         Debug.Log("Tunnel: " + tunnelControl);
@@ -218,6 +224,18 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public int GetMove() // 0 = Smooth   1 = Teleport
+    {
+        if (moveType)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     public void SetTurn(TMP_Dropdown state) // 0 = Smooth   1 = Snap
     {
         if (state.value == 0)
@@ -227,6 +245,18 @@ public class GameController : MonoBehaviour
         else
         {
             turnType = true;
+        }
+    }
+
+    public int GetTurn() // 0 = Smooth   1 = Teleport
+    {
+        if (turnType)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
         }
     }
 
@@ -240,10 +270,21 @@ public class GameController : MonoBehaviour
         tunneling = state.isOn;
     }
 
+    public bool GetTunnel() // 0 = Smooth   1 = Teleport
+    {
+        return tunneling;
+    }
+
     public void SetTunnelingVal(Slider state)
     {
         tunnelStrength = state.value;
     }
+
+    public float GetTunnelVal()
+    {
+        return tunnelStrength;
+    }
+
     public void SetHandedness(TMP_Dropdown state) // 0 = Right   1 = Left
     {
         if (state.value == 0)
@@ -253,6 +294,18 @@ public class GameController : MonoBehaviour
         else
         {
             handedness = true;
+        }
+    }
+
+    public int GetHand() // 0 = Smooth   1 = Teleport
+    {
+        if (handedness)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
         }
     }
 

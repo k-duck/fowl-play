@@ -11,10 +11,35 @@ public class SettingsScript : MonoBehaviour
     private GameController controller;
     private bool visible = false;
 
+    private int movType_prev;
+    private int turnType_prev;
+    private int handType_prev;
+    private bool tunnel_prev;
+    private float tunnelVal_prev;
+
+    public TMP_Dropdown movType_curr;
+    public TMP_Dropdown turnType_curr;
+    public TMP_Dropdown handType_curr;
+    public Toggle tunnel_curr;
+    public Slider tunnelVal_curr;
+
     void Start()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameController");
         controller = objs[0].GetComponent<GameController>();
+
+        movType_prev = controller.GetComponent<GameController>().GetMove();
+        turnType_prev = controller.GetComponent<GameController>().GetTurn();
+        handType_prev = controller.GetComponent<GameController>().GetHand();
+        tunnel_prev = controller.GetComponent<GameController>().GetTunnel();
+        tunnelVal_prev = controller.GetComponent<GameController>().GetTunnelVal();
+
+        movType_curr.value = movType_prev;
+        turnType_curr.value = turnType_prev;
+        handType_curr.value = handType_prev;
+        tunnel_curr.isOn = tunnel_prev;
+        tunnelVal_curr.value = tunnelVal_prev;
+
         Debug.Log("Controller: " + controller.name);
     }
 
