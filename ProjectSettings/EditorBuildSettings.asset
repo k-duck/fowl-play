@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Start_Scene.unity
     guid: cb116798b4543d245a0c9fbe5bf1cbd1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level_01_Scene_pokeTest.unity
     guid: f5f369abcba1cad4a8de59d7037532ce
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Level_01_Scene.unity
     guid: 9b02f4e8b0c56f841aba4a55c9ae519a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Level_02_Scene.unity
     guid: 16fde5ab85da6b74a939ec340d8185a7
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Level_03_Scene.unity
     guid: ffc4a62c6ba6d004ba170df135be1540
   m_configObjects:
