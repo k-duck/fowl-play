@@ -162,12 +162,21 @@ public class Floor2PuzzleScript : MonoBehaviour
     {
         LeverAudio.Play();
 
-        Debug.Log(currentKnob1);
-        Debug.Log(currentKnob2);
-        Debug.Log(currentSlider1);
-        Debug.Log(currentSlider2);
-        Debug.Log(currentSlider3);
-        Debug.Log(currentSlider4);
+        GetSlider();
+
+        //Debug.Log("Guess: " + currentKnob1);
+        //Debug.Log("Guess: " + currentKnob2);
+        //Debug.Log("Guess: " + currentSlider1);
+        //Debug.Log("Guess: " + currentSlider2);
+        //Debug.Log("Guess: " + currentSlider3);
+        //Debug.Log("Guess: " + currentSlider4);
+
+        //Debug.Log("Answer: " + correctKnob1);
+        //Debug.Log("Answer: " + correctKnob2);
+        //Debug.Log("Answer: " + correctSlider1);
+        //Debug.Log("Answer: " + correctSlider2);
+        //Debug.Log("Answer: " + correctSlider3);
+        //Debug.Log("Answer: " + correctSlider4);
 
         if (currentKnob1 == correctKnob1 && currentKnob2 == correctKnob2)
         {
@@ -199,7 +208,7 @@ public class Floor2PuzzleScript : MonoBehaviour
         if (AirlockActive == false)
         {
             Debug.Log("Airlock fail");
-            ResetAirlock();
+            //ResetAirlock();
             StartUpAirlock();
         }
 
@@ -238,24 +247,32 @@ public class Floor2PuzzleScript : MonoBehaviour
         correctKnob2 = Random.Range(0, 2);
         if (correctKnob2 == 0)
         {
-            KnobAnswerUi[1].SetText("Open");
+            KnobAnswerUi[1].SetText("Close");
         }
         else
         {
-            KnobAnswerUi[1].SetText("Close");
+            KnobAnswerUi[1].SetText("Open");
         }
 
+        Debug.Log("Airlock Values Set");
     }
     public void AirlockOn()
     {
         AirlockHighAudio.PlayOneShot(airlockStartNoise, 1);
         AirlockHighAudio.PlayDelayed(2.25f);
         AirlockLowAudio.Play();
+
+        ArchiveDoor_01.TriggerDoors();
+        ArchiveDoor_02.TriggerDoors();
+        ArchiveDoor_03.TriggerDoors();
+        ArchiveDoor_04.TriggerDoors();
+        ArchiveDoor_05.TriggerDoors();
     }
 
     public void SendManual()
     {
         OverRide.SetActive(true);
+        Debug.Log("Airlock Manual Sent");
     }
 
     ///Puzzle 3 assets
