@@ -31,11 +31,15 @@ public class WanderState : State
         offsetX = offsetY = 0;
         goose.gooseAgent.GetComponent<Collider>().enabled = true;
         goose.gooseAgent.speed = 2;
-        if(goose.gooseAnimator != null )
+        if (goose.firstLoad == true)
+        {
             goose.gooseAnimator.SetInteger("WalkMode", 0);
+        } else
+            goose.firstLoad = true;
     }
     public override void UpdateState(Goose goose)
     {
+
         //If goose has arrived at target
         if (!goose.gooseAgent.pathPending)
         {
@@ -215,8 +219,11 @@ public class GoToAmbushState : State
         Debug.Log("Entered Go To Ambush State");
         startTime = Time.time;
         goose.gooseAgent.speed = 2;
-        if (goose.gooseAnimator != null)
+        if (goose.firstLoad == true)
+        {
             goose.gooseAnimator.SetInteger("WalkMode", 0);
+        } else
+            goose.firstLoad = true;
     }
     public override void UpdateState(Goose goose)
     {
@@ -424,6 +431,7 @@ public class Goose
     public Animator gooseAnimator;
 
     private float footstepStartTime;
+    public bool firstLoad;
     UnityEvent gameOverEvent = new UnityEvent();
     public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos, Animator gAnimator)
     {
@@ -452,6 +460,7 @@ public class Goose
         slapSFX = slapClips;
         honkSFX = honkClips;
         footstepStartTime = Time.time;
+        firstLoad = true;
 
         gooseAnimator = gAnimator;
     }
