@@ -91,7 +91,7 @@ public class Floor2PuzzleScript : MonoBehaviour
 
     IEnumerator StartScene()
     {
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(3f);
         ElevatorDoor1.TriggerDoors();
     }
     //trigger door
@@ -144,22 +144,12 @@ public class Floor2PuzzleScript : MonoBehaviour
         currentSlider4 = Slider4.GetComponent<XRSlider>().value;
         //Debug.Log(currentSlider1);
     }
-    public void getLever(int num)
-    {
-
-    }
     public void changeKnob()
     {
         currentKnob1 = knob1.GetComponent<XRKnob>().value;
         currentKnob2 = knob2.GetComponent<XRKnob>().value;
     }
 
-    /*
-    public void SwitchGenerator(int num)
-    {
-        activeGenerator = num;
-    }
-    */
     public void CheckAnswer()
     {
         LeverAudio.Play();
