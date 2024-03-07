@@ -142,7 +142,7 @@ public class Floor2PuzzleScript : MonoBehaviour
         currentSlider2 = Slider2.GetComponent<XRSlider>().value;
         currentSlider3 = Slider3.GetComponent<XRSlider>().value;
         currentSlider4 = Slider4.GetComponent<XRSlider>().value;
-        Debug.Log(currentSlider1);
+        //Debug.Log(currentSlider1);
     }
     public void getLever(int num)
     {
