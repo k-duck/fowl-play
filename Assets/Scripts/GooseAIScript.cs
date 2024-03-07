@@ -269,7 +269,7 @@ public class GoToAmbushState : State
             goose.switchState(new AttackState());
         }
         //If enough time has passed to change state
-        if (Time.time - startTime >= duration)
+        if (Time.time - startTime >= duration || goose.gooseAgent.path.status != NavMeshPathStatus.PathComplete)
         {
             goose.switchState(new WanderState());
             //Give up and go back to wandering
@@ -446,8 +446,8 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new GoToAmbushState();
-        //currentState = new WanderState();
+        //currentState = new GoToAmbushState();
+        currentState = new WanderState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
