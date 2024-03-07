@@ -30,6 +30,9 @@ public class WanderState : State
 
         offsetX = offsetY = 0;
         goose.gooseAgent.GetComponent<Collider>().enabled = true;
+        goose.gooseAgent.speed = 2;
+        if(goose.gooseAnimator != null )
+            goose.gooseAnimator.SetInteger("WalkMode", 0);
     }
     public override void UpdateState(Goose goose)
     {
@@ -89,6 +92,8 @@ public class AssessState : State
 
         goose.currentTarget = goose.player;
         goose.lastKnownLocation = goose.currentTarget.transform.position;
+        goose.gooseAgent.speed = 2.5f;
+        goose.gooseAnimator.SetInteger("WalkMode", 1);
     }
     public override void UpdateState(Goose goose)
     {
@@ -117,7 +122,7 @@ public class AssessState : State
             //Increase aggression, increases faster the closer the goose is to the player
             goose.aggression += (0.1f/goose.distanceFromPlayer);
             int attackChance = (int)(Mathf.InverseLerp(0, 100, goose.aggression) * 100);
-            Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
+            //Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
 
             //Every set interval, chance to go to attack mode
             if (Time.time - startTime >= goose.assessInterval)
@@ -129,7 +134,7 @@ public class AssessState : State
                 else
                 {
                     startTime = startTime + 10;
-                    Debug.Log("Keep Being Creepy");
+                    //Debug.Log("Keep Being Creepy");
                 }
             }
             goose.lastKnownLocation = goose.currentTarget.transform.position;
@@ -144,7 +149,7 @@ public class AssessState : State
             //Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
 
             //If out of line of sight long enough, return to wandering
-            if (Time.time - startTime >= goose.assessInterval)
+            if (Time.time - startTime >= goose.assessInterval * 2)
             {
                 goose.switchState(new WanderState());
             }
@@ -160,6 +165,8 @@ public class StalkState : State
     {
         Debug.Log("Entered Stalk State");
         startTime = Time.time;
+        goose.gooseAgent.speed = 2.5f;
+        goose.gooseAnimator.SetInteger("WalkMode", 1);
     }
     public override void UpdateState(Goose goose)
     {
@@ -207,6 +214,9 @@ public class GoToAmbushState : State
     {
         Debug.Log("Entered Go To Ambush State");
         startTime = Time.time;
+        goose.gooseAgent.speed = 2;
+        if (goose.gooseAnimator != null)
+            goose.gooseAnimator.SetInteger("WalkMode", 0);
     }
     public override void UpdateState(Goose goose)
     {
@@ -311,6 +321,8 @@ public class AttackState : State
     {
         Debug.Log("Entered Attack State");
         startTime = startTimeVent = Time.time;
+        goose.gooseAgent.speed = 4;
+        goose.gooseAnimator.SetInteger("WalkMode", 1);
     }
     public override void UpdateState(Goose goose)
     {
@@ -345,6 +357,8 @@ public class FleeState : State
     {
         Debug.Log("Entered Flee State");
         startTime = Time.time;
+        goose.gooseAgent.speed = 3;
+        goose.gooseAnimator.SetInteger("WalkMode", 0);
     }
     public override void UpdateState(Goose goose)
     {
@@ -374,6 +388,8 @@ public class IdleState : State
     {
         Debug.Log("Entered Idle State");
         startTime = Time.time;
+        goose.gooseAgent.speed = 2;
+        goose.gooseAnimator.SetInteger("WalkMode", 0);
     }
     public override void UpdateState(Goose goose)
     {
@@ -431,6 +447,7 @@ public class Goose
         lastKnownLocation = gAgent.transform.position;
 
         currentState = new GoToAmbushState();
+        //currentState = new WanderState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
@@ -454,7 +471,7 @@ public class Goose
         //Debug.Log("Goose Speed = " + gooseAgent.velocity.magnitude);
         if (gooseAudio != null && gooseAgent.velocity.magnitude != 0)
         {
-            if(!gooseAudio.isPlaying && Time.time - footstepStartTime >= 1/ gooseAgent.velocity.magnitude)
+            if(Time.time - footstepStartTime >= 1.5/ gooseAgent.velocity.magnitude)
             {
                 gooseAudio.PlayOneShot(slapSFX[Random.Range(0, slapSFX.Length)]);
                 footstepStartTime = Time.time;
