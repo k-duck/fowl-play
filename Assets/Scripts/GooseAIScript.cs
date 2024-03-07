@@ -28,6 +28,7 @@ public class WanderState : State
         goose.gooseAgent.destination = goose.currentTarget.transform.position;
 
         offsetX = offsetY = 0;
+        goose.gooseAgent.GetComponent<Collider>().enabled = true;
     }
     public override void UpdateState(Goose goose)
     {
@@ -230,6 +231,7 @@ public class GoToAmbushState : State
 
                     if (goose.gooseAnimator.GetBool("EnteringVent") == false)
                     {
+                        goose.gooseAnimator.SetBool("InVent", false);
                         Debug.Log("Entering Vent");
                         goose.gooseAnimator.SetBool("EnteringVent", true);
 
@@ -241,6 +243,7 @@ public class GoToAmbushState : State
                         //goose.gooseAgent.Warp(goose.vents[Random.Range(0, goose.vents.Length)].transform.position);
                         goose.gooseAgent.Warp(goose.GetNearestTargetPoint(goose.vents, goose.player).transform.position);
                         goose.gooseAnimator.SetBool("EnteringVent", false);
+                        goose.gooseAnimator.SetBool("InVent", true);
                         goose.switchState(new InAmbushState());
                     }
                 }
@@ -263,6 +266,7 @@ public class GoToAmbushState : State
 public class InAmbushState : State
 {
     float startTime;
+    float ventExitTime;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Wait For Ambush State");
@@ -271,17 +275,22 @@ public class InAmbushState : State
         Vector3 newRot = goose.GetNearestTargetPoint(goose.vents, goose.gooseAgent.gameObject).transform.rotation.eulerAngles;
         newRot = new Vector3(newRot.x, newRot.y+180, newRot.z);
         goose.gooseAgent.transform.rotation = Quaternion.Euler(newRot);
+
+        goose.gooseAgent.GetComponent<Collider>().enabled = false;
     }
     public override void UpdateState(Goose goose)
     {
+
         //If goose is close enough to player to just attack
         if (goose.distanceFromPlayer < goose.attackRange)
         {
+            goose.gooseAnimator.SetBool("InVent", false);
             goose.switchState(new AttackState());
         }
         //If enough time has passed to change state
         if (Time.time - startTime >= goose.ambushDuration)
         {
+            goose.gooseAnimator.SetBool("InVent", false);
             goose.switchState(new WanderState());
             //Give up and go back to wandering
         }
@@ -290,31 +299,29 @@ public class InAmbushState : State
 
 public class AttackState : State
 {
-    float startTime;
+    float startTime, startTimeVent;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Attack State");
-        startTime = Time.time;
+        startTime = startTimeVent = Time.time;
     }
     public override void UpdateState(Goose goose)
     {
         goose.currentTarget = goose.player;
         goose.gooseAgent.destination = goose.currentTarget.transform.position;
 
-        //If goose has arrived at target
-        if (!goose.gooseAgent.pathPending)
-        {
-            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
-            {
-                //goose.attackPlayer();
-            }
-        }
         //If goose is close enough to stay in attacking state
         if (goose.distanceFromPlayer < goose.attackRange
             && goose.IsLineOfSight(goose.EyePostion, goose.player))
         {
+            
             //Reset start time (only flees if not in range for a set peirod of time)
             startTime = Time.time;
+        }
+
+        if (Time.time - startTimeVent >= 1.5f)
+        {
+            goose.gooseAgent.GetComponent<Collider>().enabled = true;
         }
         //If enough time has passed far away from player
         if (Time.time - startTime >= goose.attackDuration)
@@ -416,7 +423,7 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new WanderState();
+        currentState = new GoToAmbushState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
@@ -563,12 +570,6 @@ public class Goose
 
         switchState(new FleeState());
     }
-
-    public void EnterVent()
-    {
-
-        
-    }
 }
 
 public class GooseAIScript : MonoBehaviour
@@ -616,7 +617,7 @@ public class GooseAIScript : MonoBehaviour
     {
         Debug.Log("objecthit: " + trigger);
 
-        if (trigger.tag == "Player" && gooseAnimator.GetBool("Attacking") != true)
+        if (trigger.tag == "Player" && gooseAnimator.GetBool("Attacking") != true && gooseAnimator.GetBool("InVent") != true)
         {
             gooseAnimator.SetBool("Attacking", true);
             StartCoroutine(PlayAttackAnimation());
