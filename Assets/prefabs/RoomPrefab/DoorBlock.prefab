@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 3971351379630993063}
   - component: {fileID: 2034239683300073052}
   - component: {fileID: 1171034780657291732}
+  - component: {fileID: 198033465253670936}
   m_Layer: 10
   m_Name: DoorRight
   m_TagString: VisibleObject
@@ -784,6 +785,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &198033465253670936
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5469318360255612822}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.09900001, y: 2.0240002, z: 0.9710001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.254, y: 1.9690001, z: -0.9710001}
+  m_TimeToStationary: 0.5
 --- !u!1 &7050385863229896029
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +943,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7050385863229896029}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.09900001, y: 2.0240002, z: 0.9710001}
