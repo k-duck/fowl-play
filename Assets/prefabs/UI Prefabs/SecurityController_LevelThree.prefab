@@ -231,7 +231,7 @@ MonoBehaviour:
     CullDistance: 58.5
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 58.5
     ShowGizmo: 0
@@ -2235,7 +2235,7 @@ MonoBehaviour:
     CullDistance: 58.5
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 58.5
     ShowGizmo: 0
@@ -2781,7 +2781,7 @@ MonoBehaviour:
     CullDistance: 58.5
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 58.5
     ShowGizmo: 0
@@ -3086,6 +3086,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsScreen: {fileID: 0}
   controller: {fileID: 0}
+  dialogOne: {fileID: 0}
+  dialogTwo: {fileID: 0}
 --- !u!1 &3407422803127790757
 GameObject:
   m_ObjectHideFlags: 0
@@ -3395,6 +3397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsScreen: {fileID: 0}
   controller: {fileID: 0}
+  dialogOne: {fileID: 0}
+  dialogTwo: {fileID: 0}
 --- !u!1 &3736876768773877221
 GameObject:
   m_ObjectHideFlags: 0
@@ -3626,7 +3630,7 @@ MonoBehaviour:
     CullDistance: 58.5
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 58.5
     ShowGizmo: 0
@@ -4093,7 +4097,7 @@ MonoBehaviour:
     CullDistance: 35.2
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 35.2
     ShowGizmo: 0
@@ -4409,7 +4413,7 @@ MonoBehaviour:
     CullDistance: 50
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 50
     ShowGizmo: 0
@@ -5004,6 +5008,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsScreen: {fileID: 0}
   controller: {fileID: 0}
+  dialogOne: {fileID: 0}
+  dialogTwo: {fileID: 0}
 --- !u!1 &5220475889260761784
 GameObject:
   m_ObjectHideFlags: 0
@@ -6568,7 +6574,7 @@ MonoBehaviour:
     CullDistance: 58.5
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 58.5
     ShowGizmo: 0
@@ -8353,6 +8359,7 @@ MonoBehaviour:
   - {fileID: 8569562557747352880}
   - {fileID: 6332628588380117608}
   - {fileID: 8732697468915753568}
+  readNotis: []
   canvas: {fileID: 2248854627544252695}
   dragControls: {fileID: 350084099634462529}
 --- !u!114 &7494893533000522864
@@ -8671,7 +8678,7 @@ MonoBehaviour:
     CullDistance: 44.73
     ShowGizmo: 0
     GizmoColor: {r: 0, g: 1, b: 1, a: 1}
-  - LayerName: Layer Not Defined
+  - LayerName: Goose
     UseDefaultCullDistance: 1
     CullDistance: 44.73
     ShowGizmo: 0
