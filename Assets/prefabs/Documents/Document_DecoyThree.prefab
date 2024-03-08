@@ -201,19 +201,24 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Hello all,
 
+    
 
-    This is a reminder for the party that will be held in
-    the break room next week.
+    This is a reminder for the party that will be
+    held in the break room next week.
 
+    
 
-    Participation is mandatory and all staff are
-    required to contribute either a snack or beverage.
+    Participation is mandatory and
+    all staff are required to contribute either a snack or beverage.
 
+    
 
-    Thank you all for our
-    hard work,
+    Thank
+    you all for your hard work,
 
-    Social Team'
+    Social Team
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
