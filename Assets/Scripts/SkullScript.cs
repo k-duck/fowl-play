@@ -33,8 +33,7 @@ public class SkullScript : MonoBehaviour
     public bool spoonbill = false;
 
     //end of level stuff
-    public Animator ElevatorDoorR;
-    public Animator ElevatorDoorL;
+    public ElevatorDoors Elevator;
 
     public bool levelDone = false;
 
@@ -195,8 +194,9 @@ public class SkullScript : MonoBehaviour
     void openElevator()
     {
         Debug.Log("openElevator");
-        ElevatorDoorL.SetBool("OpenDoor", true);
-        ElevatorDoorR.SetBool("OpenDoor", true);
+        Elevator.TriggerDoors();
+        //ElevatorDoorL.SetBool("OpenDoor", true);
+        //ElevatorDoorR.SetBool("OpenDoor", true);
         levelDone = true;
     }
 }
