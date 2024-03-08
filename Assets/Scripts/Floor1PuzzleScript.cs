@@ -20,6 +20,8 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Header("Puzzle 2")]
     bool GeneratorActive = false;
 
+    bool GeneratorAlive = false;
+
     [Space(40, order = 2)]
     [Header("Knob")]
     public int activeGenerator = 1;
@@ -348,18 +350,23 @@ public class Floor1PuzzleScript : MonoBehaviour
     }
     public void GeneratorOn()
     {
-        GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
-        LightmapSettings.lightmaps = lightmap_data;
-        foreach (GameObject lights in Lights)
+        if (!GeneratorAlive)
         {
-            lights.gameObject.SetActive(true);
-            
-        }
+            GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
+            LightmapSettings.lightmaps = lightmap_data;
+            foreach (GameObject lights in Lights)
+            {
+                lights.gameObject.SetActive(true);
 
-        GeneratorHighAudio.PlayOneShot(generatorStartNoise, 1);
-        GeneratorHighAudio.PlayDelayed(2.25f);
-        GeneratorLowAudio.Play();
-        lightGuide.SetActive(false);
+            }
+
+            GeneratorHighAudio.PlayOneShot(generatorStartNoise, 1);
+            GeneratorHighAudio.PlayDelayed(2.25f);
+            GeneratorLowAudio.Play();
+            lightGuide.SetActive(false);
+
+            GeneratorAlive = true;
+        }
     }
 
     ///Puzzle 3 assets
