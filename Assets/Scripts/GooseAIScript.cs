@@ -454,8 +454,8 @@ public class Goose
         gooseAudio = gAgent.GetComponent<AudioSource>();
         lastKnownLocation = gAgent.transform.position;
 
-        currentState = new GoToAmbushState();
-        //currentState = new WanderState();
+        //currentState = new GoToAmbushState();
+        currentState = new WanderState();
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
