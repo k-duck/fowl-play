@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mar 22th, 2029, 3:21AM
+  m_text: Mar 20th, 2029, 10:43AM
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -199,16 +199,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "For the last time, stop calling the archive department level two!  \r\n\r\nI
-    should not need to remind anyone this but we are in a SECRET UNDERGROUND RESEARCH
-    FACILITY.  The floor numbers DESCEND as you go down, not ACCEND. This really
-    should not be as difficult as it is.\r\n\r\nIn case anyone is still confused:\r\n\r\n   
-    - The entrance is on the ground floor\r\n    - The archives are on level negative
-    one\r\n    - The laboratories are on level negative two\r\n\r\nI apologize if
-    I\u2019m coming off as pedantic but things have been very understandably stressful
-    regarding recent experiments.  I feel proper communication is important if we
-    want to avoid any future incidents.\r\n\r\nKeep up the good work,\r\nKyle, \r\nArchives
-    \r\n"
+  m_text: "I should not need to send this...\n\nFor those of you who have been throwing
+    office supplies at the subjects (we know who your are), please stop!  It does
+    nothing but agrevate them, and it's also begining to agrevate laboratory staff. 
+    \n\nLet's keep this facillity profetional please,\nDr. Mullard\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -247,7 +241,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -414,7 +408,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: IT'S NOT LEVEL 2
+  m_text: Stop Harassing Test Subjects
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -548,7 +542,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'From: Kyle@aviary.co'
+  m_text: 'From: dr.mullard@aviary.co'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -629,7 +623,7 @@ GameObject:
   - component: {fileID: 4190913898219125075}
   - component: {fileID: 6060007104840642135}
   m_Layer: 5
-  m_Name: Document_DecoyTwo
+  m_Name: Document_DecoyFive
   m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
