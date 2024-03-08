@@ -36,7 +36,7 @@ public class ExitLevel : MonoBehaviour
         Doors.TriggerDoors();
         
         yield return new WaitForSeconds(5f);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
 }
