@@ -9,6 +9,7 @@ public class Floor2PuzzleScript : MonoBehaviour
 {
     [Header("Puzzle 1")]
     bool AirlockActive = false;
+    bool AirlockAlive = false;
 
     [Header("Knob")]
     [Tooltip("Value from 0-8")]
@@ -258,15 +259,21 @@ public class Floor2PuzzleScript : MonoBehaviour
     }
     public void AirlockOn()
     {
-        AirlockHighAudio.PlayOneShot(airlockStartNoise, 1);
-        AirlockHighAudio.PlayDelayed(2.25f);
-        AirlockLowAudio.Play();
+        if (!AirlockAlive)
+        {
+            AirlockHighAudio.PlayOneShot(airlockStartNoise, 1);
+            AirlockHighAudio.PlayDelayed(2.25f);
+            AirlockLowAudio.Play();
 
-        ArchiveDoor_01.TriggerDoors();
-        ArchiveDoor_02.TriggerDoors();
-        ArchiveDoor_03.TriggerDoors();
-        ArchiveDoor_04.TriggerDoors();
-        ArchiveDoor_05.TriggerDoors();
+            ArchiveDoor_01.TriggerDoors();
+            ArchiveDoor_02.TriggerDoors();
+            ArchiveDoor_03.TriggerDoors();
+            ArchiveDoor_04.TriggerDoors();
+            ArchiveDoor_05.TriggerDoors();
+
+            AirlockAlive = true;
+        }
+        
     }
 
     public void SendManual()
