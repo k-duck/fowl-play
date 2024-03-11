@@ -6,6 +6,8 @@ using UnityEngine.XR.Content.Interaction;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEditor;
 
 public class Floor1PuzzleScript : MonoBehaviour
 {
@@ -112,6 +114,8 @@ public class Floor1PuzzleScript : MonoBehaviour
     [SerializeField] GameObject GooseScript;
 
     public LightmapData[] lightmap_data;
+    public LightingDataAsset lights_Light;
+    public LightingDataAsset lights_Dark;
 
     public AudioSource LeverAudio;
     public AudioSource GeneratorHighAudio;
@@ -137,8 +141,9 @@ public class Floor1PuzzleScript : MonoBehaviour
         StartUpGenerator();
         GetReset();
 
-        lightmap_data = LightmapSettings.lightmaps;
-        LightmapSettings.lightmaps = new LightmapData[] { };
+        //lightmap_data = LightmapSettings.lightmaps;
+
+        Lightmapping.lightingDataAsset = lights_Dark;
 
         RandomizePosters();
 
@@ -353,7 +358,8 @@ public class Floor1PuzzleScript : MonoBehaviour
         if (!GeneratorAlive)
         {
             GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
-            LightmapSettings.lightmaps = lightmap_data;
+            Lightmapping.lightingDataAsset = lights_Dark;
+            //LightmapSettings.lightmaps = lightmap_data;
             foreach (GameObject lights in Lights)
             {
                 lights.gameObject.SetActive(true);
