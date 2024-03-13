@@ -114,8 +114,8 @@ public class Floor1PuzzleScript : MonoBehaviour
     [SerializeField] GameObject GooseScript;
 
     public LightmapData[] lightmap_data;
-    public LightingDataAsset lights_Light;
-    public LightingDataAsset lights_Dark;
+    //public LightingDataAsset lights_Light;
+    //public LightingDataAsset lights_Dark;
 
     public AudioSource LeverAudio;
     public AudioSource GeneratorHighAudio;
@@ -141,9 +141,11 @@ public class Floor1PuzzleScript : MonoBehaviour
         StartUpGenerator();
         GetReset();
 
-        //lightmap_data = LightmapSettings.lightmaps;
+        lightmap_data = LightmapSettings.lightmaps;
+        LightmapSettings.lightmaps = new LightmapData[] { };
+        //LightmapData = new LightmapData;
 
-        Lightmapping.lightingDataAsset = lights_Dark;
+       // Lightmapping.lightingDataAsset = lights_Dark;
 
         RandomizePosters();
 
@@ -358,8 +360,8 @@ public class Floor1PuzzleScript : MonoBehaviour
         if (!GeneratorAlive)
         {
             GooseScript.GetComponent<ReleseTheGoose>().ShowTheGoose();
-            Lightmapping.lightingDataAsset = lights_Dark;
-            //LightmapSettings.lightmaps = lightmap_data;
+            //Lightmapping.lightingDataAsset = lights_Dark;
+            LightmapSettings.lightmaps = lightmap_data;
             foreach (GameObject lights in Lights)
             {
                 lights.gameObject.SetActive(true);
