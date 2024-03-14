@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.XR;
@@ -21,6 +22,8 @@ public class GameController : MonoBehaviour
     private ActionBasedControllerManager controllerRight;
     private GameObject tunnelControl;
     private GameObject rig;
+    public GameObject teleportObj;
+    private GameObject smoothObj;
 
     static bool moveType = false; // 0 = Smooth   1 = Teleport
     static bool turnType = false; // 0 = Smooth   1 = Snap
@@ -29,7 +32,10 @@ public class GameController : MonoBehaviour
     static bool tunneling = true; // 0 = Off   1 = On
     static float tunnelStrength = 0.75f;
 
+    public bool isPaused = false;
+    public bool buttonPress = false;
 
+    private bool secondaryButtonState;
 
     // Start is called before the first frame update
     void Start()
@@ -171,6 +177,33 @@ public class GameController : MonoBehaviour
             Debug.Log("Found more than one right hand!");
         }
 
+        if (deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState) && secondaryButtonState)
+        {
+            //Debug.Log("Pause Button has been pressed!");
+
+            if (!buttonPress)
+            {
+                if (!isPaused)
+                {
+                    GameObject settings = GameObject.Find("settings_Button");
+                    settings.GetComponent<SettingsScript>().PauseGame();
+                }
+                else
+                {
+                    GameObject settings = GameObject.Find("settings_Button");
+                    settings.GetComponent<SettingsScript>().PlayGame();
+                }
+
+                buttonPress = true;
+            }
+
+        }else if(deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState) && !secondaryButtonState)
+        {
+            //Debug.Log("Pause Button has been released!");
+
+            buttonPress = false;
+        }
+
         UpdateMove();
         UpdateTurn();
         UpdateTunneling();
@@ -275,11 +308,18 @@ public class GameController : MonoBehaviour
 
     void UpdateMove()
     {
-        GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
-        GameObject smoothObj = rig.transform.GetChild(1).GetChild(1).GameObject();
+        teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
+        smoothObj = rig.transform.GetChild(1).GetChild(1).GameObject();
 
-        teleportObj.SetActive(moveType);
-        smoothObj.SetActive(!moveType);
+        if (!isPaused)
+        {
+            teleportObj.SetActive(moveType);
+            smoothObj.SetActive(!moveType);
+        }else
+        {
+            teleportObj.SetActive(false);
+            smoothObj.SetActive(!moveType);
+        }
 
         if (moveType)
         {

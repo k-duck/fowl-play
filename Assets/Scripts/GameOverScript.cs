@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class GameOverScript : MonoBehaviour
 {
 
     [SerializeField] private Animator gameOverAnim;
 
+    public GameObject DeadVignette;
+
     public static UnityEvent gameOverEvent = new UnityEvent();
+
+    private GameObject rig;
 
     // Start is called before the first frame update
     void Start()
     {
         gameOverAnim.gameObject.SetActive(false);
         gameOverEvent.AddListener(GameOver);
+
+        rig = GameObject.Find("XR Origin (XR Rig)");
     }
 
     // Update is called once per frame
@@ -29,6 +36,14 @@ public class GameOverScript : MonoBehaviour
         Time.timeScale = 0;
 
         gameOverAnim.gameObject.SetActive(true);
+
+        //Show VR player they are dead
+        DeadVignette.SetActive(true);
+
+        //Disable teleport when dead
+        GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
+        teleportObj.SetActive(false);
+
         gameOverAnim.Play("GameOverFlashing");
         gameOverAnim.Play("GameOverJailBars");
     }
