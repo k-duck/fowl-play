@@ -23,6 +23,12 @@ public class SettingsScript : MonoBehaviour
     public Toggle tunnel_curr;
     public Slider tunnelVal_curr;
 
+    public TMP_Dropdown VR_movType_curr;
+    public TMP_Dropdown VR_turnType_curr;
+    public TMP_Dropdown VR_handType_curr;
+    public Toggle VR_tunnel_curr;
+    public Slider VR_tunnelVal_curr;
+
     void Start()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameController");
@@ -38,10 +44,17 @@ public class SettingsScript : MonoBehaviour
         Debug.Log("Move current: " + movType_curr.value);
         Debug.Log("Move previous: " + movType_prev);
 
+        //Set PC settings values
         turnType_curr.value = turnType_prev;
         handType_curr.value = handType_prev;
         tunnel_curr.isOn = tunnel_prev;
         tunnelVal_curr.value = tunnelVal_prev;
+        
+        //Set VR settings values
+        VR_turnType_curr.value = turnType_prev;
+        VR_handType_curr.value = handType_prev;
+        VR_tunnel_curr.isOn = tunnel_prev;
+        VR_tunnelVal_curr.value = tunnelVal_prev;
 
         Debug.Log("Controller: " + controller.name);
     }
@@ -100,4 +113,16 @@ public class SettingsScript : MonoBehaviour
         //handedness = hand;
         controller.SetHandedness(state);
     }
+
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void PlayGame()
+    {
+        Time.timeScale = 1;
+    }
+
 }

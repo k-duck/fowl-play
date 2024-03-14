@@ -38,42 +38,6 @@ public class GameController : MonoBehaviour
 
         tunnelControl = GameObject.Find("TunnelingVignette");
 
-        /*
-
-        GameObject movDrop = GameObject.Find("mov_type_dropdown");
-
-        if (moveType)
-        {
-            movDrop.GetComponent<Dropdown>().value = 1;
-        }
-        else
-        {
-            movDrop.GetComponent<Dropdown>().value = 0;
-        }
-
-        if (turnType)
-        {
-            GameObject.Find("turn_type_dropdown").GetComponent<Dropdown>().value = 1;
-        }
-        else
-        {
-            GameObject.Find("turn_type_dropdown").GetComponent<Dropdown>().value = 0;
-        }
-
-        if (handedness)
-        {
-            GameObject.Find("hand_dropdown").GetComponent<Dropdown>().value = 1;
-        }
-        else
-        {
-            GameObject.Find("hand_dropdown").GetComponent<Dropdown>().value = 0;
-        }
-
-        GameObject.Find("tunnel_toggle").GetComponent<Toggle>().isOn = tunneling;
-
-        GameObject.Find("tunnel_strength_slider").GetComponent<Slider>().value = tunnelStrength;
-        */
-
 
         Debug.Log("Rig: " + rig);
         Debug.Log("Tunnel: " + tunnelControl);
@@ -336,8 +300,6 @@ public class GameController : MonoBehaviour
         {
             controllerLeft.smoothMotionEnabled = false;
             controllerRight.smoothMotionEnabled = !moveType;
-            //controllerLeft.transform.GetChild(3).GameObject().SetActive(false);
-            //controllerLeft.transform.GetChild(3).GameObject().Disable();
             controllerLeft.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = false;
             controllerRight.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = true;
         }
@@ -345,7 +307,6 @@ public class GameController : MonoBehaviour
         {
             controllerRight.smoothMotionEnabled = false;
             controllerLeft.smoothMotionEnabled = !moveType;
-            //controllerRight.transform.GetChild(3).gameObject.SetActive(false);
             controllerRight.transform.GetChild(3).gameObject.SetActive(false);
             controllerRight.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = false;
             controllerLeft.transform.GetChild(3).GameObject().GetComponent<XRRayInteractor>().enabled = true;
@@ -382,7 +343,6 @@ public class GameController : MonoBehaviour
         float currentTunnelSize = tunnelControl.GetComponent<TunnelingVignetteController>().defaultParameters.apertureSize;
         if (currentTunnelSize != tunnelStrength)
         {
-            //tunnelControl.GetComponent<TunnelingVignetteController>().currentParameters.apertureSize = tunnelStrength;
             tunnelControl.GetComponent<TunnelingVignetteController>().defaultParameters.apertureSize = tunnelStrength;
             Debug.Log("New Tunnel Size: " + tunnelStrength);
         }
@@ -396,8 +356,6 @@ public class GameController : MonoBehaviour
     {
 
     }
-
-
 
 }
 
