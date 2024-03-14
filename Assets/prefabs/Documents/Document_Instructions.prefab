@@ -65,24 +65,23 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Welcome to AVIAN Research Institute, we''re glad to have you on board!
+  m_text: 'ARCHIVED DOCUMENTS INSTRUCTIONS
 
-    
 
-    Open
-    archived emails by clicking the buttons to the left, and click them again to
-    close them. Unread emails have a red exclamation mark next to them.
 
-    
+    Open archived emails by clicking
+    the buttons to the left, and click them again to close them. Unread emails have
+    a red exclamation mark next to them.
 
-    You
-    can move the window by clicking and dragging anywhere.  To close the window,
-    press the red button in the upper right.
 
-    
 
-    To view this message again,
-    simply close the active email.
+    You can move the window by clicking
+    and dragging anywhere.  To close the window, press the red button in the upper
+    right.
+
+
+
+    To view this message again, simply close the active email.
 
 '
   m_isRightToLeft: 0
@@ -111,8 +110,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.75
-  m_fontSizeBase: 11.75
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 16
