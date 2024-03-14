@@ -15,6 +15,9 @@ public class Floor1PuzzleScript : MonoBehaviour
     [Space(40, order = 2)]
     public List<GameObject> Lights;
 
+    [Header("UI Text")]
+    public GameObject powerAlert;
+
     [Header("Puzzle 1")]
     [Space(40, order = 2)]
     public int correctNumber;
@@ -150,6 +153,8 @@ public class Floor1PuzzleScript : MonoBehaviour
         RandomizePosters();
 
         StartCoroutine(StartScene());
+
+
     }
 
     // Update is called once per frame
@@ -372,6 +377,8 @@ public class Floor1PuzzleScript : MonoBehaviour
             GeneratorHighAudio.PlayDelayed(2.25f);
             GeneratorLowAudio.Play();
             lightGuide.SetActive(false);
+
+            powerAlert.SetActive(false);
 
             GeneratorAlive = true;
         }
