@@ -135,30 +135,37 @@ public class AssessState : State
                         goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, faceRotation, 2 * Time.deltaTime);
 
                         //Increase aggression, increases faster the closer the goose is to the player
-                        goose.aggression += (0.2f / goose.distanceFromPlayer);
+                        goose.aggression += (0.1f / goose.distanceFromPlayer);
                         int attackChance = (int)(Mathf.InverseLerp(0, 150, goose.aggression) * 100);
 
 
                         //Every set interval, chance to go to attack mode
                         if (Time.time - startTime >= goose.assessInterval)
                         {
-                            Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
                             float stateChoice = Random.Range(0, 200);
+                            Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200 \nState Chocie:" + stateChoice);
                             if (stateChoice <= attackChance)
                             {
                                 goose.switchState(new AttackState());
                             }
-                            else if (stateChoice >= 100)
+                            else if (stateChoice >= 190)
                             {
-                                Debug.Log("Creep Closer");
-                                goose.playHonkAudio();
-                                stalkSubstate = 1;
-                                startTime = Time.time;
+                                goose.switchState(new FleeState());
                             }
                             else
                             {
-                                startTime = startTime + Random.Range(4, 6);
-                                Debug.Log("Do Nothing");
+                                if(Random.Range(0, 10) >= 5)
+                                {
+                                    Debug.Log("Creep Closer");
+                                    goose.playHonkAudio();
+                                    stalkSubstate = 1;
+                                    startTime = Time.time;
+                                }
+                                else
+                                {
+                                    startTime = startTime + Random.Range(4, 6);
+                                    Debug.Log("Do Nothing");
+                                }
                             }
                         }
                         goose.lastKnownLocation = goose.currentTarget.transform.position;
@@ -175,6 +182,7 @@ public class AssessState : State
                         {
                             stalkSubstate = 0;
                         }
+                        goose.lastKnownLocation = goose.currentTarget.transform.position;
                         break;
                 }
             }
@@ -188,7 +196,6 @@ public class AssessState : State
             lostTime = Time.time;
 
             if(goose.aggression > 0) goose.aggression -= 0.01f;
-            int attackChance = (int)(Mathf.InverseLerp(0, 100, goose.aggression) * 100);
             //Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
 
             //If out of line of sight long enough, return to wandering
