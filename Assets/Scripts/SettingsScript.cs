@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SettingsScript : MonoBehaviour
 {
     public GameObject settingsScreen;
+    public GameObject VRsettingsScreen;
     private GameController controller;
     private bool visible = false;
 
@@ -75,10 +76,12 @@ public class SettingsScript : MonoBehaviour
         if (visible)
         {
             settingsScreen.SetActive(false);
+            VRsettingsScreen.SetActive(false);
             visible = false;
         }else
         {
             settingsScreen.SetActive(true);
+            VRsettingsScreen.SetActive(true);
             visible = true;
         }
         
@@ -118,11 +121,17 @@ public class SettingsScript : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0;
+        controller.isPaused = true;
+        ShowSettings();
+        Debug.Log("Game is Paused");
     }
 
     public void PlayGame()
     {
         Time.timeScale = 1;
+        controller.isPaused = false;
+        ShowSettings();
+        Debug.Log("Play Game");
     }
 
 }
