@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -95,12 +96,14 @@ public class AssessState : State
     Quaternion faceRotation;
     float startTime, lostTime, seenTime;
     int stalkSubstate;
+    float offsetX, offsetZ;
     public override void EnterState(Goose goose)
     {
         Debug.Log("Entered Assess State");
         startTime = lostTime = Time.time;
         seenTime = 0;
 
+        offsetX = offsetZ = 0;
         goose.currentTarget = goose.player;
         goose.lastKnownLocation = goose.currentTarget.transform.position;
         goose.gooseAgent.speed = 2.5f;
@@ -189,17 +192,62 @@ public class AssessState : State
         }
         else
         {
+            if(seenTime > 0)
+            {
+                goose.gooseAgent.destination = goose.lastKnownLocation;
+            }
             seenTime = 0;
             goose.gooseAgent.speed = 2.5f;
+            //Debug.Log("Angle = " + Vector3.Angle(goose.gooseAgent.transform.forward, goose.player.transform.position - goose.gooseAgent.transform.position));
             //Player not vissible, go to last known location untill player is in line of sight again
-            goose.gooseAgent.destination = goose.lastKnownLocation;
+
             lostTime = Time.time;
 
             if(goose.aggression > 0) goose.aggression -= 0.01f;
             //Debug.Log("Goose Aggression at: " + goose.aggression + "\nGoose Attack Chance at: " + attackChance + "/200");
 
+            if(goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer && !goose.gooseAgent.pathPending)
+            {
+                Vector2 temp = Random.insideUnitCircle;
+                offsetX = temp.x * 2;
+                offsetZ = temp.y * 2;
+                Vector3 offsetVector = new(offsetX, 0, offsetZ);
+                Vector3 targetDir = goose.gooseAgent.transform.position + offsetVector;
+
+            
+
+            //Debug.Log("Angle = " + Vector3.Angle(targetDir - goose.gooseAgent.gameObject.transform.position, goose.gooseAgent.gameObject.transform.forward) + "\n Forward: " + goose.gooseAgent.gameObject.transform.forward);
+            if (Vector3.Angle(targetDir - goose.gooseAgent.gameObject.transform.position, goose.gooseAgent.gameObject.transform.forward) < 45f)
+            {
+                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                cube.transform.localScale = new(0.1f, 0.1f, 0.1f);
+                cube.transform.position = targetDir;
+
+                
+                NavMeshHit hit;
+                if (!NavMesh.SamplePosition(goose.gooseAgent.destination + offsetVector, out hit, 1f, 1))
+                {
+                    Debug.Log("Out Of Bounds");
+                    Vector3 bounceVector = offsetVector.Multiply(Vector3.right);
+                        if (NavMesh.SamplePosition(goose.gooseAgent.destination + bounceVector, out hit, 1f, 1))
+                        {
+                            goose.gooseAgent.destination += bounceVector;
+                        } else if (NavMesh.SamplePosition(goose.gooseAgent.destination + offsetVector.Multiply(Vector3.forward), out hit, 1f, 1))
+                        {
+                            goose.gooseAgent.destination += offsetVector.Multiply(Vector3.forward);
+                        } else
+                        {
+                            goose.gooseAgent.destination -= offsetVector;
+                        }
+                } else
+                {
+                    goose.gooseAgent.destination += offsetVector;
+                }
+            }
+                
+            }
             //If out of line of sight long enough, return to wandering
-            if (Time.time - startTime >= goose.assessInterval * 2)
+            if (Time.time - startTime >= goose.assessInterval * 3)
             {
                 goose.switchState(new WanderState());
             }
