@@ -33,9 +33,11 @@ public class GameController : MonoBehaviour
     static float tunnelStrength = 0.75f;
 
     public bool isPaused = false;
-    public bool buttonPress = false;
+    public bool buttonPress_L = false;
+    public bool buttonPress_R = false;
 
-    private bool secondaryButtonState;
+    private bool secondaryButtonState_L;
+    private bool secondaryButtonState_R;
 
     // Start is called before the first frame update
     void Start()
@@ -177,11 +179,11 @@ public class GameController : MonoBehaviour
             Debug.Log("Found more than one right hand!");
         }
 
-        if (deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState) && secondaryButtonState)
+        if (deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_L) && secondaryButtonState_L)
         {
             //Debug.Log("Pause Button has been pressed!");
 
-            if (!buttonPress)
+            if (!buttonPress_L)
             {
                 if (!isPaused)
                 {
@@ -194,14 +196,42 @@ public class GameController : MonoBehaviour
                     settings.GetComponent<SettingsScript>().PlayGame();
                 }
 
-                buttonPress = true;
+                buttonPress_L = true;
             }
 
-        }else if(deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState) && !secondaryButtonState)
+        }else if(deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_L) && !secondaryButtonState_L)
         {
             //Debug.Log("Pause Button has been released!");
 
-            buttonPress = false;
+            buttonPress_L = false;
+        }
+
+        if (deviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_R) && secondaryButtonState_R)
+        {
+            //Debug.Log("Pause Button has been pressed!");
+
+            if (!buttonPress_R)
+            {
+                if (!isPaused)
+                {
+                    GameObject settings = GameObject.Find("settings_Button");
+                    settings.GetComponent<SettingsScript>().PauseGame();
+                }
+                else
+                {
+                    GameObject settings = GameObject.Find("settings_Button");
+                    settings.GetComponent<SettingsScript>().PlayGame();
+                }
+
+                buttonPress_R = true;
+            }
+
+        }
+        else if (deviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_R) && !secondaryButtonState_R)
+        {
+            //Debug.Log("Pause Button has been released!");
+
+            buttonPress_R = false;
         }
 
         UpdateMove();

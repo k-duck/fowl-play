@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -52,12 +53,53 @@ public class SettingsScript : MonoBehaviour
         tunnelVal_curr.value = tunnelVal_prev;
         
         //Set VR settings values
+        VR_movType_curr.value = movType_prev;
         VR_turnType_curr.value = turnType_prev;
         VR_handType_curr.value = handType_prev;
         VR_tunnel_curr.isOn = tunnel_prev;
         VR_tunnelVal_curr.value = tunnelVal_prev;
 
         Debug.Log("Controller: " + controller.name);
+    }
+
+    void Update()
+    {
+        //sync the to UI interfaces
+
+        if (movType_curr.value != movType_prev || VR_movType_curr.value != movType_prev)
+        {
+            movType_curr.value = movType_prev;
+
+            VR_movType_curr.value = movType_prev;
+        }
+
+        if (turnType_curr.value != turnType_prev || VR_turnType_curr.value != turnType_prev)
+        {
+            turnType_curr.value = turnType_prev;
+
+            VR_turnType_curr.value = turnType_prev;
+        }
+
+        if (handType_curr.value != handType_prev || VR_handType_curr.value != handType_prev)
+        {
+            handType_curr.value = handType_prev;
+
+            VR_handType_curr.value = handType_prev;
+        }
+
+        if (tunnel_curr.isOn != tunnel_prev || VR_tunnel_curr.isOn != tunnel_prev)
+        {
+            tunnel_curr.isOn = tunnel_prev;
+
+            VR_tunnel_curr.isOn = tunnel_prev;
+        }
+
+        if (tunnelVal_curr.value != tunnelVal_prev || VR_tunnelVal_curr.value != tunnelVal_prev)
+        {
+            tunnelVal_curr.value = tunnelVal_prev;
+
+            VR_tunnelVal_curr.value = tunnelVal_prev;
+        }
     }
 
     public void ExitGame()
@@ -90,31 +132,37 @@ public class SettingsScript : MonoBehaviour
     public void SetMove(TMP_Dropdown state) // 0 = Smooth   1 = Teleport
     {
         controller.SetMove(state);
+        movType_prev = state.value;
     }
 
     public void SetTurn(TMP_Dropdown state) // 0 = Smooth   1 = Snap
     {
         controller.SetTurn(state);
+        turnType_prev = state.value;
     }
 
     public void SetTurnVal(float value)
     {
         controller.SetTurnVal(value);
+
     }
 
     public void SetTunneling(Toggle state) // 0 = Off   1 = On
     {
         controller.SetTunneling(state);
+        tunnel_prev = state.isOn;
     }
 
     public void SetTunnelingVal(Slider state)
     {
         controller.SetTunnelingVal(state);
+        tunnelVal_prev = state.value;
     }
     public void SetHandedness(TMP_Dropdown state) // 0 = Right   1 = Left
     {
         //handedness = hand;
         controller.SetHandedness(state);
+        handType_prev = state.value;
     }
 
 
