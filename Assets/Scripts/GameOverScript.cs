@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using Unity.VisualScripting;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class GameOverScript : MonoBehaviour
 {
@@ -39,6 +40,13 @@ public class GameOverScript : MonoBehaviour
 
         //Show VR player they are dead
         DeadVignette.SetActive(true);
+
+        GameObject smoothObj = rig.transform.GetChild(1).GetChild(1).GameObject();
+
+        //this Sucks so much :((
+        UnityEngine.XR.Interaction.Toolkit.ActionBasedContinuousMoveProvider.GravityApplicationMode referenceABCMPB = UnityEngine.XR.Interaction.Toolkit.ActionBasedContinuousMoveProvider.GravityApplicationMode.Immediately;
+
+        smoothObj.GetComponent<ActionBasedContinuousMoveProvider>().gravityApplicationMode = referenceABCMPB;
 
         //Disable teleport when dead
         GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();

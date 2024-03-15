@@ -170,6 +170,8 @@ public class SettingsScript : MonoBehaviour
     {
         Time.timeScale = 0;
         controller.isPaused = true;
+        controller.rig.transform.GetChild(0).GetChild(3).GetChild(2).gameObject.SetActive(false);
+        controller.rig.transform.GetChild(0).GetChild(5).GetChild(2).gameObject.SetActive(false);
         ShowSettings();
         Debug.Log("Game is Paused");
     }
@@ -178,6 +180,8 @@ public class SettingsScript : MonoBehaviour
     {
         Time.timeScale = 1;
         controller.isPaused = false;
+        controller.rig.transform.GetChild(0).GetChild(3).GetChild(2).gameObject.SetActive(true);
+        controller.rig.transform.GetChild(0).GetChild(5).GetChild(2).gameObject.SetActive(true);
         ShowSettings();
         Debug.Log("Play Game");
     }
