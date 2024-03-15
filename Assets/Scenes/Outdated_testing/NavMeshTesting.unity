@@ -1402,7 +1402,7 @@ HingeJoint:
   m_Anchor: {x: -1.5, y: 0, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -35.596783, y: 2.3384426, z: 26.346022}
+  m_ConnectedAnchor: {x: 13.357566, y: 5.4397683, z: -1.2671025}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -2821,7 +2821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4078847406762648666, guid: bfec7a93ea9ec25448678891d017f0aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.93
+      value: -4.12
       objectReference: {fileID: 0}
     - target: {fileID: 4078847406762648666, guid: bfec7a93ea9ec25448678891d017f0aa, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2902,9 +2902,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4078847406762648666, guid: bfec7a93ea9ec25448678891d017f0aa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1267765381}
-    - targetCorrespondingSourceObject: {fileID: 4078847406762648666, guid: bfec7a93ea9ec25448678891d017f0aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1875466597}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfec7a93ea9ec25448678891d017f0aa, type: 3}
 --- !u!1001 &903069544
@@ -3618,7 +3615,7 @@ Transform:
   m_GameObject: {fileID: 1064886053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22, y: 1.5, z: 2.34}
+  m_LocalPosition: {x: 0.56, y: 1.5, z: -35.29}
   m_LocalScale: {x: 10, y: 3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6671,7 +6668,7 @@ Transform:
   m_GameObject: {fileID: 1794787920}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: 0.5, z: -19.66}
+  m_LocalPosition: {x: 4.93, y: 0.5, z: 0.27}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -7045,12 +7042,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1875466594}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.29223743, y: 0.59648055, z: -0.24707012, w: 0.7055243}
-  m_LocalPosition: {x: -2.25, y: 1.65, z: 0.16}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: -0.24707012, y: 0.7055243, z: -0.29223743, w: -0.59648055}
+  m_LocalPosition: {x: -2.995, y: 1.325, z: -0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1652510743}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 45, y: 80.425, z: 0}
 --- !u!114 &1875466598
 MonoBehaviour:
@@ -8580,6 +8577,7 @@ SceneRoots:
   - {fileID: 1624165958}
   - {fileID: 1944290923}
   - {fileID: 2083580935}
+  - {fileID: 1875466597}
   - {fileID: 2022871906}
   - {fileID: 1931700001}
   - {fileID: 890800082}
