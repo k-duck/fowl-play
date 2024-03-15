@@ -7,7 +7,7 @@ public class HandScript : MonoBehaviour
 {
     public float speed;
 
-    Animator animator;
+    public Animator animator;
     private float gripTarget;
     private float triggerTarget;
     private float gripCurrent;
@@ -43,13 +43,14 @@ public class HandScript : MonoBehaviour
     {
         if (gripCurrent != gripTarget)
         {
-            gripCurrent = Mathf.MoveTowards(gripCurrent, gripTarget, Time.deltaTime * speed);
-            animator.SetFloat(animatorGripParam, gripCurrent );
+            //gripCurrent = Mathf.MoveTowards(gripCurrent, gripTarget, Time.deltaTime * speed);
+            gripCurrent = Mathf.MoveTowards(gripCurrent, gripTarget, Time.unscaledDeltaTime * speed);
+            animator.SetFloat(animatorGripParam, gripCurrent );   ////////////Trigger poke animation
         }
 
         if (triggerCurrent != triggerTarget)
         {
-            triggerCurrent = Mathf.MoveTowards(triggerCurrent, triggerTarget, Time.deltaTime * speed);
+            triggerCurrent = Mathf.MoveTowards(triggerCurrent, triggerTarget, Time.unscaledDeltaTime * speed);
             animator.SetFloat(animatorTriggerParam, triggerCurrent);
         }
     }

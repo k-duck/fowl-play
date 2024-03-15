@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
     private ActionBasedControllerManager controllerLeft;
     private ActionBasedControllerManager controllerRight;
     private GameObject tunnelControl;
-    private GameObject rig;
+    public GameObject rig;
     public GameObject teleportObj;
     private GameObject smoothObj;
 
@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour
 
         tunnelControl = GameObject.Find("TunnelingVignette");
 
+        isPaused = false;
 
         Debug.Log("Rig: " + rig);
         Debug.Log("Tunnel: " + tunnelControl);
