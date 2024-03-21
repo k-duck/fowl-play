@@ -200,14 +200,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Congratulations, if you are receiving this email that means you\u2019ve
-    been granted security clearance to the laboratory department.  To ensure an efficient
+    been granted security clearance to the laboratory department. To ensure an efficient
     work environment, this email will brief you on the layout of the department. 
-    \r\n\r\nThe floor consists of 4 study labs and 4 experimentation labs.  Beginning
-    at the foremost lab and going clockwise the labs are: \r\nThe evolution lab\r\nThe
-    trap lab\r\nThe behavioural lab\r\nThe evaluation lab\r\nThe technological lab\r\nThe
-    wind tunnel\r\nThe aerodynamics lab\r\nThe recreation room\r\n\r\nThere is also
-    the security office in the center of the lab, though the guard usually keeps
-    to themself.  \r\n\r\nBest of luck in your future research!\r\nManagement\r\n"
+    \r\n\r\nThe floor consists of 4 study labs and 4 experimentation labs. Beginning
+    at the foremost lab and going clockwise the labs are:\n \r\nThe DNA lab\r\nThe
+    test lab\r\nThe behavioural lab\r\nThe evaluation and AI lab\r\nThe robotics
+    lab\r\nThe technological lab\r\nThe aerodynamics lab\r\nThe wind tunnel lab\r\n
+    \r\n\r\nThere is also the security office in the center of the floor, though
+    the guard usually keeps to themself.  \r\n\r\nBest of luck in your future research!\r\nManagement\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -234,8 +234,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 7.5
+  m_fontSizeBase: 7.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 16

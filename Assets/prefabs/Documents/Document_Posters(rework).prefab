@@ -713,26 +713,39 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'To all staff,
 
+    
 
-    DO NOT REMOVE THE FOLLOWING POSTER IN THE BREAKFROOM:
+    DO NOT REMOVE THE FOLLOWING POSTERS IN THE
+    BREAKROOM:
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
+    
 
-    The
-    avian literary lab has had a recent breakthrough in language recognition, and
-    we are worried that our monthly elevator passcode emails will be taken advantage
-    of by our test subjects.
+    The avian psych
+    lab has had a recent breakthrough in language recognition, and we are worried
+    that our monthly elevator passcode emails will be taken advantage of by our test
+    subjects.
 
+    
 
     Thank you,
 
+    
 
-    Management.'
+    Management.
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

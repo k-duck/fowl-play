@@ -201,17 +201,18 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Dear all staff members,
 
+
     
 
     As of 20:04 on 31/03/29, a security
-    breach has been detected and the facility has entered a state of full lockdown. 
+    breach has been detected and the facility has entered a state of full lockdown.
     Any remaining staff members are advised to exit the facility as soon as possible.
 
     
 
     All
     entrances to the archives have been sealed, and to prevent potential fire damage
-    to specimens, the oxygen level inside the archives has been reduced.  It is advised
+    to specimens, the oxygen level inside the archives has been reduced. It is advised
     not to attempt to enter the archives until lockdown conditions cease or a manual
     override is performed.
 
@@ -220,6 +221,8 @@ MonoBehaviour:
     For additional information on lockdown procedures
     and overrides, please contact the security head or visit the offices to review
     documentation.
+
+    
 
     
 

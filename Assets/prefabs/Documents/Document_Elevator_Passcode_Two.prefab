@@ -2978,9 +2978,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Part of our security protocols require specimens to be returned to their
-    storage containers before you proceed.\n\nClean up after yourself!\n\r\nIn order
-    to gain access to the containers, ensure you have the following keycards:\r\n\r\n\n          
-    Duck\t\t    Owl               Parrot\t     Spoonbill\n\r\n\n\n\n\n\nThank you,\r\n\r\nManagement\r\n"
+    storage containers before you proceed.\r\n\r\nClean up after yourself!\r\n\r\nIn
+    order to gain access to the containers, ensure you have the following keycards:\r\n\r\n\r\n          
+    Duck\t\t    Owl               Parrot\t     Spoonbill\r\n\r\n\r\n\r\n\r\n\r\n\r\nThank
+    you,\r\n\r\nManagement\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

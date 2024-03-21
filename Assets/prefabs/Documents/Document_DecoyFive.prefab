@@ -200,9 +200,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "I should not need to send this...\r\n\r\nFor those of you who have been
-    throwing office supplies at the subjects (we know who you are), please stop! 
+    throwing office supplies at the subjects (we know who you are), please stop!
     It does nothing but aggravate them, and it's also beginning to aggravate laboratory
-    staff.  \r\n\r\nLet's keep this facility professional please,\r\nDr. Mullard\r\n\n"
+    staff. \r\n\r\nLet's keep this facility professional please,\r\nDr. Mullard\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
