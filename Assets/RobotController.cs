@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class RobotController : MonoBehaviour
@@ -45,6 +46,7 @@ public class RobotController : MonoBehaviour
                     {
                         powered = true;
                         PlacedItem.GetComponent<Animator>().SetBool("Flying", true);
+                        GooseAIScript.attractEvent.Invoke();
                     }
                         
                     
@@ -140,9 +142,6 @@ public class RobotController : MonoBehaviour
     {
         
                 StartCoroutine(buttonPower());
-         
-
-
        
     }
 

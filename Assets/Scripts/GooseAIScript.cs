@@ -32,7 +32,7 @@ public class WanderState : State
 
         offsetX = offsetY = 0;
         goose.gooseAgent.GetComponent<Collider>().enabled = true;
-        goose.gooseAgent.speed = 2;
+        goose.UpdateSpeed(2f);
         if (goose.firstLoad == true)
         {
             goose.gooseAnimator.SetInteger("WalkMode", 0);
@@ -106,7 +106,7 @@ public class AssessState : State
         offsetX = offsetZ = 0;
         goose.currentTarget = goose.player;
         goose.lastKnownLocation = goose.currentTarget.transform.position;
-        goose.gooseAgent.speed = 2.5f;
+        goose.UpdateSpeed(2.5f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
         stalkSubstate = 0;
     }
@@ -124,7 +124,7 @@ public class AssessState : State
                     //Normal
                     case 0:
 
-                        goose.gooseAgent.speed = 1.5f;
+                        goose.UpdateSpeed(1.5f);
 
                         if (Time.time - lostTime >= 0.2f)
                         {
@@ -176,7 +176,7 @@ public class AssessState : State
                     //Short Approach
                     case 1:
                         goose.gooseAgent.destination = goose.currentTarget.transform.position;
-                        goose.gooseAgent.speed = 1f;
+                        goose.UpdateSpeed(1f);
 
                         //Increase aggression, increases faster the closer the goose is to the player
                         goose.aggression += (0.1f / goose.distanceFromPlayer);
@@ -197,7 +197,7 @@ public class AssessState : State
                 goose.gooseAgent.destination = goose.lastKnownLocation;
             }
             seenTime = 0;
-            goose.gooseAgent.speed = 2.5f;
+                
             //Debug.Log("Angle = " + Vector3.Angle(goose.gooseAgent.transform.forward, goose.player.transform.position - goose.gooseAgent.transform.position));
             //Player not vissible, go to last known location untill player is in line of sight again
 
@@ -256,7 +256,7 @@ public class AssessState : State
         //If goose is close enough to just attack
         if (goose.distanceFromPlayer < goose.attackRange)
         {
-            goose.gooseAgent.speed = 4;
+            goose.UpdateSpeed(4f);
             goose.switchState(new AttackState());
         }
     }
@@ -271,7 +271,7 @@ public class StalkState : State
         Debug.Log("Entered Stalk State");
         startTime = Time.time;
         seenTime = 0;
-        goose.gooseAgent.speed = 2.5f;
+        goose.UpdateSpeed(2.5f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
     }
     public override void UpdateState(Goose goose)
@@ -326,7 +326,7 @@ public class GoToAmbushState : State
     {
         Debug.Log("Entered Go To Ambush State");
         startTime = Time.time;
-        goose.gooseAgent.speed = 2;
+        goose.UpdateSpeed(2f);
         if (goose.firstLoad == true)
         {
             goose.gooseAnimator.SetInteger("WalkMode", 0);
@@ -436,7 +436,7 @@ public class AttackState : State
     {
         Debug.Log("Entered Attack State");
         startTime = startTimeVent = Time.time;
-        goose.gooseAgent.speed = 4;
+        goose.UpdateSpeed(4f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
     }
     public override void UpdateState(Goose goose)
@@ -472,7 +472,7 @@ public class FleeState : State
     {
         Debug.Log("Entered Flee State");
         startTime = Time.time;
-        goose.gooseAgent.speed = 3;
+        goose.UpdateSpeed(3f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
     }
     public override void UpdateState(Goose goose)
@@ -503,12 +503,55 @@ public class IdleState : State
     {
         Debug.Log("Entered Idle State");
         startTime = Time.time;
-        goose.gooseAgent.speed = 2;
+        goose.UpdateSpeed(2f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
     }
     public override void UpdateState(Goose goose)
     {
         goose.gooseAgent.destination = goose.gooseAgent.transform.position;
+    }
+}
+
+public class DistractState : State
+{
+    float startTime, seenTime;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Distracted State");
+        startTime = Time.time;
+        seenTime = 0;
+        goose.UpdateSpeed(2f);
+        goose.gooseAnimator.SetInteger("WalkMode", 0);
+    }
+    public override void UpdateState(Goose goose)
+    {
+        goose.gooseAgent.destination = goose.currentTarget.transform.position;
+
+        //Stare at bird
+        //If goose has arrived at target
+        if (!goose.gooseAgent.pathPending)
+        {
+            if (goose.gooseAgent.remainingDistance <= goose.gooseAgent.stoppingDistance + goose.targetBuffer)
+            {
+                //Debug.Log(Quaternion.Angle(goose.gooseAgent.transform.rotation, goose.currentTarget.transform.rotation));
+
+                if (Quaternion.Angle(goose.gooseAgent.transform.rotation, goose.currentTarget.transform.rotation) > 2f)
+                {
+                    goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, goose.currentTarget.transform.rotation, 2 * Time.deltaTime);
+                }
+            }
+        }
+
+        //If goose is in line of sight
+        if (goose.IsLineOfSight(goose.EyePostion, goose.player))
+        {
+            if (seenTime >= 0.25f)
+            {
+                goose.switchState(new AssessState());
+            }
+            seenTime += Time.deltaTime;
+            //goose.switchState(new AttackState());
+        }
     }
 }
 
@@ -540,7 +583,6 @@ public class Goose
 
     private float footstepStartTime;
     public bool firstLoad;
-    UnityEvent gameOverEvent = new UnityEvent();
     public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos, Animator gAnimator)
     {
         gooseAgent = gAgent;
@@ -691,6 +733,26 @@ public class Goose
 
         switchState(new FleeState());
     }
+
+    public void UpdateSpeed(float newSpeed)
+    {
+        gooseAgent.speed = newSpeed;
+        gooseAgent.acceleration = newSpeed;
+        gooseAgent.angularSpeed = newSpeed * 60;
+    }
+
+    public void AttractGoose(GameObject distraction)
+    {
+        currentTarget = GetNearestTargetPoint(GameObject.FindGameObjectsWithTag("DistractTarget"), distraction);
+        switchState(new DistractState());
+    }
+
+    public void CatchGoose()
+    {
+        gooseAgent.speed = 0;
+        switchState(new IdleState());
+        
+    }
 }
 
 public class GooseAIScript : MonoBehaviour
@@ -710,9 +772,14 @@ public class GooseAIScript : MonoBehaviour
     [SerializeField] private Animator gooseAnimator;
     [SerializeField] private GameObject GooseEyes;
 
+    public static UnityEvent attractEvent = new UnityEvent();
+    public static UnityEvent captureEvent = new UnityEvent();
+
 
     void Start()
     {
+        attractEvent.AddListener(AttractTheGoose);
+        captureEvent.AddListener(CatchTheGoose);
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
                                 , slapSFX, honkSFX, GooseEyes, gooseAnimator);
@@ -753,6 +820,16 @@ public class GooseAIScript : MonoBehaviour
         gooseEnemy.attackPlayer();
 
         yield return null;
+    }
+
+    public void AttractTheGoose()
+    {
+        gooseEnemy.AttractGoose(GameObject.FindWithTag("RobotBird"));
+    }
+
+    public void CatchTheGoose()
+    {
+        gooseEnemy.CatchGoose();
     }
 
 }
