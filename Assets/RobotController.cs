@@ -14,6 +14,7 @@ public class RobotController : MonoBehaviour
 
     public Animator cage;
     public bool cageDown;
+    public bool CanEffectCage;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,7 @@ public class RobotController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // checks if the object put in the lock is a new item and is not tagged as ignore
         if (other.tag != "Ignore")
         {
             if (PlacedItem == null || PlacedItem == emptyLocation)
@@ -61,6 +63,8 @@ public class RobotController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+
+        // set everything to null if objet is removed;
         if(other != PlacedItem)
         {
 
@@ -82,7 +86,7 @@ public class RobotController : MonoBehaviour
 
     IEnumerator buttonPower()
     {
-
+        // bring cage up or down depending on the situation
         if (cageDown == false)
         {
             cageDown = true;
@@ -92,7 +96,8 @@ public class RobotController : MonoBehaviour
             cageDown = false;
         }
         
-        PlacedItem.GetComponent<Animator>().SetBool("Press",true);
+       
+        
         yield return new WaitForSeconds(1.3f);
         cage.SetBool("CageFall", cageDown);
 
@@ -102,10 +107,24 @@ public class RobotController : MonoBehaviour
         PlacedItem.GetComponent<Animator>().SetTrigger("StateChange");
     }
 
+    // function for buttons to activate hand
     public void ButtonPress()
     {
+        // check if its robot hand.
+        if(PlacedItem.tag == "RobotHand")
+        {
+            PlacedItem.GetComponent<Animator>().SetBool("Press", true);
+            // check if location can effect cage;
+            if (CanEffectCage == true)
+            {
+                
+                StartCoroutine(buttonPower());
+            }
+            
+        }
 
-
+        
+        /*
         if (cageDown == false)
         {
             cageDown = true;
@@ -115,7 +134,16 @@ public class RobotController : MonoBehaviour
             cageDown = false;
         }
         cage.SetBool("CageFall", cageDown);
+        */
     }
+    public void ButtonPressMainButton()
+    {
+        
+                StartCoroutine(buttonPower());
+         
 
+
+       
+    }
 
 }
