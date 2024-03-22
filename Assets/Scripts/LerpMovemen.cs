@@ -41,7 +41,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
 
 
             movement.moveSpeed = currentSpeed;
-            Debug.Log(movement.moveSpeed);
+            //Debug.Log(movement.moveSpeed);
         }
     }
 }

@@ -1561,6 +1561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c2796fdc2f1454392d973585ca5ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rig: {fileID: 0}
   teleportObj: {fileID: 0}
   isPaused: 0
   buttonPress_L: 0
