@@ -36,8 +36,8 @@ public class GameController : MonoBehaviour
     public bool buttonPress_L = false;
     public bool buttonPress_R = false;
 
-    private bool secondaryButtonState_L;
-    private bool secondaryButtonState_R;
+    private bool primaryButtonState_L;
+    private bool primaryButtonState_R;
 
     // Start is called before the first frame update
     void Start()
@@ -180,7 +180,7 @@ public class GameController : MonoBehaviour
             Debug.Log("Found more than one right hand!");
         }
 
-        if (deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_L) && secondaryButtonState_L)
+        if (deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out primaryButtonState_L) && primaryButtonState_L)
         {
             //Debug.Log("Pause Button has been pressed!");
 
@@ -200,14 +200,14 @@ public class GameController : MonoBehaviour
                 buttonPress_L = true;
             }
 
-        }else if(deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_L) && !secondaryButtonState_L)
+        }else if(deviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out primaryButtonState_L) && !primaryButtonState_L)
         {
             //Debug.Log("Pause Button has been released!");
 
             buttonPress_L = false;
         }
 
-        if (deviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_R) && secondaryButtonState_R)
+        if (deviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out primaryButtonState_R) && primaryButtonState_R)
         {
             //Debug.Log("Pause Button has been pressed!");
 
@@ -228,7 +228,7 @@ public class GameController : MonoBehaviour
             }
 
         }
-        else if (deviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out secondaryButtonState_R) && !secondaryButtonState_R)
+        else if (deviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.primaryButton, out primaryButtonState_R) && !primaryButtonState_R)
         {
             //Debug.Log("Pause Button has been released!");
 
