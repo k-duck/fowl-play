@@ -38,6 +38,8 @@ public class WanderState : State
             goose.gooseAnimator.SetInteger("WalkMode", 0);
         } else
             goose.firstLoad = true;
+
+        goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -109,6 +111,8 @@ public class AssessState : State
         goose.UpdateSpeed(2.5f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
         stalkSubstate = 0;
+
+        goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -160,7 +164,7 @@ public class AssessState : State
                                 if(Random.Range(0, 10) >= 5)
                                 {
                                     Debug.Log("Creep Closer");
-                                    goose.playHonkAudio();
+                                    goose.playHiss();
                                     stalkSubstate = 1;
                                     startTime = Time.time;
                                 }
@@ -268,6 +272,7 @@ public class StalkState : State
         seenTime = 0;
         goose.UpdateSpeed(2.5f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
+        goose.playHiss();
     }
     public override void UpdateState(Goose goose)
     {
@@ -327,6 +332,8 @@ public class GoToAmbushState : State
             goose.gooseAnimator.SetInteger("WalkMode", 0);
         } else
             goose.firstLoad = true;
+
+        goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -402,6 +409,8 @@ public class InAmbushState : State
 
         goose.gooseAgent.GetComponent<Collider>().enabled = false;
         currentVent = goose.GetNearestTargetPoint(goose.vents, goose.gooseAgent.gameObject);
+
+        goose.playHiss();
     }
     public override void UpdateState(Goose goose)
     {
@@ -433,6 +442,8 @@ public class AttackState : State
         startTime = startTimeVent = Time.time;
         goose.UpdateSpeed(4f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
+
+        goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -469,6 +480,8 @@ public class FleeState : State
         startTime = Time.time;
         goose.UpdateSpeed(3f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
+
+        goose.playAngryHonk();
     }
     public override void UpdateState(Goose goose)
     {
@@ -500,6 +513,7 @@ public class IdleState : State
         startTime = Time.time;
         goose.UpdateSpeed(2f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
+        goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -517,6 +531,8 @@ public class DistractState : State
         seenTime = 0;
         goose.UpdateSpeed(2f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
+
+        goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -627,9 +643,23 @@ public class Goose
         gooseAudio.pitch = 1;
     }
 
+    public void playAngryHonk()
+    {
+        gooseAudio.pitch = Random.Range(0.8f, 1.2f);
+        gooseAudio.PlayOneShot(angryHonkSFX);
+        gooseAudio.pitch = 1;
+    }
+
+    public void playHiss()
+    {
+        gooseAudio.pitch = Random.Range(0.8f, 1.2f);
+        gooseAudio.PlayOneShot(hissSFX);
+        gooseAudio.pitch = 1;
+    }
+
     public void switchState(State state)
     {
-        playHonkAudio();
+        //playHonkAudio();
         currentState = state;
         state.EnterState(this);
     }
@@ -726,7 +756,7 @@ public class Goose
     {
         //Play attack animation
         Debug.Log("Player Attacked!");
-        playHonkAudio();
+        playAngryHonk();
 
         GameOverScript.gameOverEvent.Invoke();
 
@@ -750,7 +780,7 @@ public class Goose
     {
         gooseAgent.speed = 0;
         switchState(new IdleState());
-        
+        playAngryHonk();
     }
 }
 
