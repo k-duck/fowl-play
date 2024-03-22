@@ -36,10 +36,11 @@ public class WanderState : State
         if (goose.firstLoad == true)
         {
             goose.gooseAnimator.SetInteger("WalkMode", 0);
+            goose.playHonkAudio();
         } else
             goose.firstLoad = true;
 
-        goose.playHonkAudio();
+        
     }
     public override void UpdateState(Goose goose)
     {
@@ -330,10 +331,11 @@ public class GoToAmbushState : State
         if (goose.firstLoad == true)
         {
             goose.gooseAnimator.SetInteger("WalkMode", 0);
+            goose.playHonkAudio();
         } else
             goose.firstLoad = true;
 
-        goose.playHonkAudio();
+        
     }
     public override void UpdateState(Goose goose)
     {
@@ -443,7 +445,7 @@ public class AttackState : State
         goose.UpdateSpeed(4f);
         goose.gooseAnimator.SetInteger("WalkMode", 1);
 
-        goose.playHonkAudio();
+        //goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -532,7 +534,7 @@ public class DistractState : State
         goose.UpdateSpeed(2f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
 
-        goose.playHonkAudio();
+        //goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -756,7 +758,6 @@ public class Goose
     {
         //Play attack animation
         Debug.Log("Player Attacked!");
-        playAngryHonk();
 
         GameOverScript.gameOverEvent.Invoke();
 
@@ -845,6 +846,7 @@ public class GooseAIScript : MonoBehaviour
 
     IEnumerator PlayAttackAnimation()
     {
+        gooseEnemy.playAngryHonk();
         gooseEnemy.switchState(new IdleState());
         yield return new WaitForSeconds(2f);
         gooseAnimator.SetBool("Attacking", false);
