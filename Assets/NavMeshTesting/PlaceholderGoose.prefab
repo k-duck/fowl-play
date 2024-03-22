@@ -452,14 +452,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 3066952070200099613, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
-      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
-      value: 0.40759674
-      objectReference: {fileID: 0}
-    - target: {fileID: 3066952070200099613, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
-      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
-      value: 0.17837717
-      objectReference: {fileID: 0}
     - target: {fileID: 3539887660263646306, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.3400002
@@ -531,6 +523,18 @@ PrefabInstance:
     - target: {fileID: 6108894228371668054, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
       propertyPath: m_Size
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108894228371668054, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.20094089
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108894228371668054, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.058213994
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108894228371668054, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.02868429
       objectReference: {fileID: 0}
     - target: {fileID: 7476003723449237016, guid: c76e96cde434b84459114835ab1f1d96, type: 3}
       propertyPath: m_Controller

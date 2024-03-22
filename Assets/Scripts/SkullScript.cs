@@ -118,10 +118,25 @@ public class SkullScript : MonoBehaviour
                 correctCards.Add(keyCards.transform.GetChild(RandCardOrder[randLoc]).gameObject);
 
                 //stores code value for card
-                cardSymbol[RandCardOrder[randLoc]] = codeVal;
+                //cardSymbol[RandCardOrder[randLoc]] = codeVal;
 
                 //removes chest from location pool
                 RandCardOrder.RemoveAt(randLoc);
+            }
+        }
+
+        //iterates through the values
+        for (int i = 0; i < codeValPrev.Count; i++)
+        {
+            //iterates through each child
+            for (int j = 0; j < codeValPrev.Count; j++)
+            {
+                string cardVal = keyCards.transform.GetChild(j).name;
+
+                if (cardVal == "chestCard_" + i)
+                {
+                    cardSymbol.Add(codeValPrev[keyCards.transform.GetChild(j).GetSiblingIndex()]);
+                }
             }
         }
 
