@@ -219,11 +219,6 @@ public class AssessState : State
             //Debug.Log("Angle = " + Vector3.Angle(targetDir - goose.gooseAgent.gameObject.transform.position, goose.gooseAgent.gameObject.transform.forward) + "\n Forward: " + goose.gooseAgent.gameObject.transform.forward);
             if (Vector3.Angle(targetDir - goose.gooseAgent.gameObject.transform.position, goose.gooseAgent.gameObject.transform.forward) < 45f)
             {
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                cube.transform.localScale = new(0.1f, 0.1f, 0.1f);
-                cube.transform.position = targetDir;
-
-                
                 NavMeshHit hit;
                 if (!NavMesh.SamplePosition(goose.gooseAgent.destination + offsetVector, out hit, 1f, 1))
                 {
@@ -578,12 +573,14 @@ public class Goose
     public float distanceFromPlayer;
     public AudioClip[] slapSFX;
     public AudioClip[] honkSFX;
+    public AudioClip angryHonkSFX;
+    public AudioClip hissSFX;
 
     public Animator gooseAnimator;
 
     private float footstepStartTime;
     public bool firstLoad;
-    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, GameObject eyePos, Animator gAnimator)
+    public Goose(NavMeshAgent gAgent, float tBuffer, float dRange, float wDur, float sDur, float amDur, float atDur, float fDur, float aInterval, AudioClip[] slapClips, AudioClip[] honkClips, AudioClip angryHonkClip, AudioClip hissClip, GameObject eyePos, Animator gAnimator)
     {
         gooseAgent = gAgent;
         targetBuffer = tBuffer;
@@ -609,6 +606,8 @@ public class Goose
         currentState.EnterState(this);
         slapSFX = slapClips;
         honkSFX = honkClips;
+        angryHonkSFX = angryHonkClip;
+        hissSFX = hissClip;
         footstepStartTime = Time.time;
         firstLoad = true;
 
@@ -760,6 +759,8 @@ public class GooseAIScript : MonoBehaviour
     public Goose gooseEnemy;
     public AudioClip[] slapSFX;
     public AudioClip[] honkSFX;
+    public AudioClip angryHonkSFX;
+    public AudioClip hissSFX;
 
     [SerializeField] private float targetBuffer;
     [SerializeField] private float attackRange;
@@ -782,7 +783,7 @@ public class GooseAIScript : MonoBehaviour
         captureEvent.AddListener(CatchTheGoose);
         gooseEnemy = new Goose(GetComponent<NavMeshAgent>(), targetBuffer, attackRange
                                 , wanderDuration, stalkDuration, ambushDuration, attackDuration, fleeDuration, assessInterval
-                                , slapSFX, honkSFX, GooseEyes, gooseAnimator);
+                                , slapSFX, honkSFX, angryHonkSFX, hissSFX, GooseEyes, gooseAnimator);
         //gooseEnemy.GetEyes(GooseEyes);
         
     }
