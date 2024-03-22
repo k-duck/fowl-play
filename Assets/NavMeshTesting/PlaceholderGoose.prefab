@@ -186,6 +186,8 @@ MonoBehaviour:
   honkSFX:
   - {fileID: 8300000, guid: 7436c5bf6a67c534b9d14ad61a74d109, type: 3}
   - {fileID: 8300000, guid: 1870cf6c37d1e204eaa75610f4d64357, type: 3}
+  angryHonkSFX: {fileID: 8300000, guid: dec63f9f44c178446a189a2e39832678, type: 3}
+  hissSFX: {fileID: 8300000, guid: e0d4627363fa70b429982bfad6f0df0f, type: 3}
   targetBuffer: 0.5
   attackRange: 3
   wanderDuration: 0
