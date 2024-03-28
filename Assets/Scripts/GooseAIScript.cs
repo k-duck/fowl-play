@@ -483,7 +483,7 @@ public class FleeState : State
         goose.UpdateSpeed(3f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
 
-        goose.playAngryHonk();
+        //goose.playAngryHonk();
     }
     public override void UpdateState(Goose goose)
     {
@@ -515,7 +515,7 @@ public class IdleState : State
         startTime = Time.time;
         goose.UpdateSpeed(2f);
         goose.gooseAnimator.SetInteger("WalkMode", 0);
-        goose.playHonkAudio();
+        //goose.playHonkAudio();
     }
     public override void UpdateState(Goose goose)
     {
@@ -801,7 +801,8 @@ public class Goose
         //Play attack animation
         Debug.Log("Player Attacked!");
 
-        GameOverScript.gameOverEvent.Invoke();
+        Time.timeScale = 0;
+        
 
         switchState(new FleeState());
     }
@@ -888,10 +889,11 @@ public class GooseAIScript : MonoBehaviour
 
     IEnumerator PlayAttackAnimation()
     {
+        GameOverScript.gameOverEvent.Invoke();
         gooseEnemy.playAngryHonk();
         gooseEnemy.switchState(new IdleState());
         yield return new WaitForSeconds(2f);
-        gooseAnimator.SetBool("Attacking", false);
+        //gooseAnimator.SetBool("Attacking", false);
         gooseEnemy.attackPlayer();
 
         yield return null;
