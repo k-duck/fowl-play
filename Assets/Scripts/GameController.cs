@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
 
     private ActionBasedControllerManager controllerLeft;
     private ActionBasedControllerManager controllerRight;
-    private GameObject tunnelControl;
+    public GameObject tunnelControl;
     public GameObject rig;
     public GameObject teleportObj;
     private GameObject smoothObj;
@@ -55,6 +55,8 @@ public class GameController : MonoBehaviour
         controllerLeft = rig.transform.GetChild(0).GetChild(3).GetComponent<ActionBasedControllerManager>();
 
         controllerRight = rig.transform.GetChild(0).GetChild(5).GetComponent<ActionBasedControllerManager>();
+
+        teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
         //controllerLeft = left.GetComponent<ActionBasedControllerManager>();
         Debug.Log("LEFT controller: " + controllerLeft.name);
         Debug.Log("RIGHT controller: " + controllerRight.name);
@@ -252,6 +254,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void SetMoveBool(bool state) // 0 = Smooth   1 = Teleport
+    {
+        moveType = state;
+    }
+
     public int GetMove() // 0 = Smooth   1 = Teleport
     {
         if (moveType)
@@ -325,7 +332,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public int GetHand() // 0 = Smooth   1 = Teleport
+    public int GetHand() // 0 = Right   1 = Left
     {
         if (handedness)
         {

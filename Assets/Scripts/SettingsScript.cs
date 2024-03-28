@@ -13,7 +13,7 @@ public class SettingsScript : MonoBehaviour
     private GameController controller;
     private bool visible = false;
 
-    private int movType_prev;
+    public int movType_prev;
     private int turnType_prev;
     private int handType_prev;
     private bool tunnel_prev;
