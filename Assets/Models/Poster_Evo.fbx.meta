@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2b0ffed21f9a35c429485132637d27fc
+guid: 62bf4c44c7fc90247970305052797973
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: OfficeSHD2
+      name: aiStandardSurface4
     second: {fileID: 2100000, guid: f7237f3e80b92ff469d619f05b7a7d3a, type: 2}
   materials:
     materialImportMode: 2
