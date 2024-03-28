@@ -18,10 +18,9 @@ public class ReleseTheGoose : MonoBehaviour
 
     }
 
-    public void ShowTheGoose()
+    public IEnumerator ShowTheGoose()
     {
+        yield return new WaitForSeconds(5);
         GooseItem.gameObject.SetActive(true);
     }
-
-
 }
