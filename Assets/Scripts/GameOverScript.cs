@@ -32,11 +32,20 @@ public class GameOverScript : MonoBehaviour
         
     }
 
+    IEnumerator PlayJailbars()
+    {
+        yield return new WaitForSeconds(1);
+        gameOverAnim.gameObject.SetActive(true);
+        gameOverAnim.Play("GameOverFlashing");
+        gameOverAnim.Play("GameOverJailBars");
+        yield return null;
+    }
+
     public void GameOver()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
-        gameOverAnim.gameObject.SetActive(true);
+        StartCoroutine(PlayJailbars());
 
         //Show VR player they are dead
         DeadVignette.SetActive(true);
@@ -52,8 +61,7 @@ public class GameOverScript : MonoBehaviour
         GameObject teleportObj = rig.transform.GetChild(1).GetChild(2).GameObject();
         teleportObj.SetActive(false);
 
-        gameOverAnim.Play("GameOverFlashing");
-        gameOverAnim.Play("GameOverJailBars");
+        
     }
 
     public void GoToMainMenu()
