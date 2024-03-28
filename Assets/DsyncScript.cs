@@ -81,7 +81,7 @@ public class DsyncScript : MonoBehaviour
             hitWall = false;
         }
 
-        Debug.Log("hitWall: " + centerPoint_handL_rig);
+        //Debug.Log("hitWall: " + centerPoint_handL_rig);
     }
 
     private void OnCollisionEnter(Collision collision)
