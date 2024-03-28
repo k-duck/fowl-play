@@ -41,11 +41,11 @@ public class DsyncScript : MonoBehaviour
     {
         if (controller.GetHand() == 0)
         {
-            target = right.transform;
+            target = left.transform;
         }
         else
         {
-            target = left.transform;
+            target = right.transform;
         }
 
         if (hitWall)
@@ -61,7 +61,7 @@ public class DsyncScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = (target.position - transform.position) / Time.fixedUnscaledDeltaTime;
+        rb.velocity = ((target.position - transform.position) / Time.fixedUnscaledDeltaTime) / 2;
 
         Quaternion rotationDiff = target.rotation * Quaternion.Inverse(transform.rotation);
         rotationDiff.ToAngleAxis(out float angleInDegree, out Vector3 rotationAxis);
