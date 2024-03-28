@@ -568,6 +568,48 @@ public class DistractState : State
     }
 }
 
+public class CaughtState : State
+{
+    float startTime, seenTime;
+    public override void EnterState(Goose goose)
+    {
+        Debug.Log("Entered Caught State");
+        startTime = Time.time;
+        seenTime = Random.Range(5f, 15f);
+        goose.UpdateSpeed(2f);
+        goose.gooseAnimator.SetInteger("WalkMode", 0);
+        goose.playHonkAudio();
+
+        goose.currentTarget = goose.player;
+        goose.gooseAgent.destination = goose.gooseAgent.transform.position;
+    }
+    public override void UpdateState(Goose goose)
+    {
+        //Stare at player
+        Vector3 lookPos = goose.player.transform.position - goose.gooseAgent.transform.position;
+        lookPos.y = 0;
+        goose.gooseAgent.transform.rotation = Quaternion.Lerp(goose.gooseAgent.transform.rotation, Quaternion.LookRotation(lookPos), 2 * Time.deltaTime);
+
+        if (seenTime <= 0f)
+        {
+            switch (Random.Range(0, 2))
+            {
+                case 0:
+                    goose.playHonkAudio();
+                    break;
+                case 1:
+                    goose.playHiss();
+                    break;
+                case 2:
+                    goose.playAngryHonk();
+                    break;
+            }
+            seenTime = Random.Range(5f, 20f);
+        }
+        seenTime -= Time.deltaTime;
+    }
+}
+
 public class Goose
 {
     State currentState;
