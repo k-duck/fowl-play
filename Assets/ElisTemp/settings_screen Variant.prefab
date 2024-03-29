@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.UI.Toggle, UnityEngine.UI
       objectReference: {fileID: 0}
+    - target: {fileID: 4803668409596771465, guid: ecd9f1966bc62594ba4811f46caedefa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5403070131741961582, guid: ecd9f1966bc62594ba4811f46caedefa, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

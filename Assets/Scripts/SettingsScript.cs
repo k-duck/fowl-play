@@ -132,6 +132,21 @@ public class SettingsScript : MonoBehaviour
     public void SetMove(TMP_Dropdown state) // 0 = Smooth   1 = Teleport
     {
         controller.SetMove(state);
+
+        if (movType_prev != state.value)
+        {
+            if (state.value == 0)
+            {
+                VR_turnType_curr.gameObject.SetActive(true);
+            }
+
+            if (state.value == 1)
+            {
+                VR_turnType_curr.gameObject.SetActive(false);
+                SetTurn(state);
+            }
+        }
+
         movType_prev = state.value;
     }
 
