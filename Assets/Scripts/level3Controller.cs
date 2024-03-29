@@ -25,7 +25,6 @@ public class level3Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         SpawnBird();
         spawnRobot();
     }
@@ -64,7 +63,6 @@ public class level3Controller : MonoBehaviour
     private void SpawnBird()
     {
         // get random number from number of spawns
-        
         random = Random.Range(0, BirdSpawns.Count);
 
         //spawn bird at random
@@ -74,7 +72,6 @@ public class level3Controller : MonoBehaviour
     private void spawnRobot()
     {
         // get random number from number of spawns
-        
         random = Random.Range(0, ArmSpawns.Count);
 
         //spawn bird at random
