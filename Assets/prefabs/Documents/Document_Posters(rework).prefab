@@ -713,35 +713,25 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'To all staff,
 
-    
 
-    DO NOT REMOVE THE FOLLOWING POSTERS IN THE
-    BREAKROOM:
 
-    
+    DO NOT REMOVE THE FOLLOWING POSTERS IN THE BREAKROOM:
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    The avian psych
-    lab has had a recent breakthrough in language recognition, and we are worried
-    that our monthly elevator passcode emails will be taken advantage of by our test
-    subjects.
+    The
+    avian psych lab has had a recent breakthrough in language recognition, and we
+    are worried that our monthly elevator passcode emails will be taken advantage
+    of by our test subjects.
 
-    
+
 
     Thank you,
 
-    
 
     Management.
 
@@ -2356,6 +2346,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 13}
+  m_AnchoredPosition: {x: 0, y: 7.2}
   m_SizeDelta: {x: 317.57138, y: 53.62217}
   m_Pivot: {x: 0.5, y: 0.5}
